@@ -5,7 +5,11 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { toolsData } from '@/data/tools'
 import { getDictionary } from '@/lib/dictionary'
-import { Sparkles, ArrowRight, Zap, Wrench, Code, Search } from 'lucide-react'
+import { 
+  Sparkles, ArrowRight, Zap, Wrench, Code, Search, 
+  Star, Shield, Rocket, Infinity, Users, Award,
+  TrendingUp, Clock, Layers, Gem
+} from 'lucide-react'
 
 export default function HomePage() {
   const params = useParams()
@@ -13,6 +17,7 @@ export default function HomePage() {
   const [dictionary, setDictionary] = useState<any>(null)
   const [activeTab, setActiveTab] = useState<'all' | 'general' | 'developer'>('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [hoveredTool, setHoveredTool] = useState<string | null>(null)
 
   useEffect(() => {
     getDictionary(lang).then(dict => setDictionary(dict))
@@ -20,7 +25,10 @@ export default function HomePage() {
 
   if (!dictionary) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-600"></div>
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-3xl opacity-20 animate-pulse" />
+        <div className="relative w-20 h-20 border-4 border-t-purple-500 border-r-blue-500 border-b-pink-500 border-l-transparent rounded-full animate-spin" />
+      </div>
     </div>
   )
 
@@ -32,122 +40,219 @@ export default function HomePage() {
     return matchTab && matchSearch
   })
 
-  const getCategoryColor = (category: string) => {
-    return category === 'general' 
-      ? 'from-blue-500 to-cyan-500'
-      : 'from-purple-500 to-pink-500'
-  }
-
-  const getCategoryIcon = (category: string) => {
-    return category === 'general' ? Wrench : Code
-  }
+  const stats = [
+    { icon: Zap, label: lang === 'id' ? 'Alat Gratis' : 'Free Tools', value: '15' },
+    { icon: Users, label: lang === 'id' ? 'Pengguna Aktif' : 'Active Users', value: '10K+' },
+    { icon: Clock, label: lang === 'id' ? 'Siap Pakai' : 'Ready to Use', value: '24/7' },
+    { icon: Shield, label: lang === 'id' ? 'Aman & Private' : 'Secure & Private', value: '100%' },
+  ]
 
   return (
-    <div>
-      <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-950 rounded-full mb-4">
-          <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-          <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
-            {lang === 'id' ? '15 Alat Online Gratis' : '15 Free Online Tools'}
-          </span>
-        </div>
-        <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-          {dictionary.home.title}
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          {dictionary.home.subtitle}
-        </p>
-      </div>
+    <div className="space-y-16">
+      {/* Hero Section - Premium */}
+      <section className="relative pt-20 pb-12">
+        <div className="absolute inset-0 hero-gradient opacity-30 rounded-3xl blur-2xl" />
+        
+        <div className="relative text-center max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full glass-premium mb-6 animate-fade-up">
+            <Sparkles className="w-4 h-4 text-purple-500" />
+            <span className="text-sm font-medium bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+              {lang === 'id' ? '✨ 15 Alat Online Gratis' : '✨ 15 Free Online Tools'}
+            </span>
+          </div>
 
-      <div className="flex flex-col md:flex-row gap-4 mb-8">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={lang === 'id' ? 'Cari alat...' : 'Search tools...'}
-            className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-          />
-        </div>
-        <div className="flex gap-2">
-          {['all', 'general', 'developer'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab as any)}
-              className={`px-6 py-3 rounded-xl font-medium transition-all ${
-                activeTab === tab
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-              }`}
-            >
-              {dictionary.home[tab as keyof typeof dictionary.home]}
-            </button>
-          ))}
-        </div>
-      </div>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+            <span className="gradient-text">HmzTools</span>
+            <br />
+            <span className="text-gray-900 dark:text-white">
+              {lang === 'id' ? 'Solusi Cerdas' : 'Smart Solutions'}
+            </span>
+          </h1>
 
-      {filteredTools.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500 dark:text-gray-400">
-            {lang === 'id' ? 'Tidak ada alat yang ditemukan' : 'No tools found'}
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 animate-fade-up max-w-2xl mx-auto" style={{ animationDelay: '0.2s' }}>
+            {dictionary.home.subtitle}
           </p>
+
+          <div className="flex flex-wrap justify-center gap-4 animate-fade-up" style={{ animationDelay: '0.3s' }}>
+            <Link href="#tools" className="btn-premium">
+              <span className="flex items-center gap-2">
+                {lang === 'id' ? 'Mulai Gunakan' : 'Get Started'}
+                <ArrowRight className="w-5 h-5" />
+              </span>
+            </Link>
+            <Link href={`/${lang}/about`} className="btn-premium-secondary">
+              <span className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5" />
+                {lang === 'id' ? 'Pelajari Lebih' : 'Learn More'}
+              </span>
+            </Link>
+          </div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTools.map((tool, index) => {
-            const t = tool.translations[lang as keyof typeof tool.translations] || tool.translations.id
-            const Icon = getCategoryIcon(tool.category)
-            const color = getCategoryColor(tool.category)
-            
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 max-w-3xl mx-auto animate-fade-up" style={{ animationDelay: '0.4s' }}>
+          {stats.map((stat, index) => {
+            const Icon = stat.icon
             return (
-              <Link
-                key={tool.slug}
-                href={`/${lang}/tools/${tool.slug}`}
-                className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-2"
-              >
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${color}`}></div>
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${color} bg-opacity-10`}>
-                      <Icon className={`w-6 h-6 text-${tool.category === 'general' ? 'blue' : 'purple'}-600`} />
-                    </div>
-                    <span className={`text-xs font-medium px-3 py-1 rounded-full ${
-                      tool.category === 'general' 
-                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300'
-                        : 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300'
-                    }`}>
-                      {tool.category === 'general' ? (lang === 'id' ? 'Umum' : 'General') : 'Developer'}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {t.name}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                    {t.description}
-                  </p>
-                  <div className="flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 group-hover:gap-2 transition-all">
-                    <span>{lang === 'id' ? 'Gunakan Sekarang' : 'Use Now'}</span>
-                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </Link>
+              <div key={index} className="glass-premium rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300">
+                <Icon className="w-6 h-6 mx-auto text-purple-500 mb-2" />
+                <p className="text-2xl font-bold gradient-text">{stat.value}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
+              </div>
             )
           })}
         </div>
-      )}
+      </section>
 
-      <div className="mt-16 p-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl text-white text-center">
-        <Zap className="w-12 h-12 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold mb-2">
-          {lang === 'id' ? 'Siap Membantu Pekerjaan Anda' : 'Ready to Help Your Work'}
-        </h2>
-        <p className="text-white/80 max-w-2xl mx-auto">
-          {lang === 'id' 
-            ? '15 alat praktis yang siap digunakan kapan saja, di mana saja. Gratis dan tanpa perlu registrasi.' 
-            : '15 practical tools ready to use anytime, anywhere. Free and no registration needed.'}
-        </p>
-      </div>
+      {/* Search & Filter */}
+      <section id="tools" className="space-y-6">
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={lang === 'id' ? 'Cari alat...' : 'Search tools...'}
+              className="input-premium pl-12"
+            />
+          </div>
+          <div className="flex gap-2">
+            {['all', 'general', 'developer'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab as any)}
+                className={`px-6 py-3 rounded-2xl font-medium transition-all duration-300 ${
+                  activeTab === tab
+                    ? 'btn-premium'
+                    : 'glass-premium text-gray-600 dark:text-gray-300 hover:scale-105'
+                }`}
+              >
+                {dictionary.home[tab as keyof typeof dictionary.home]}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Tools Grid */}
+        {filteredTools.length === 0 ? (
+          <div className="text-center py-20">
+            <Gem className="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+            <p className="text-gray-500 dark:text-gray-400 text-lg">
+              {lang === 'id' ? 'Tidak ada alat yang ditemukan' : 'No tools found'}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredTools.map((tool, index) => {
+              const t = tool.translations[lang as keyof typeof tool.translations] || tool.translations.id
+              const isHovered = hoveredTool === tool.slug
+              const Icon = tool.category === 'general' ? Wrench : Code
+              
+              return (
+                <Link
+                  key={tool.slug}
+                  href={`/${lang}/tools/${tool.slug}`}
+                  className="group relative"
+                  onMouseEnter={() => setHoveredTool(tool.slug)}
+                  onMouseLeave={() => setHoveredTool(null)}
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500" />
+                  
+                  <div className="relative glass-premium rounded-2xl p-8 hover:scale-[1.02] transition-all duration-500 h-full flex flex-col">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-lg opacity-0 group-hover:opacity-50 transition-opacity" />
+                        <div className={`relative p-3.5 rounded-2xl bg-gradient-to-br 
+                          ${tool.category === 'general' 
+                            ? 'from-blue-500/20 to-cyan-500/20' 
+                            : 'from-purple-500/20 to-pink-500/20'
+                          } group-hover:scale-110 transition-transform duration-300`}
+                        >
+                          <Icon className={`w-6 h-6 
+                            ${tool.category === 'general' 
+                              ? 'text-blue-500' 
+                              : 'text-purple-500'
+                            }`} 
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className={`text-xs font-medium px-3 py-1.5 rounded-full 
+                        ${tool.category === 'general' 
+                          ? 'bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400' 
+                          : 'bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400'
+                        }`}
+                      >
+                        {tool.category === 'general' 
+                          ? (lang === 'id' ? 'Umum' : 'General') 
+                          : 'Developer'}
+                      </div>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:gradient-text transition-all">
+                      {t.name}
+                    </h3>
+                    
+                    <p className="text-gray-600 dark:text-gray-400 text-sm flex-1">
+                      {t.description}
+                    </p>
+
+                    <div className="mt-4 flex items-center text-sm font-medium text-purple-500 group-hover:gap-3 transition-all">
+                      <span>{lang === 'id' ? 'Gunakan Sekarang' : 'Use Now'}</span>
+                      <ArrowRight className={`w-4 h-4 transform transition-all duration-300 
+                        ${isHovered ? 'translate-x-2' : ''}`} 
+                      />
+                    </div>
+
+                    {isHovered && (
+                      <div className="absolute top-4 right-4">
+                        <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
+                      </div>
+                    )}
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        )}
+      </section>
+
+      {/* CTA Section - Premium */}
+      <section className="relative overflow-hidden rounded-3xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+        
+        <div className="relative p-12 md:p-16 text-center">
+          <Rocket className="w-16 h-16 mx-auto text-white/80 mb-6 animate-float" />
+          
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            {lang === 'id' ? 'Siap Membantu Pekerjaan Anda' : 'Ready to Help Your Work'}
+          </h2>
+          
+          <p className="text-white/80 text-lg max-w-2xl mx-auto mb-8">
+            {lang === 'id' 
+              ? '15 alat praktis yang siap digunakan kapan saja, di mana saja. Gratis, cepat, dan tanpa registrasi.' 
+              : '15 practical tools ready to use anytime, anywhere. Free, fast, and no registration needed.'}
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="#tools" className="bg-white/20 backdrop-blur-sm px-8 py-4 rounded-2xl font-semibold text-white hover:bg-white/30 transition-all hover:scale-105">
+              <span className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5" />
+                {lang === 'id' ? 'Jelajahi Semua Alat' : 'Explore All Tools'}
+              </span>
+            </Link>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-8 mt-8 text-white/60 text-sm">
+            <span>✦ {lang === 'id' ? 'Tanpa Registrasi' : 'No Registration'}</span>
+            <span>✦ {lang === 'id' ? '100% Gratis' : '100% Free'}</span>
+            <span>✦ {lang === 'id' ? 'Data Aman' : 'Data Secure'}</span>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
