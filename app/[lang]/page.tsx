@@ -57,8 +57,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-16">
-      {/* Hero Section */}
-      <section className="relative pt-8 pb-12">
+      <section className="relative pt-20 pb-12">
         <div className="absolute inset-0 hero-gradient opacity-30 rounded-3xl blur-2xl" />
         
         <div className="relative text-center max-w-4xl mx-auto">
@@ -97,7 +96,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 max-w-3xl mx-auto animate-fade-up" style={{ animationDelay: '0.4s' }}>
           {stats.map((stat, index) => {
             const Icon = stat.icon
@@ -112,7 +110,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Search & Filter */}
       <section id="tools" className="space-y-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
@@ -142,7 +139,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Tools Grid */}
         {filteredTools.length === 0 ? (
           <div className="text-center py-20">
             <Gem className="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
@@ -227,7 +223,6 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* CTA Section */}
       <section className="relative overflow-hidden rounded-3xl">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />

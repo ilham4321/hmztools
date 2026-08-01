@@ -46,31 +46,26 @@ export default function Header({ lang, dict }: HeaderProps) {
     }`}>
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-20">
-          {/* Logo - Kembali pakai gambar asli */}
-          <Link href={`/${lang}`} className="flex items-center gap-3 group flex-shrink-0">
-            <div className="relative w-10 h-10">
-              <Image 
-                src="/logo.png" 
-                alt="HmzTools" 
-                width={40} 
-                height={40} 
-                className="w-10 h-10 rounded-xl transition-transform group-hover:scale-110" 
-              />
+          <Link href={`/${lang}`} className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+              <div className="relative w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl shadow-purple-500/30">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
             </div>
             <span className="text-2xl font-bold gradient-text">
               HmzTools
             </span>
           </Link>
 
-          {/* Navigasi - Tengah */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-2">
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative px-4 py-2.5 rounded-xl font-medium transition-all duration-300 ${
+                  className={`relative px-5 py-2.5 rounded-xl font-medium transition-all duration-300 ${
                     isActive
                       ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-purple-500/25'
                       : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/20 dark:hover:bg-gray-800/30'
@@ -80,26 +75,30 @@ export default function Header({ lang, dict }: HeaderProps) {
                     <item.icon className="w-4 h-4" />
                     {item.label}
                   </span>
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" />
+                  )}
                 </Link>
               )
             })}
           </div>
 
-          {/* Right - Language & Theme */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center gap-2">
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass-card hover:scale-105 transition-all duration-300"
+              className="relative px-4 py-2.5 rounded-xl glass-card hover:scale-105 transition-all duration-300 group"
             >
-              <Globe className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-              <span className="font-medium text-sm text-gray-700 dark:text-gray-300">
-                {lang === 'id' ? 'ID' : 'EN'}
-              </span>
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-gray-600 dark:text-gray-300 group-hover:text-purple-500 transition-colors" />
+                <span className="font-medium text-sm text-gray-700 dark:text-gray-300">
+                  {lang === 'id' ? 'ID' : 'EN'}
+                </span>
+              </div>
             </button>
             
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-xl glass-card hover:scale-105 transition-all duration-300"
+              className="relative p-2.5 rounded-xl glass-card hover:scale-105 transition-all duration-300"
             >
               {theme === 'dark' ? (
                 <Sun className="w-5 h-5 text-yellow-400" />
@@ -110,14 +109,13 @@ export default function Header({ lang, dict }: HeaderProps) {
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl glass-card hover:scale-105 transition-all duration-300"
+              className="md:hidden p-2.5 rounded-xl glass-card hover:scale-105 transition-all duration-300"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-6 border-t border-white/10 animate-fade-up">
             <div className="space-y-2">

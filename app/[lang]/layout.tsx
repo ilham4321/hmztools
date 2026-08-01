@@ -54,7 +54,6 @@ export default async function RootLayout({
         <link rel="icon" href="/logo.png" />
       </head>
       <body className={`${inter.variable} ${playfair.variable} ${plusJakarta.variable} min-h-screen flex flex-col relative overflow-x-hidden`}>
-        {/* Animated Background Orbs */}
         <div className="fixed inset-0 pointer-events-none -z-10">
           <div className="orb-blue top-[-20%] left-[-10%] animate-pulse-glow" />
           <div className="orb-purple bottom-[-20%] right-[-10%] animate-pulse-glow delay-1000" />
@@ -64,7 +63,7 @@ export default async function RootLayout({
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header lang={params.lang} dict={dict} />
-          <main className="flex-1 container mx-auto px-4 pt-24 pb-8 max-w-6xl relative z-10">
+          <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
             {children}
           </main>
           <Footer lang={params.lang} />

@@ -19,7 +19,11 @@ export default function Footer({ lang }: FooterProps) {
       tools: 'Semua Alat',
       home: 'Beranda',
       description: 'Koleksi premium alat online gratis untuk kebutuhan sehari-hari dan pengembangan profesional.',
-      copyright: 'Semua Hak Cipta Dilindungi',
+      copyright: 'Hak Cipta Dilindungi',
+      builtWith: 'Dibangun dengan',
+      love: '❤️',
+      backToHome: 'Kembali ke Beranda',
+      features: 'Fitur Unggulan',
       developer: 'Developer Tools',
       general: 'General Tools',
       support: 'Dukung Kami',
@@ -34,6 +38,10 @@ export default function Footer({ lang }: FooterProps) {
       home: 'Home',
       description: 'Premium collection of free online tools for daily needs and professional development.',
       copyright: 'All Rights Reserved',
+      builtWith: 'Built with',
+      love: '❤️',
+      backToHome: 'Back to Home',
+      features: 'Features',
       developer: 'Developer Tools',
       general: 'General Tools',
       support: 'Support Us',
@@ -83,9 +91,8 @@ export default function Footer({ lang }: FooterProps) {
                 {t.description}
               </p>
               
-              {/* Tombol Donasi Saweria - Elegan */}
               <a 
-                href="https://saweria.co/hmztools" 
+                href="https://saweria.co/hamzzdev" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 text-white font-medium text-sm hover:scale-105 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 mb-4 group"
