@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { toolsData } from '@/data/tools'
 import { getDictionary } from '@/lib/dictionary'
 import { 
@@ -13,19 +13,11 @@ import {
 
 export default function HomePage() {
   const params = useParams()
-  const searchParams = useSearchParams()
   const lang = params.lang as string
   const [dictionary, setDictionary] = useState<any>(null)
   const [activeTab, setActiveTab] = useState<'all' | 'general' | 'developer'>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [hoveredTool, setHoveredTool] = useState<string | null>(null)
-
-  useEffect(() => {
-    const tab = searchParams.get('tab')
-    if (tab === 'general' || tab === 'developer') {
-      setActiveTab(tab)
-    }
-  }, [searchParams])
 
   useEffect(() => {
     getDictionary(lang).then(dict => setDictionary(dict))
@@ -57,6 +49,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-16">
+      {/* Hero Section - Premium */}
       <section className="relative pt-20 pb-12">
         <div className="absolute inset-0 hero-gradient opacity-30 rounded-3xl blur-2xl" />
         
@@ -96,6 +89,7 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 max-w-3xl mx-auto animate-fade-up" style={{ animationDelay: '0.4s' }}>
           {stats.map((stat, index) => {
             const Icon = stat.icon
@@ -110,6 +104,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Search & Filter */}
       <section id="tools" className="space-y-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
@@ -139,6 +134,7 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Tools Grid */}
         {filteredTools.length === 0 ? (
           <div className="text-center py-20">
             <Gem className="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
@@ -223,6 +219,7 @@ export default function HomePage() {
         )}
       </section>
 
+      {/* CTA Section - Premium */}
       <section className="relative overflow-hidden rounded-3xl">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />

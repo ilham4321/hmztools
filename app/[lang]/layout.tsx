@@ -54,6 +54,7 @@ export default async function RootLayout({
         <link rel="icon" href="/logo.png" />
       </head>
       <body className={`${inter.variable} ${playfair.variable} ${plusJakarta.variable} min-h-screen flex flex-col relative overflow-x-hidden`}>
+        {/* Animated Background Orbs */}
         <div className="fixed inset-0 pointer-events-none -z-10">
           <div className="orb-blue top-[-20%] left-[-10%] animate-pulse-glow" />
           <div className="orb-purple bottom-[-20%] right-[-10%] animate-pulse-glow delay-1000" />

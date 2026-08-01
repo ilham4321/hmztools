@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Github, Instagram, Mail, Heart, Zap, Shield, Award, Sparkles, Rocket, Home, Grid, Info, FileText, MessageCircle, Lock, Coffee } from 'lucide-react'
+import { Github, Instagram, Mail, Heart, Zap, Shield, Award, Sparkles, Rocket, Home, Grid, Info, FileText, MessageCircle, Coffee, Lock } from 'lucide-react'
 
 interface FooterProps {
   lang: string
@@ -20,14 +20,12 @@ export default function Footer({ lang }: FooterProps) {
       home: 'Beranda',
       description: 'Koleksi premium alat online gratis untuk kebutuhan sehari-hari dan pengembangan profesional.',
       copyright: 'Hak Cipta Dilindungi',
-      builtWith: 'Dibangun dengan',
-      love: '❤️',
       backToHome: 'Kembali ke Beranda',
       features: 'Fitur Unggulan',
-      developer: 'Developer Tools',
-      general: 'General Tools',
-      support: 'Dukung Kami',
+      support: 'Dukung kami',
       supportDesc: 'Dukung pengembangan HmzTools dengan donasi'
+      developer: 'Developer Tools',
+      general: 'General Tools'
     },
     en: {
       about: 'About Us',
@@ -38,14 +36,12 @@ export default function Footer({ lang }: FooterProps) {
       home: 'Home',
       description: 'Premium collection of free online tools for daily needs and professional development.',
       copyright: 'All Rights Reserved',
-      builtWith: 'Built with',
-      love: '❤️',
       backToHome: 'Back to Home',
       features: 'Features',
-      developer: 'Developer Tools',
-      general: 'General Tools',
       support: 'Support Us',
-      supportDesc: 'Support HmzTools development with donation'
+      supportDesc: 'Support HmzTools Development With Donation',
+      developer: 'Developer Tools',
+      general: 'General Tools'
     }
   }
 
@@ -87,11 +83,21 @@ export default function Footer({ lang }: FooterProps) {
                 <span className="text-2xl font-bold gradient-text">HmzTools</span>
               </div>
               
-              <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-sm leading-relaxed text-sm">
+              <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm leading-relaxed text-sm">
                 {t.description}
               </p>
               
-              <a 
+              <div className="flex gap-3">
+                <a 
+                  href="https://github.com/ilham4321/hmztools" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 rounded-2xl glass-premium hover:scale-110 transition-all duration-300 hover:shadow-purple-500/20"
+                  aria-label="GitHub"
+                >
+                  <Github className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                </a>
+                <a 
                 href="https://saweria.co/hamzzdev" 
                 target="_blank" 
                 rel="noopener noreferrer"
@@ -105,17 +111,6 @@ export default function Footer({ lang }: FooterProps) {
               <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
                 {t.supportDesc}
               </p>
-              
-              <div className="flex gap-3">
-                <a 
-                  href="https://github.com/ilham4321/hmztools" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="p-3 rounded-2xl glass-premium hover:scale-110 transition-all duration-300 hover:shadow-purple-500/20"
-                  aria-label="GitHub"
-                >
-                  <Github className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                </a>
                 <a 
                   href="https://instagram.com/hamzzdev" 
                   target="_blank" 
@@ -217,11 +212,14 @@ export default function Footer({ lang }: FooterProps) {
             </div>
           </div>
 
-          {/* Bottom - Copyright Only */}
+          {/* Bottom */}
           <div className="mt-12 pt-8 border-t border-white/10">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                © {currentYear} HmzTools | {t.copyright}
+              <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <span>© {currentYear} HmzTools.</span>
+                <span className="hidden sm:inline">|</span>
+                <span>{t.copyright}.</span>
+                <span className="hidden sm:inline">|</span>
               </div>
             </div>
           </div>
