@@ -64,7 +64,7 @@ export default async function RootLayout({
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header lang={params.lang} dict={dict} />
-          <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
+          <main className="flex-1 container mx-auto px-4 pt-24 pb-8 max-w-6xl relative z-10">
             {children}
           </main>
           <Footer lang={params.lang} />

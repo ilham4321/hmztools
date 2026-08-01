@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import { toolsData } from '@/data/tools'
 import { getDictionary } from '@/lib/dictionary'
 import { 
@@ -13,11 +13,19 @@ import {
 
 export default function HomePage() {
   const params = useParams()
+  const searchParams = useSearchParams()
   const lang = params.lang as string
   const [dictionary, setDictionary] = useState<any>(null)
   const [activeTab, setActiveTab] = useState<'all' | 'general' | 'developer'>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [hoveredTool, setHoveredTool] = useState<string | null>(null)
+
+  useEffect(() => {
+    const tab = searchParams.get('tab')
+    if (tab === 'general' || tab === 'developer') {
+      setActiveTab(tab)
+    }
+  }, [searchParams])
 
   useEffect(() => {
     getDictionary(lang).then(dict => setDictionary(dict))
@@ -49,8 +57,8 @@ export default function HomePage() {
 
   return (
     <div className="space-y-16">
-      {/* Hero Section - Premium */}
-      <section className="relative pt-20 pb-12">
+      {/* Hero Section */}
+      <section className="relative pt-8 pb-12">
         <div className="absolute inset-0 hero-gradient opacity-30 rounded-3xl blur-2xl" />
         
         <div className="relative text-center max-w-4xl mx-auto">
@@ -219,7 +227,7 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* CTA Section - Premium */}
+      {/* CTA Section */}
       <section className="relative overflow-hidden rounded-3xl">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
