@@ -87,17 +87,8 @@ export default function Footer({ lang }: FooterProps) {
                 {t.description}
               </p>
               
-              <div className="flex gap-3">
-                <a 
-                  href="https://github.com/ilham4321/hmztools" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="p-3 rounded-2xl glass-premium hover:scale-110 transition-all duration-300 hover:shadow-purple-500/20"
-                  aria-label="GitHub"
-                >
-                  <Github className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                </a>
-                <a 
+              {/* Tombol Donasi Saweria */}
+              <a 
                 href="https://saweria.co/hamzzdev" 
                 target="_blank" 
                 rel="noopener noreferrer"
@@ -111,6 +102,17 @@ export default function Footer({ lang }: FooterProps) {
               <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
                 {t.supportDesc}
               </p>
+              
+              <div className="flex gap-3">
+                <a 
+                  href="https://github.com/ilham4321/hmztools" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 rounded-2xl glass-premium hover:scale-110 transition-all duration-300 hover:shadow-purple-500/20"
+                  aria-label="GitHub"
+                >
+                  <Github className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                </a>
                 <a 
                   href="https://instagram.com/hamzzdev" 
                   target="_blank" 
@@ -212,14 +214,11 @@ export default function Footer({ lang }: FooterProps) {
             </div>
           </div>
 
-          {/* Bottom */}
+          {/* Bottom - Copyright Only */}
           <div className="mt-12 pt-8 border-t border-white/10">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                <span>© {currentYear} HmzTools.</span>
-                <span className="hidden sm:inline">|</span>
-                <span>{t.copyright}.</span>
-                <span className="hidden sm:inline">|</span>
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                © {currentYear} HmzTools | {t.copyright}
               </div>
             </div>
           </div>

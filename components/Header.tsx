@@ -46,12 +46,16 @@ export default function Header({ lang, dict }: HeaderProps) {
     }`}>
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-20">
+          {/* Logo - Menggunakan gambar asli */}
           <Link href={`/${lang}`} className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
-              <div className="relative w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl shadow-purple-500/30">
-                <Zap className="w-6 h-6 text-white" />
-              </div>
+            <div className="relative w-12 h-12">
+              <Image 
+                src="/logo.png" 
+                alt="HmzTools" 
+                width={48} 
+                height={48} 
+                className="w-12 h-12 rounded-xl transition-transform group-hover:scale-110" 
+              />
             </div>
             <span className="text-2xl font-bold gradient-text">
               HmzTools
