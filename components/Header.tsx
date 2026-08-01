@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
-import { Sun, Moon, Globe, Home, Grid, Menu, X, Sparkles, Zap, Instagram } from 'lucide-react'
+import { Sun, Moon, Globe, Home, Grid, Menu, X, Sparkles, Zap } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
@@ -17,6 +17,15 @@ export default function Header({ lang, dict }: HeaderProps) {
   const pathname = usePathname()
   const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const toggleLanguage = () => {
     const newLang = lang === 'id' ? 'en' : 'id'
@@ -30,44 +39,45 @@ export default function Header({ lang, dict }: HeaderProps) {
   ]
 
   return (
-    <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="flex items-center justify-between h-16">
-          <Link href={`/${lang}`} className="flex items-center gap-2 group">
-            <div className="relative w-10 h-10">
-              <Image 
-                src="/logo.png" 
-                alt="HmzTools" 
-                width={40} 
-                height={40} 
-                className="w-10 h-10 rounded-lg transition-transform group-hover:scale-110" 
-              />
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      scrolled 
+        ? 'glass-premium shadow-2xl shadow-purple-500/10' 
+        : 'bg-transparent'
+    }`}>
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="flex items-center justify-between h-20">
+          <Link href={`/${lang}`} className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+              <div className="relative w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl shadow-purple-500/30">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
             </div>
-            <div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                HmzTools
-              </span>
-              <span className="hidden sm:inline text-xs text-gray-500 dark:text-gray-400 ml-1">
-                {lang === 'id' ? 'v1.0' : 'v1.0'}
-              </span>
-            </div>
+            <span className="text-2xl font-bold gradient-text">
+              HmzTools
+            </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-2">
             {navItems.map((item) => {
-              const isActive = pathname === item.href
+              const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                  className={`relative px-5 py-2.5 rounded-xl font-medium transition-all duration-300 ${
                     isActive
-                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-purple-500/25'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/20 dark:hover:bg-gray-800/30'
                   }`}
                 >
-                  <item.icon className="w-4 h-4" />
-                  <span className="font-medium">{item.label}</span>
+                  <span className="flex items-center gap-2">
+                    <item.icon className="w-4 h-4" />
+                    {item.label}
+                  </span>
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" />
+                  )}
                 </Link>
               )
             })}
@@ -76,48 +86,65 @@ export default function Header({ lang, dict }: HeaderProps) {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all border border-gray-200 dark:border-gray-700"
+              className="relative px-4 py-2.5 rounded-xl glass-card hover:scale-105 transition-all duration-300 group"
             >
-              <Globe className="w-4 h-4" />
-              <span className="font-medium text-sm">{lang === 'id' ? 'ID' : 'EN'}</span>
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-gray-600 dark:text-gray-300 group-hover:text-purple-500 transition-colors" />
+                <span className="font-medium text-sm text-gray-700 dark:text-gray-300">
+                  {lang === 'id' ? 'ID' : 'EN'}
+                </span>
+              </div>
             </button>
             
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all border border-gray-200 dark:border-gray-700"
+              className="relative p-2.5 rounded-xl glass-card hover:scale-105 transition-all duration-300"
             >
-              {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-gray-700" />}
+              {theme === 'dark' ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-gray-600" />
+              )}
             </button>
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all border border-gray-200 dark:border-gray-700"
+              className="md:hidden p-2.5 rounded-xl glass-card hover:scale-105 transition-all duration-300"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
+        {/* Mobile Menu - Premium */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                    isActive
-                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-                  }`}
-                >
-                  <item.icon className="w-5 h-5" />
-                  <span className="font-medium">{item.label}</span>
-                </Link>
-              )
-            })}
+          <div className="md:hidden py-6 border-t border-white/10 animate-fade-up">
+            <div className="space-y-2">
+              {navItems.map((item) => {
+                const isActive = pathname === item.href
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 px-5 py-4 rounded-xl transition-all duration-300 ${
+                      isActive
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-purple-500/25'
+                        : 'glass-card hover:scale-[1.02]'
+                    }`}
+                  >
+                    <item.icon className="w-5 h-5" />
+                    <span className="font-medium">{item.label}</span>
+                    {isActive && <Sparkles className="w-4 h-4 ml-auto" />}
+                  </Link>
+                )
+              })}
+              <div className="pt-4 mt-4 border-t border-white/10">
+                <p className="text-xs text-gray-400 dark:text-gray-500 text-center">
+                  ✦ HmzTools — {lang === 'id' ? '15 Alat Gratis' : '15 Free Tools'}
+                </p>
+              </div>
+            </div>
           </div>
         )}
       </div>

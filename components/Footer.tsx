@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Github, Instagram, Mail, Heart, Zap, Shield, Award, Sparkles, Rocket, Home, Grid, Info, FileText, MessageCircle, Lock } from 'lucide-react'
+import { Github, Instagram, Mail, Heart, Zap, Shield, Award, Sparkles, Rocket, Home, Grid, Info, FileText, MessageCircle, Lock, Coffee } from 'lucide-react'
 
 interface FooterProps {
   lang: string
@@ -19,13 +19,11 @@ export default function Footer({ lang }: FooterProps) {
       tools: 'Semua Alat',
       home: 'Beranda',
       description: 'Koleksi premium alat online gratis untuk kebutuhan sehari-hari dan pengembangan profesional.',
-      copyright: 'Hak Cipta Dilindungi',
-      builtWith: 'Dibangun dengan',
-      love: '❤️',
-      backToHome: 'Kembali ke Beranda',
-      features: 'Fitur Unggulan',
+      copyright: 'Semua Hak Cipta Dilindungi',
       developer: 'Developer Tools',
-      general: 'General Tools'
+      general: 'General Tools',
+      support: 'Dukung Kami',
+      supportDesc: 'Dukung pengembangan HmzTools dengan donasi'
     },
     en: {
       about: 'About Us',
@@ -36,12 +34,10 @@ export default function Footer({ lang }: FooterProps) {
       home: 'Home',
       description: 'Premium collection of free online tools for daily needs and professional development.',
       copyright: 'All Rights Reserved',
-      builtWith: 'Built with',
-      love: '❤️',
-      backToHome: 'Back to Home',
-      features: 'Features',
       developer: 'Developer Tools',
-      general: 'General Tools'
+      general: 'General Tools',
+      support: 'Support Us',
+      supportDesc: 'Support HmzTools development with donation'
     }
   }
 
@@ -83,8 +79,24 @@ export default function Footer({ lang }: FooterProps) {
                 <span className="text-2xl font-bold gradient-text">HmzTools</span>
               </div>
               
-              <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm leading-relaxed text-sm">
+              <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-sm leading-relaxed text-sm">
                 {t.description}
+              </p>
+              
+              {/* Tombol Donasi Saweria - Elegan */}
+              <a 
+                href="https://saweria.co/hmztools" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 text-white font-medium text-sm hover:scale-105 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 mb-4 group"
+              >
+                <Coffee className="w-4 h-4 group-hover:animate-pulse" />
+                {t.support}
+                <span className="text-xs opacity-80">☕</span>
+              </a>
+              
+              <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
+                {t.supportDesc}
               </p>
               
               <div className="flex gap-3">
@@ -194,36 +206,15 @@ export default function Footer({ lang }: FooterProps) {
                   <Shield className="w-3.5 h-3.5 opacity-50" />
                   {lang === 'id' ? 'Aman & Terpercaya' : 'Safe & Trusted'}
                 </li>
-                <li className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                  <Rocket className="w-3.5 h-3.5 opacity-50" />
-                  {lang === 'id' ? 'Next.js 14' : 'Next.js 14'}
-                </li>
               </ul>
             </div>
           </div>
 
-          {/* Bottom */}
+          {/* Bottom - Copyright Only */}
           <div className="mt-12 pt-8 border-t border-white/10">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                <span>© {currentYear} HmzTools.</span>
-                <span className="hidden sm:inline">|</span>
-                <span>{t.copyright}.</span>
-                <span className="hidden sm:inline">|</span>
-                <span className="flex items-center gap-1">
-                  {t.builtWith} 
-                  <Heart className="w-4 h-4 text-red-500 animate-pulse" /> 
-                  {lang === 'id' ? 'di Indonesia' : 'in Indonesia'}
-                </span>
-              </div>
-              <div className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
-                <span>Next.js</span>
-                <span className="w-1 h-1 rounded-full bg-purple-500" />
-                <span>Tailwind CSS</span>
-                <span className="w-1 h-1 rounded-full bg-purple-500" />
-                <span>TypeScript</span>
-                <span className="w-1 h-1 rounded-full bg-purple-500" />
-                <span>v1.0</span>
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                © {currentYear} HmzTools | {t.copyright}
               </div>
             </div>
           </div>
