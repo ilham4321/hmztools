@@ -2,6 +2,7 @@ import { ThemeProvider } from 'next-themes'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import { getDictionary } from '@/lib/dictionary'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -37,12 +38,13 @@ export default async function RootLayout({
       <head>
         <link rel="icon" href="/logo.png" />
       </head>
-      <body className={`${inter.className} bg-gray-50 dark:bg-gray-900 transition-colors`}>
+      <body className={`${inter.className} bg-gray-50 dark:bg-gray-900 transition-colors min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header lang={params.lang} dict={dict} />
-          <main className="container mx-auto px-4 py-8 max-w-6xl">
+          <main className="flex-1 container mx-auto px-4 py-8 max-w-6xl">
             {children}
           </main>
+          <Footer lang={params.lang} />
         </ThemeProvider>
       </body>
     </html>
