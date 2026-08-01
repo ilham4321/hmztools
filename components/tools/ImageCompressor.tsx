@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { Upload, Download, Compress, Image, FileImage, Check, X, RefreshCw } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { Upload, Download, Image as ImageIcon, FileImage, Check, X, RefreshCw, Crop, Trash2 } from 'lucide-react'
 
 export default function ImageCompressor({ lang }: { lang: string }) {
   const [originalImage, setOriginalImage] = useState<string | null>(null)
@@ -146,7 +146,7 @@ export default function ImageCompressor({ lang }: { lang: string }) {
             onClick={() => fileInputRef.current?.click()}
             className="btn-primary inline-flex"
           >
-            <Image className="w-5 h-5 mr-2" />
+            <ImageIcon className="w-5 h-5 mr-2" />
             {lang === 'id' ? 'Pilih Gambar' : 'Select Image'}
           </button>
           <p className="text-xs text-gray-400 mt-4">
@@ -229,7 +229,7 @@ export default function ImageCompressor({ lang }: { lang: string }) {
               ) : compressedImage ? (
                 <Check className="w-5 h-5" />
               ) : (
-                <Compress className="w-5 h-5" />
+                <Crop className="w-5 h-5" />
               )}
               {isCompressing 
                 ? (lang === 'id' ? 'Mengompres...' : 'Compressing...')

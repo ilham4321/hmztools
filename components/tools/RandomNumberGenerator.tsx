@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Dice, RefreshCw, TrendingUp, TrendingDown, Copy } from 'lucide-react'
+import { RefreshCw, TrendingDown, TrendingUp, Copy, Shuffle } from 'lucide-react'
 
 export default function RandomNumberGenerator({ lang }: { lang: string }) {
   const [min, setMin] = useState('1')
@@ -80,7 +80,7 @@ export default function RandomNumberGenerator({ lang }: { lang: string }) {
         {isGenerating ? (
           <RefreshCw className="w-5 h-5 animate-spin" />
         ) : (
-          <Dice className="w-5 h-5" />
+          <Shuffle className="w-5 h-5" />
         )}
         {lang === 'id' ? 'Generate Angka' : 'Generate Number'}
       </button>
