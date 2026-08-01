@@ -23,7 +23,7 @@ export default function Footer({ lang }: FooterProps) {
       backToHome: 'Kembali ke Beranda',
       features: 'Fitur Unggulan',
       support: 'Dukung kami',
-      supportDesc: 'Dukung pengembangan HmzTools dengan donasi'
+      supportDesc: 'Dukung pengembangan HmzTools dengan donasi',
       developer: 'Developer Tools',
       general: 'General Tools'
     },
