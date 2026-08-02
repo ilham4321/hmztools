@@ -62,7 +62,11 @@ export function JSONFormatter({ title, description, article, dict }: JSONFormatt
 
         <textarea
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            setInput(e.target.value);
+            setError('');
+            setOutput('');
+          }}
           placeholder="Masukkan JSON di sini..."
           className="input-field min-h-[150px] font-mono text-sm"
         />
