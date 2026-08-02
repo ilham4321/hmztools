@@ -1,75 +1,83 @@
-import { ThemeProvider } from 'next-themes'
-import { Inter, Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google'
-import './globals.css'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import { getDictionary } from '@/lib/dictionary'
+import { Providers } from '@/app/providers';
+import { getDictionary, type Locale } from '@/lib/i18n/dictionary';
+import { Inter } from 'next/font/google';
+import '@/styles/globals.css';
 
 const inter = Inter({ 
   subsets: ['latin'],
-  variable: '--font-inter'
-})
-
-const playfair = Playfair_Display({ 
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap'
-})
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-jakarta',
-  display: 'swap'
-})
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 export async function generateMetadata({ params }: { params: { lang: string } }) {
-  const dict = await getDictionary(params.lang)
+  const dict = await getDictionary(params.lang as Locale);
   return {
     title: {
-      template: `%s | HmzTools`,
-      default: 'HmzTools'
+      template: `%s | ${dict.metadata.title}`,
+      default: dict.metadata.title,
     },
-    description: dict.meta.description,
+    description: dict.metadata.description,
+    keywords: dict.metadata.keywords,
+    authors: [{ name: 'HmzTools' }],
+    creator: 'HamzzDev',
+    publisher: 'HmzTools',
+    metadataBase: new URL('https://hmztools.web.id'),
     alternates: {
+      canonical: `https://hmztools.web.id/${params.lang}`,
       languages: {
-        'id': '/id',
-        'en': '/en',
-      }
-    }
-  }
+        'id': 'https://hmztools.web.id/id',
+        'en': 'https://hmztools.web.id/en',
+        'x-default': 'https://hmztools.web.id/id',
+      },
+    },
+    openGraph: {
+      title: dict.metadata.title,
+      description: dict.metadata.description,
+      url: `https://hmztools.web.id/${params.lang}`,
+      siteName: 'HmzTools',
+      locale: params.lang === 'id' ? 'id_ID' : 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: 'https://hmztools.web.id/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: 'HmzTools',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.metadata.title,
+      description: dict.metadata.description,
+      images: ['https://hmztools.web.id/og-image.png'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  };
 }
 
 export default async function RootLayout({
   children,
-  params
+  params,
 }: {
-  children: React.ReactNode
-  params: { lang: string }
+  children: React.ReactNode;
+  params: { lang: string };
 }) {
-  const dict = await getDictionary(params.lang)
-  
   return (
     <html lang={params.lang} suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/logo.png" />
-      </head>
-      <body className={`${inter.variable} ${playfair.variable} ${plusJakarta.variable} min-h-screen flex flex-col relative overflow-x-hidden`}>
-        {/* Animated Background Orbs */}
-        <div className="fixed inset-0 pointer-events-none -z-10">
-          <div className="orb-blue top-[-20%] left-[-10%] animate-pulse-glow" />
-          <div className="orb-purple bottom-[-20%] right-[-10%] animate-pulse-glow delay-1000" />
-          <div className="orb-pink top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 animate-pulse-glow delay-2000" />
-          <div className="absolute inset-0 bg-grid-pattern" />
-        </div>
-
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header lang={params.lang} dict={dict} />
-          <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
-            {children}
-          </main>
-          <Footer lang={params.lang} />
-        </ThemeProvider>
+      <body className={`${inter.variable} antialiased bg-gray-50 dark:bg-gray-950 min-h-screen`}>
+        <Providers>{children}</Providers>
       </body>
     </html>
-  )
+  );
 }

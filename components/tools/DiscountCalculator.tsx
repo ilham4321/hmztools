@@ -1,127 +1,145 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { DollarSign, Percent, ShoppingBag, Tag } from 'lucide-react'
+import { useState } from 'react';
+import { BaseTool } from './BaseTool';
+import { Percent, DollarSign } from 'lucide-react';
 
-export default function DiscountCalculator({ lang }: { lang: string }) {
-  const [price, setPrice] = useState('')
-  const [discount, setDiscount] = useState('')
-  const [result, setResult] = useState<{
-    originalPrice: number
-    discountAmount: number
-    finalPrice: number
-    savings: number
-    discountPercent: number
-  } | null>(null)
+interface DiscountCalculatorProps {
+  title: string;
+  description: string;
+  article: string;
+  dict: any;
+}
+
+export function DiscountCalculator({ title, description, article, dict }: DiscountCalculatorProps) {
+  const [originalPrice, setOriginalPrice] = useState('');
+  const [discount, setDiscount] = useState('');
+  const [discountType, setDiscountType] = useState<'percentage' | 'nominal'>('percentage');
+  const [result, setResult] = useState<null | {
+    finalPrice: number;
+    discountAmount: number;
+    discountPercentage: number;
+  }>(null);
 
   const calculateDiscount = () => {
-    const p = parseFloat(price)
-    const d = parseFloat(discount)
-    if (isNaN(p) || isNaN(d) || p <= 0 || d < 0 || d > 100) return
-    
-    const discountAmount = (p * d) / 100
-    const finalPrice = p - discountAmount
-    const savings = p - finalPrice
-    
-    setResult({ 
-      originalPrice: p, 
-      discountAmount, 
-      finalPrice, 
-      savings,
-      discountPercent: d 
-    })
-  }
+    const price = parseFloat(originalPrice);
+    const disc = parseFloat(discount);
+    if (isNaN(price) || isNaN(disc) || price <= 0 || disc < 0) return;
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(amount)
-  }
+    let finalPrice: number;
+    let discountAmount: number;
+    let discountPercentage: number;
+
+    if (discountType === 'percentage') {
+      const percentage = Math.min(disc, 100);
+      discountAmount = (price * percentage) / 100;
+      finalPrice = price - discountAmount;
+      discountPercentage = percentage;
+    } else {
+      discountAmount = Math.min(disc, price);
+      finalPrice = price - discountAmount;
+      discountPercentage = (discountAmount / price) * 100;
+    }
+
+    setResult({
+      finalPrice: Math.round(finalPrice * 100) / 100,
+      discountAmount: Math.round(discountAmount * 100) / 100,
+      discountPercentage: Math.round(discountPercentage * 100) / 100,
+    });
+  };
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            <div className="flex items-center gap-2">
-              <ShoppingBag className="w-4 h-4" />
-              {lang === 'id' ? 'Harga Awal' : 'Original Price'}
+    <BaseTool title={title} description={description} article={article}>
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1 space-y-2">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              {dict.common.calculate}
+            </label>
+            <div className="relative">
+              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type="number"
+                value={originalPrice}
+                onChange={(e) => setOriginalPrice(e.target.value)}
+                placeholder="Harga Awal"
+                className="input-field pl-10"
+                min="0"
+                step="1000"
+              />
             </div>
-          </label>
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder={lang === 'id' ? 'Rp 100.000' : 'Rp 100.000'}
-            className="input-field"
-            min="0"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            <div className="flex items-center gap-2">
-              <Percent className="w-4 h-4" />
-              {lang === 'id' ? 'Diskon' : 'Discount'}
+          </div>
+          <div className="flex-1 space-y-2">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              {discountType === 'percentage' ? 'Diskon %' : 'Diskon Nominal'}
+            </label>
+            <div className="relative">
+              <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type="number"
+                value={discount}
+                onChange={(e) => setDiscount(e.target.value)}
+                placeholder={discountType === 'percentage' ? 'Contoh: 20' : 'Contoh: 50000'}
+                className="input-field pl-10"
+                min="0"
+                step={discountType === 'percentage' ? '1' : '1000'}
+              />
             </div>
-          </label>
-          <input
-            type="number"
-            value={discount}
-            onChange={(e) => setDiscount(e.target.value)}
-            placeholder="10%"
-            className="input-field"
-            min="0"
-            max="100"
-          />
+          </div>
         </div>
+
+        <div className="flex flex-wrap gap-3">
+          <button
+            onClick={() => setDiscountType('percentage')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              discountType === 'percentage'
+                ? 'bg-indigo-500 text-white'
+                : 'glass glass-hover'
+            }`}
+          >
+            Persentase
+          </button>
+          <button
+            onClick={() => setDiscountType('nominal')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              discountType === 'nominal'
+                ? 'bg-indigo-500 text-white'
+                : 'glass glass-hover'
+            }`}
+          >
+            Nominal
+          </button>
+          <button onClick={calculateDiscount} className="btn-primary">
+            {dict.common.calculate}
+          </button>
+        </div>
+
+        {result && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="p-4 glass rounded-xl text-center">
+              <div className="text-sm text-gray-500 dark:text-gray-400">Diskon</div>
+              <div className="text-2xl font-bold text-green-500">
+                Rp {result.discountAmount.toLocaleString('id-ID')}
+              </div>
+              <div className="text-xs text-gray-400">
+                ({result.discountPercentage}%)
+              </div>
+            </div>
+            <div className="p-4 glass rounded-xl text-center">
+              <div className="text-sm text-gray-500 dark:text-gray-400">Harga Akhir</div>
+              <div className="text-2xl font-bold text-gradient-blue">
+                Rp {result.finalPrice.toLocaleString('id-ID')}
+              </div>
+            </div>
+            <div className="p-4 glass rounded-xl text-center">
+              <div className="text-sm text-gray-500 dark:text-gray-400">Hemat</div>
+              <div className="text-2xl font-bold text-emerald-500">
+                Rp {result.discountAmount.toLocaleString('id-ID')}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-
-      <button onClick={calculateDiscount} className="btn-primary w-full flex items-center justify-center gap-2">
-        <Tag className="w-5 h-5" />
-        {lang === 'id' ? 'Hitung Diskon' : 'Calculate Discount'}
-      </button>
-
-      {result && (
-        <div className="space-y-4 animate-fadeIn">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {lang === 'id' ? 'Harga Awal' : 'Original Price'}
-              </p>
-              <p className="text-xl font-bold text-gray-900 dark:text-white line-through">
-                {formatCurrency(result.originalPrice)}
-              </p>
-            </div>
-            <div className="p-4 bg-red-50 dark:bg-red-950/30 rounded-xl">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {lang === 'id' ? 'Potongan' : 'Discount'}
-              </p>
-              <p className="text-xl font-bold text-red-600 dark:text-red-400">
-                -{formatCurrency(result.discountAmount)}
-              </p>
-              <p className="text-sm text-red-500">({result.discountPercent}%)</p>
-            </div>
-            <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-xl">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {lang === 'id' ? 'Harga Akhir' : 'Final Price'}
-              </p>
-              <p className="text-2xl font-bold text-green-600 dark:text-green-400">
-                {formatCurrency(result.finalPrice)}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center p-4 bg-blue-50 dark:bg-blue-950/30 rounded-xl">
-            <DollarSign className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <span className="text-lg font-semibold text-blue-600 dark:text-blue-400">
-              {lang === 'id' ? 'Anda Hemat' : 'You Save'} {formatCurrency(result.savings)}
-            </span>
-          </div>
-        </div>
-      )}
-    </div>
-  )
+    </BaseTool>
+  );
 }

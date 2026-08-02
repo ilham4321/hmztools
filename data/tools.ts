@@ -1,419 +1,285 @@
 export interface Tool {
-  slug: string
-  category: 'general' | 'developer'
-  translations: {
-    id: {
-      name: string
-      description: string
-      metaTitle: string
-      metaDescription: string
-      seoTitle: string
-      seoDescription: string
-      articleTitle: string
-      articleContent: string
-    }
-    en: {
-      name: string
-      description: string
-      metaTitle: string
-      metaDescription: string
-      seoTitle: string
-      seoDescription: string
-      articleTitle: string
-      articleContent: string
-    }
-  }
+  id: string;
+  category: 'general' | 'developer';
+  name: {
+    id: string;
+    en: string;
+  };
+  description: {
+    id: string;
+    en: string;
+  };
+  icon: string;
+  slug: string;
+  seoTitle: {
+    id: string;
+    en: string;
+  };
+  seoDescription: {
+    id: string;
+    en: string;
+  };
+  article: {
+    id: string;
+    en: string;
+  };
 }
 
 export const toolsData: Tool[] = [
   {
+    id: 'age-calculator',
+    category: 'general',
+    name: { id: 'Kalkulator Usia', en: 'Age Calculator' },
+    description: { id: 'Hitung usia Anda dengan presisi', en: 'Calculate your age with precision' },
+    icon: 'Calendar',
     slug: 'age-calculator',
-    category: 'general',
-    translations: {
-      id: {
-        name: 'Kalkulator Umur',
-        description: 'Hitung umur Anda secara akurat dalam tahun, bulan, dan hari',
-        metaTitle: 'Kalkulator Umur Online - Hitung Usia dengan Akurat',
-        metaDescription: 'Kalkulator umur online gratis untuk menghitung usia Anda dalam tahun, bulan, hari, jam, menit, dan detik.',
-        seoTitle: 'Kalkulator Umur Online',
-        seoDescription: 'Hitung usia Anda secara akurat',
-        articleTitle: 'Cara Menghitung Umur dengan Tepat',
-        articleContent: 'Kalkulator umur adalah alat yang membantu Anda menghitung usia secara akurat berdasarkan tanggal lahir. Alat ini sangat berguna untuk berbagai keperluan seperti pendaftaran sekolah, pekerjaan, atau sekadar penasaran. Dengan memasukkan tanggal lahir dan tanggal saat ini, Anda bisa mengetahui usia dalam tahun, bulan, dan hari.'
-      },
-      en: {
-        name: 'Age Calculator',
-        description: 'Calculate your age accurately in years, months, and days',
-        metaTitle: 'Age Calculator Online - Calculate Age Accurately',
-        metaDescription: 'Free online age calculator to calculate your age in years, months, days, hours, minutes, and seconds.',
-        seoTitle: 'Online Age Calculator',
-        seoDescription: 'Calculate your age accurately',
-        articleTitle: 'How to Calculate Age Accurately',
-        articleContent: 'Age calculator is a tool that helps you calculate your age accurately based on birth date. This tool is very useful for various purposes such as school enrollment, job applications, or just curiosity. By entering your birth date and current date, you can find out your age in years, months, and days.'
-      }
+    seoTitle: { id: 'Kalkulator Usia Online - Hitung Umur dengan Akurat', en: 'Age Calculator Online - Calculate Age Accurately' },
+    seoDescription: { id: 'Kalkulator usia online gratis untuk menghitung umur Anda dalam tahun, bulan, hari, jam, menit, dan detik.', en: 'Free online age calculator to calculate your age in years, months, days, hours, minutes, and seconds.' },
+    article: {
+      id: `<h2>Apa itu Kalkulator Usia?</h2>
+<p>Kalkulator usia adalah alat yang membantu Anda menghitung umur dengan tepat berdasarkan tanggal lahir. Alat ini sangat berguna untuk berbagai keperluan seperti pendaftaran sekolah, lamaran pekerjaan, atau sekadar memenuhi rasa penasaran.</p>
+<h3>Bagaimana Cara Menggunakannya?</h3>
+<p>Cukup masukkan tanggal lahir Anda, dan alat ini akan secara otomatis menghitung usia Anda dalam berbagai format waktu. Anda dapat melihat hasil dalam tahun, bulan, hari, jam, menit, dan bahkan detik.</p>
+<h3>Mengapa Perlu Kalkulator Usia?</h3>
+<p>Mengetahui usia pasti sangat penting dalam berbagai aspek kehidupan. Mulai dari kebutuhan administratif hingga perencanaan masa depan, kalkulator usia membantu Anda mendapatkan informasi yang akurat dan cepat.</p>`,
+      en: `<h2>What is Age Calculator?</h2>
+<p>Age calculator is a tool that helps you calculate your age accurately based on your birth date. This tool is very useful for various purposes such as school registration, job applications, or just to satisfy curiosity.</p>
+<h3>How to Use It?</h3>
+<p>Simply enter your birth date, and this tool will automatically calculate your age in various time formats. You can see results in years, months, days, hours, minutes, and even seconds.</p>
+<h3>Why Need an Age Calculator?</h3>
+<p>Knowing your exact age is important in many aspects of life. From administrative needs to future planning, an age calculator helps you get accurate and fast information.</p>`
     }
   },
   {
+    id: 'discount-calculator',
+    category: 'general',
+    name: { id: 'Kalkulator Diskon', en: 'Discount Calculator' },
+    description: { id: 'Hitung harga setelah diskon', en: 'Calculate price after discount' },
+    icon: 'Percent',
     slug: 'discount-calculator',
-    category: 'general',
-    translations: {
-      id: {
-        name: 'Kalkulator Diskon',
-        description: 'Hitung harga setelah diskon dengan cepat',
-        metaTitle: 'Kalkulator Diskon Online - Hitung Harga Setelah Diskon',
-        metaDescription: 'Kalkulator diskon online gratis untuk menghitung harga akhir setelah diskon persentase.',
-        seoTitle: 'Kalkulator Diskon Online',
-        seoDescription: 'Hitung harga setelah diskon',
-        articleTitle: 'Cara Menghitung Diskon dengan Cepat',
-        articleContent: 'Kalkulator diskon membantu Anda menghitung harga akhir setelah diskon persentase. Alat ini sangat berguna saat berbelanja untuk mengetahui berapa yang harus dibayar setelah diskon. Cukup masukkan harga awal dan persentase diskon, maka Anda akan mendapatkan harga akhir secara instan.'
-      },
-      en: {
-        name: 'Discount Calculator',
-        description: 'Calculate price after discount quickly',
-        metaTitle: 'Discount Calculator Online - Calculate Final Price',
-        metaDescription: 'Free online discount calculator to calculate final price after percentage discount.',
-        seoTitle: 'Online Discount Calculator',
-        seoDescription: 'Calculate price after discount',
-        articleTitle: 'How to Calculate Discount Quickly',
-        articleContent: 'Discount calculator helps you calculate the final price after percentage discount. This tool is very useful when shopping to know how much you need to pay after discount. Simply enter the original price and discount percentage, and you will get the final price instantly.'
-      }
+    seoTitle: { id: 'Kalkulator Diskon Online - Hitung Harga Setelah Diskon', en: 'Discount Calculator Online - Calculate Price After Discount' },
+    seoDescription: { id: 'Kalkulator diskon gratis untuk menghitung harga akhir setelah diskon persen atau nominal.', en: 'Free discount calculator to calculate final price after percentage or nominal discount.' },
+    article: {
+      id: `<h2>Apa itu Kalkulator Diskon?</h2>
+<p>Kalkulator diskon adalah alat yang membantu Anda menghitung harga akhir setelah diskon diterapkan. Alat ini sangat berguna saat berbelanja atau melakukan transaksi bisnis.</p>
+<h3>Fitur Kalkulator Diskon</h3>
+<p>Anda dapat menghitung diskon dalam bentuk persentase atau nominal. Masukkan harga awal dan diskon yang diberikan, alat ini akan menampilkan harga akhir, jumlah diskon, dan persentase diskon.</p>`,
+      en: `<h2>What is Discount Calculator?</h2>
+<p>Discount calculator is a tool that helps you calculate the final price after discount is applied. This tool is very useful when shopping or doing business transactions.</p>
+<h3>Discount Calculator Features</h3>
+<p>You can calculate discount in percentage or nominal form. Enter the original price and discount given, this tool will display the final price, discount amount, and discount percentage.</p>`
     }
   },
   {
+    id: 'bmi-calculator',
+    category: 'general',
+    name: { id: 'Kalkulator BMI', en: 'BMI Calculator' },
+    description: { id: 'Cek indeks massa tubuh Anda', en: 'Check your body mass index' },
+    icon: 'Activity',
     slug: 'bmi-calculator',
-    category: 'general',
-    translations: {
-      id: {
-        name: 'Kalkulator BMI',
-        description: 'Hitung indeks massa tubuh Anda',
-        metaTitle: 'Kalkulator BMI Online - Cek Indeks Massa Tubuh',
-        metaDescription: 'Kalkulator BMI online gratis untuk menghitung indeks massa tubuh dan mengetahui kategori berat badan ideal.',
-        seoTitle: 'Kalkulator BMI Online',
-        seoDescription: 'Cek indeks massa tubuh',
-        articleTitle: 'Memahami Indeks Massa Tubuh (BMI)',
-        articleContent: 'BMI atau Body Mass Index adalah ukuran yang digunakan untuk mengetahui apakah berat badan Anda sehat berdasarkan tinggi badan. Kalkulator BMI membantu Anda menghitung nilai BMI dan mengetahui kategori apakah Anda termasuk kurus, normal, overweight, atau obesitas. Penting untuk menjaga BMI dalam rentang normal untuk kesehatan yang optimal.'
-      },
-      en: {
-        name: 'BMI Calculator',
-        description: 'Calculate your body mass index',
-        metaTitle: 'BMI Calculator Online - Check Body Mass Index',
-        metaDescription: 'Free online BMI calculator to calculate body mass index and know your ideal weight category.',
-        seoTitle: 'Online BMI Calculator',
-        seoDescription: 'Check your body mass index',
-        articleTitle: 'Understanding Body Mass Index (BMI)',
-        articleContent: 'BMI or Body Mass Index is a measure used to determine whether your weight is healthy based on your height. BMI calculator helps you calculate your BMI value and know whether you are underweight, normal, overweight, or obese. It is important to maintain BMI within normal range for optimal health.'
-      }
+    seoTitle: { id: 'Kalkulator BMI - Cek Indeks Massa Tubuh Online', en: 'BMI Calculator - Check Body Mass Index Online' },
+    seoDescription: { id: 'Kalkulator BMI online gratis untuk mengetahui status berat badan Anda berdasarkan tinggi dan berat badan.', en: 'Free online BMI calculator to check your weight status based on height and weight.' },
+    article: {
+      id: `<h2>Apa itu BMI?</h2>
+<p>BMI atau Body Mass Index adalah ukuran yang digunakan untuk menilai apakah berat badan Anda ideal berdasarkan tinggi badan. BMI membantu mengidentifikasi risiko kesehatan terkait berat badan.</p>
+<h3>Cara Menghitung BMI</h3>
+<p>Masukkan tinggi dan berat badan Anda, alat ini akan menghitung BMI dan menampilkan kategori status berat badan Anda (Kurus, Normal, Gemuk, atau Obesitas).</p>`,
+      en: `<h2>What is BMI?</h2>
+<p>BMI or Body Mass Index is a measure used to assess whether your weight is ideal based on height. BMI helps identify health risks related to weight.</p>
+<h3>How to Calculate BMI</h3>
+<p>Enter your height and weight, this tool will calculate your BMI and display your weight status category (Underweight, Normal, Overweight, or Obese).</p>`
     }
   },
   {
+    id: 'days-between-dates',
+    category: 'general',
+    name: { id: 'Selisih Tanggal', en: 'Days Between Dates' },
+    description: { id: 'Hitung selisih hari antar tanggal', en: 'Calculate days between dates' },
+    icon: 'CalendarDays',
     slug: 'days-between-dates',
-    category: 'general',
-    translations: {
-      id: {
-        name: 'Selisih Hari',
-        description: 'Hitung selisih hari antara dua tanggal',
-        metaTitle: 'Kalkulator Selisih Hari - Hitung Jarak Tanggal',
-        metaDescription: 'Kalkulator selisih hari online gratis untuk menghitung jarak hari antara dua tanggal.',
-        seoTitle: 'Kalkulator Selisih Hari',
-        seoDescription: 'Hitung jarak antara dua tanggal',
-        articleTitle: 'Cara Menghitung Selisih Hari Antar Tanggal',
-        articleContent: 'Kalkulator selisih hari membantu Anda menghitung jarak waktu antara dua tanggal. Alat ini berguna untuk menghitung durasi proyek, usia, atau perencanaan acara. Cukup masukkan tanggal mulai dan tanggal akhir, maka Anda akan mendapatkan selisih hari secara akurat.'
-      },
-      en: {
-        name: 'Days Between Dates',
-        description: 'Calculate days between two dates',
-        metaTitle: 'Days Between Dates Calculator',
-        metaDescription: 'Free online days between dates calculator to count days between two dates.',
-        seoTitle: 'Days Between Dates Calculator',
-        seoDescription: 'Calculate days between dates',
-        articleTitle: 'How to Calculate Days Between Dates',
-        articleContent: 'Days between dates calculator helps you calculate the time difference between two dates. This tool is useful for calculating project duration, age, or event planning. Simply enter the start date and end date, and you will get the days difference accurately.'
-      }
+    seoTitle: { id: 'Kalkulator Selisih Tanggal - Hitung Hari Antara Dua Tanggal', en: 'Date Difference Calculator - Calculate Days Between Two Dates' },
+    seoDescription: { id: 'Hitung selisih hari, minggu, bulan, atau tahun antara dua tanggal dengan mudah.', en: 'Calculate the difference in days, weeks, months, or years between two dates easily.' },
+    article: {
+      id: `<h2>Apa itu Kalkulator Selisih Tanggal?</h2>
+<p>Kalkulator selisih tanggal membantu Anda menghitung jarak waktu antara dua tanggal. Alat ini berguna untuk merencanakan proyek, menghitung usia, atau menentukan tenggat waktu.</p>`,
+      en: `<h2>What is Date Difference Calculator?</h2>
+<p>Date difference calculator helps you calculate the time span between two dates. This tool is useful for planning projects, calculating age, or determining deadlines.</p>`
     }
   },
   {
-    slug: 'random-number-generator',
+    id: 'random-number',
     category: 'general',
-    translations: {
-      id: {
-        name: 'Generator Angka Acak',
-        description: 'Buat angka acak dalam rentang tertentu',
-        metaTitle: 'Generator Angka Acak Online',
-        metaDescription: 'Generator angka acak online gratis untuk menghasilkan angka random dalam rentang yang ditentukan.',
-        seoTitle: 'Generator Angka Acak',
-        seoDescription: 'Buat angka acak online',
-        articleTitle: 'Cara Menghasilkan Angka Acak',
-        articleContent: 'Generator angka acak adalah alat yang menghasilkan angka secara acak dalam rentang yang Anda tentukan. Alat ini berguna untuk berbagai keperluan seperti undian, pengambilan sampel, atau sekadar untuk hiburan. Hasil yang dihasilkan benar-benar acak dan tidak dapat diprediksi.'
-      },
-      en: {
-        name: 'Random Number Generator',
-        description: 'Generate random numbers in a range',
-        metaTitle: 'Random Number Generator Online',
-        metaDescription: 'Free online random number generator to generate random numbers in specified range.',
-        seoTitle: 'Random Number Generator',
-        seoDescription: 'Generate random numbers online',
-        articleTitle: 'How to Generate Random Numbers',
-        articleContent: 'Random number generator is a tool that generates numbers randomly within specified range. This tool is useful for various purposes such as lottery, sampling, or just for fun. The results are truly random and unpredictable.'
-      }
+    name: { id: 'Generator Angka Acak', en: 'Random Number Generator' },
+    description: { id: 'Hasilkan angka acak dengan mudah', en: 'Generate random numbers easily' },
+    icon: 'Dice',
+    slug: 'random-number',
+    seoTitle: { id: 'Generator Angka Acak Online - Hasilkan Nomor Acak', en: 'Random Number Generator Online - Generate Random Numbers' },
+    seoDescription: { id: 'Hasilkan angka acak dengan rentang yang dapat Anda tentukan sendiri.', en: 'Generate random numbers within your specified range.' },
+    article: {
+      id: `<h2>Apa itu Generator Angka Acak?</h2>
+<p>Generator angka acak adalah alat yang menghasilkan angka secara acak dalam rentang yang Anda tentukan. Berguna untuk undian, pemilihan sampel, atau keperluan statistik.</p>`,
+      en: `<h2>What is Random Number Generator?</h2>
+<p>Random number generator is a tool that generates random numbers within your specified range. Useful for raffles, sample selection, or statistical purposes.</p>`
     }
   },
   {
-    slug: 'word-character-counter',
+    id: 'word-counter',
     category: 'general',
-    translations: {
-      id: {
-        name: 'Penghitung Kata & Karakter',
-        description: 'Hitung kata, karakter, dan paragraf dalam teks',
-        metaTitle: 'Penghitung Kata & Karakter Online',
-        metaDescription: 'Penghitung kata dan karakter online gratis untuk menghitung jumlah kata, karakter, dan paragraf.',
-        seoTitle: 'Penghitung Kata & Karakter',
-        seoDescription: 'Hitung kata dan karakter online',
-        articleTitle: 'Pentingnya Menghitung Kata dan Karakter',
-        articleContent: 'Penghitung kata dan karakter adalah alat yang membantu Anda menghitung jumlah kata, karakter (dengan dan tanpa spasi), serta paragraf dalam teks. Alat ini sangat berguna untuk penulis, editor, atau siapa pun yang perlu membatasi jumlah kata atau karakter dalam tulisannya.'
-      },
-      en: {
-        name: 'Word & Character Counter',
-        description: 'Count words, characters, and paragraphs',
-        metaTitle: 'Word & Character Counter Online',
-        metaDescription: 'Free online word and character counter to count words, characters, and paragraphs.',
-        seoTitle: 'Word & Character Counter',
-        seoDescription: 'Count words and characters online',
-        articleTitle: 'The Importance of Counting Words and Characters',
-        articleContent: 'Word and character counter is a tool that helps you count the number of words, characters (with and without spaces), and paragraphs in your text. This tool is very useful for writers, editors, or anyone who needs to limit word or character count in their writing.'
-      }
+    name: { id: 'Penghitung Kata & Karakter', en: 'Word & Character Counter' },
+    description: { id: 'Hitung kata dan karakter di teks', en: 'Count words and characters in text' },
+    icon: 'Type',
+    slug: 'word-counter',
+    seoTitle: { id: 'Penghitung Kata & Karakter Online - Hitung Teks', en: 'Word & Character Counter Online - Count Text' },
+    seoDescription: { id: 'Hitung jumlah kata, karakter, kalimat, dan paragraf dalam teks Anda secara instan.', en: 'Count words, characters, sentences, and paragraphs in your text instantly.' },
+    article: {
+      id: `<h2>Apa itu Penghitung Kata?</h2>
+<p>Penghitung kata adalah alat untuk menghitung jumlah kata, karakter, kalimat, dan paragraf dalam teks. Sangat berguna untuk penulis, mahasiswa, dan profesional konten.</p>`,
+      en: `<h2>What is Word Counter?</h2>
+<p>Word counter is a tool to count words, characters, sentences, and paragraphs in text. Very useful for writers, students, and content professionals.</p>`
     }
   },
   {
+    id: 'password-generator',
+    category: 'general',
+    name: { id: 'Generator Password', en: 'Password Generator' },
+    description: { id: 'Buat password yang kuat', en: 'Generate strong passwords' },
+    icon: 'Key',
     slug: 'password-generator',
-    category: 'general',
-    translations: {
-      id: {
-        name: 'Generator Password',
-        description: 'Buat password yang kuat dan aman',
-        metaTitle: 'Generator Password Online - Buat Password Kuat',
-        metaDescription: 'Generator password online gratis untuk membuat password yang kuat dan aman dengan berbagai opsi karakter.',
-        seoTitle: 'Generator Password Online',
-        seoDescription: 'Buat password kuat dan aman',
-        articleTitle: 'Cara Membuat Password yang Kuat',
-        articleContent: 'Generator password adalah alat yang membantu Anda membuat password yang kuat dan aman. Dengan mengombinasikan huruf besar, huruf kecil, angka, dan simbol, password yang dihasilkan sulit ditebak dan aman dari serangan brute force. Gunakan password yang berbeda untuk setiap akun untuk keamanan maksimal.'
-      },
-      en: {
-        name: 'Password Generator',
-        description: 'Create strong and secure passwords',
-        metaTitle: 'Password Generator Online - Create Strong Password',
-        metaDescription: 'Free online password generator to create strong and secure passwords with various character options.',
-        seoTitle: 'Online Password Generator',
-        seoDescription: 'Create strong and secure passwords',
-        articleTitle: 'How to Create Strong Passwords',
-        articleContent: 'Password generator is a tool that helps you create strong and secure passwords. By combining uppercase, lowercase, numbers, and symbols, the generated passwords are hard to guess and secure against brute force attacks. Use different passwords for each account for maximum security.'
-      }
+    seoTitle: { id: 'Generator Password Online - Buat Password Kuat', en: 'Password Generator Online - Create Strong Passwords' },
+    seoDescription: { id: 'Buat password yang kuat dan aman dengan berbagai opsi karakter.', en: 'Create strong and secure passwords with various character options.' },
+    article: {
+      id: `<h2>Apa itu Generator Password?</h2>
+<p>Generator password adalah alat untuk membuat kata sandi yang kuat dan aman. Anda dapat mengatur panjang password dan jenis karakter yang digunakan.</p>`,
+      en: `<h2>What is Password Generator?</h2>
+<p>Password generator is a tool to create strong and secure passwords. You can set password length and character types used.</p>`
     }
   },
   {
+    id: 'image-compressor',
+    category: 'general',
+    name: { id: 'Kompresor Gambar', en: 'Image Compressor' },
+    description: { id: 'Kompres gambar tanpa backend', en: 'Compress images without backend' },
+    icon: 'Image',
     slug: 'image-compressor',
-    category: 'general',
-    translations: {
-      id: {
-        name: 'Kompres Gambar',
-        description: 'Kompres gambar untuk mengurangi ukuran file',
-        metaTitle: 'Kompres Gambar Online - Kurangi Ukuran File',
-        metaDescription: 'Kompres gambar online gratis untuk mengurangi ukuran file gambar tanpa mengurangi kualitas terlalu banyak.',
-        seoTitle: 'Kompres Gambar Online',
-        seoDescription: 'Kurangi ukuran file gambar',
-        articleTitle: 'Manfaat Mengompres Gambar',
-        articleContent: 'Kompres gambar adalah proses mengurangi ukuran file gambar tanpa mengurangi kualitas secara signifikan. Alat ini sangat berguna untuk menghemat ruang penyimpanan dan mempercepat loading website. Dengan mengompres gambar, Anda bisa mengupload foto lebih cepat dan menghemat bandwidth.'
-      },
-      en: {
-        name: 'Image Compressor',
-        description: 'Compress images to reduce file size',
-        metaTitle: 'Image Compressor Online - Reduce File Size',
-        metaDescription: 'Free online image compressor to reduce image file size without losing too much quality.',
-        seoTitle: 'Online Image Compressor',
-        seoDescription: 'Reduce image file size',
-        articleTitle: 'Benefits of Image Compression',
-        articleContent: 'Image compression is the process of reducing image file size without significantly reducing quality. This tool is very useful for saving storage space and speeding up website loading. By compressing images, you can upload photos faster and save bandwidth.'
-      }
+    seoTitle: { id: 'Kompresor Gambar Online - Kompres Foto Gratis', en: 'Image Compressor Online - Free Photo Compression' },
+    seoDescription: { id: 'Kompres gambar secara online tanpa mengunggah ke server menggunakan Canvas API.', en: 'Compress images online without uploading to server using Canvas API.' },
+    article: {
+      id: `<h2>Apa itu Kompresor Gambar?</h2>
+<p>Kompresor gambar adalah alat untuk mengurangi ukuran file gambar tanpa mengurangi kualitas secara signifikan. Semua proses dilakukan di sisi klien untuk menjaga privasi.</p>`,
+      en: `<h2>What is Image Compressor?</h2>
+<p>Image compressor is a tool to reduce image file size without significantly reducing quality. All processing is done client-side to maintain privacy.</p>`
     }
   },
   {
+    id: 'qr-code-generator',
+    category: 'developer',
+    name: { id: 'Generator QR Code', en: 'QR Code Generator' },
+    description: { id: 'Buat QR Code dari teks', en: 'Generate QR Code from text' },
+    icon: 'QrCode',
     slug: 'qr-code-generator',
-    category: 'developer',
-    translations: {
-      id: {
-        name: 'Generator QR Code',
-        description: 'Buat QR code dari teks atau URL',
-        metaTitle: 'Generator QR Code Online - Buat QR Code',
-        metaDescription: 'Generator QR code online gratis untuk membuat QR code dari teks, URL, atau data lainnya.',
-        seoTitle: 'Generator QR Code Online',
-        seoDescription: 'Buat QR code dari teks atau URL',
-        articleTitle: 'Cara Menggunakan QR Code',
-        articleContent: 'QR Code atau Quick Response Code adalah kode matriks dua dimensi yang dapat menyimpan berbagai jenis data. Generator QR code membantu Anda membuat QR code dari teks, URL, atau data lainnya. QR code sangat berguna untuk berbagi informasi secara cepat dan mudah, terutama dengan smartphone.'
-      },
-      en: {
-        name: 'QR Code Generator',
-        description: 'Generate QR code from text or URL',
-        metaTitle: 'QR Code Generator Online - Generate QR Code',
-        metaDescription: 'Free online QR code generator to create QR code from text, URL, or other data.',
-        seoTitle: 'Online QR Code Generator',
-        seoDescription: 'Generate QR code from text or URL',
-        articleTitle: 'How to Use QR Codes',
-        articleContent: 'QR Code or Quick Response Code is a two-dimensional matrix code that can store various types of data. QR code generator helps you create QR code from text, URL, or other data. QR codes are very useful for sharing information quickly and easily, especially with smartphones.'
-      }
+    seoTitle: { id: 'Generator QR Code Online - Buat QR Code Gratis', en: 'QR Code Generator Online - Free QR Code Creator' },
+    seoDescription: { id: 'Buat QR code dari teks, URL, atau data apapun secara instan.', en: 'Generate QR codes from text, URL, or any data instantly.' },
+    article: {
+      id: `<h2>Apa itu Generator QR Code?</h2>
+<p>Generator QR Code adalah alat untuk membuat kode QR dari teks atau URL. QR Code dapat dipindai dengan smartphone untuk mengakses informasi dengan cepat.</p>`,
+      en: `<h2>What is QR Code Generator?</h2>
+<p>QR Code Generator is a tool to create QR codes from text or URLs. QR codes can be scanned with smartphones to access information quickly.</p>`
     }
   },
   {
+    id: 'uuid-generator',
+    category: 'developer',
+    name: { id: 'Generator UUID', en: 'UUID Generator' },
+    description: { id: 'Hasilkan UUID unik', en: 'Generate unique UUIDs' },
+    icon: 'Hash',
     slug: 'uuid-generator',
-    category: 'developer',
-    translations: {
-      id: {
-        name: 'Generator UUID',
-        description: 'Buat UUID v4 unik dan acak',
-        metaTitle: 'Generator UUID Online - Buat UUID Unik',
-        metaDescription: 'Generator UUID online gratis untuk membuat UUID v4 yang unik dan acak untuk berbagai keperluan pengembangan.',
-        seoTitle: 'Generator UUID Online',
-        seoDescription: 'Buat UUID unik dan acak',
-        articleTitle: 'Apa itu UUID dan Cara Menggunakannya',
-        articleContent: 'UUID atau Universally Unique Identifier adalah identifikasi unik yang digunakan dalam pengembangan perangkat lunak. UUID v4 adalah yang paling umum digunakan dan dihasilkan secara acak. Generator UUID membantu Anda membuat UUID unik untuk database, session, atau kebutuhan identifikasi lainnya.'
-      },
-      en: {
-        name: 'UUID Generator',
-        description: 'Generate unique and random UUID v4',
-        metaTitle: 'UUID Generator Online - Generate Unique UUID',
-        metaDescription: 'Free online UUID generator to create unique and random UUID v4 for various development needs.',
-        seoTitle: 'Online UUID Generator',
-        seoDescription: 'Generate unique and random UUID',
-        articleTitle: 'What is UUID and How to Use It',
-        articleContent: 'UUID or Universally Unique Identifier is a unique identification used in software development. UUID v4 is the most commonly used and is randomly generated. UUID generator helps you create unique UUIDs for databases, sessions, or other identification needs.'
-      }
+    seoTitle: { id: 'Generator UUID Online - Buat ID Unik', en: 'UUID Generator Online - Create Unique IDs' },
+    seoDescription: { id: 'Hasilkan UUID versi 4 yang unik dan acak untuk berbagai keperluan pengembangan.', en: 'Generate unique and random UUID v4 for various development purposes.' },
+    article: {
+      id: `<h2>Apa itu UUID?</h2>
+<p>UUID (Universally Unique Identifier) adalah standar pengenal unik yang digunakan dalam pengembangan software. Generator UUID membantu membuat ID unik dengan cepat.</p>`,
+      en: `<h2>What is UUID?</h2>
+<p>UUID (Universally Unique Identifier) is a unique identifier standard used in software development. UUID generator helps create unique IDs quickly.</p>`
     }
   },
   {
-    slug: 'json-formatter-validator',
+    id: 'json-formatter',
     category: 'developer',
-    translations: {
-      id: {
-        name: 'JSON Formatter & Validator',
-        description: 'Format dan validasi JSON dengan indentation',
-        metaTitle: 'JSON Formatter & Validator Online',
-        metaDescription: 'JSON formatter dan validator online gratis untuk memformat dan memvalidasi data JSON.',
-        seoTitle: 'JSON Formatter & Validator',
-        seoDescription: 'Format dan validasi JSON online',
-        articleTitle: 'Pentingnya JSON dalam Pengembangan Web',
-        articleContent: 'JSON atau JavaScript Object Notation adalah format data yang ringan dan mudah dibaca. JSON formatter membantu Anda memformat JSON agar lebih rapi dan mudah dibaca, sementara validator memeriksa apakah JSON Anda valid. JSON banyak digunakan dalam API dan pertukaran data antar aplikasi.'
-      },
-      en: {
-        name: 'JSON Formatter & Validator',
-        description: 'Format and validate JSON with indentation',
-        metaTitle: 'JSON Formatter & Validator Online',
-        metaDescription: 'Free online JSON formatter and validator to format and validate JSON data.',
-        seoTitle: 'JSON Formatter & Validator',
-        seoDescription: 'Format and validate JSON online',
-        articleTitle: 'The Importance of JSON in Web Development',
-        articleContent: 'JSON or JavaScript Object Notation is a lightweight and easy-to-read data format. JSON formatter helps you format JSON to be more readable, while validator checks whether your JSON is valid. JSON is widely used in APIs and data exchange between applications.'
-      }
+    name: { id: 'JSON Formatter & Validator', en: 'JSON Formatter & Validator' },
+    description: { id: 'Format dan validasi JSON', en: 'Format and validate JSON' },
+    icon: 'Braces',
+    slug: 'json-formatter',
+    seoTitle: { id: 'JSON Formatter & Validator Online', en: 'JSON Formatter & Validator Online' },
+    seoDescription: { id: 'Format, validasi, dan perbaiki struktur JSON Anda dengan mudah.', en: 'Format, validate, and fix your JSON structure easily.' },
+    article: {
+      id: `<h2>Apa itu JSON Formatter?</h2>
+<p>JSON Formatter adalah alat untuk memformat dan memvalidasi data JSON. Membantu pengembang untuk melihat struktur data dengan lebih jelas dan menemukan kesalahan sintaks.</p>`,
+      en: `<h2>What is JSON Formatter?</h2>
+<p>JSON Formatter is a tool to format and validate JSON data. Helps developers to see data structure more clearly and find syntax errors.</p>`
     }
   },
   {
-    slug: 'base64-encoder-decoder',
+    id: 'base64-encoder',
     category: 'developer',
-    translations: {
-      id: {
-        name: 'Base64 Encoder/Decoder',
-        description: 'Encode dan decode teks menggunakan Base64',
-        metaTitle: 'Base64 Encoder/Decoder Online',
-        metaDescription: 'Base64 encoder dan decoder online gratis untuk encode dan decode teks menggunakan Base64.',
-        seoTitle: 'Base64 Encoder/Decoder',
-        seoDescription: 'Encode dan decode Base64 online',
-        articleTitle: 'Apa itu Base64 dan Fungsinya',
-        articleContent: 'Base64 adalah metode encoding yang mengubah data biner menjadi format teks ASCII. Base64 encoder membantu Anda mengencode data, sementara decoder mengembalikannya ke bentuk asli. Base64 sering digunakan untuk mengirim data biner dalam email atau URL yang hanya menerima teks.'
-      },
-      en: {
-        name: 'Base64 Encoder/Decoder',
-        description: 'Encode and decode text using Base64',
-        metaTitle: 'Base64 Encoder/Decoder Online',
-        metaDescription: 'Free online Base64 encoder and decoder to encode and decode text using Base64.',
-        seoTitle: 'Base64 Encoder/Decoder',
-        seoDescription: 'Encode and decode Base64 online',
-        articleTitle: 'What is Base64 and Its Functions',
-        articleContent: 'Base64 is an encoding method that converts binary data into ASCII text format. Base64 encoder helps you encode data, while decoder returns it to its original form. Base64 is often used to send binary data in email or URLs that only accept text.'
-      }
+    name: { id: 'Base64 Encoder/Decoder', en: 'Base64 Encoder/Decoder' },
+    description: { id: 'Encode dan decode Base64', en: 'Encode and decode Base64' },
+    icon: 'Code',
+    slug: 'base64-encoder',
+    seoTitle: { id: 'Base64 Encoder/Decoder Online - Encode & Decode', en: 'Base64 Encoder/Decoder Online - Encode & Decode' },
+    seoDescription: { id: 'Encode dan decode teks ke format Base64 dengan mudah.', en: 'Encode and decode text to Base64 format easily.' },
+    article: {
+      id: `<h2>Apa itu Base64?</h2>
+<p>Base64 adalah metode encoding yang mengubah data biner menjadi teks ASCII. Berguna untuk mengirim data melalui media yang hanya mendukung teks.</p>`,
+      en: `<h2>What is Base64?</h2>
+<p>Base64 is an encoding method that converts binary data to ASCII text. Useful for sending data through media that only supports text.</p>`
     }
   },
   {
-    slug: 'url-encoder-decoder',
+    id: 'url-encoder',
     category: 'developer',
-    translations: {
-      id: {
-        name: 'URL Encoder/Decoder',
-        description: 'Encode dan decode URL untuk keperluan web',
-        metaTitle: 'URL Encoder/Decoder Online',
-        metaDescription: 'URL encoder dan decoder online gratis untuk encode dan decode URL dan string query.',
-        seoTitle: 'URL Encoder/Decoder',
-        seoDescription: 'Encode dan decode URL online',
-        articleTitle: 'Pentingnya URL Encoding',
-        articleContent: 'URL encoding adalah proses mengubah karakter khusus menjadi format yang aman untuk URL. URL encoder membantu Anda mengencode URL, sementara decoder mengembalikannya ke bentuk asli. URL encoding penting untuk memastikan bahwa URL dapat dikirim dan diproses dengan benar di web.'
-      },
-      en: {
-        name: 'URL Encoder/Decoder',
-        description: 'Encode and decode URLs for web purposes',
-        metaTitle: 'URL Encoder/Decoder Online',
-        metaDescription: 'Free online URL encoder and decoder to encode and decode URLs and query strings.',
-        seoTitle: 'URL Encoder/Decoder',
-        seoDescription: 'Encode and decode URLs online',
-        articleTitle: 'The Importance of URL Encoding',
-        articleContent: 'URL encoding is the process of converting special characters into a safe format for URLs. URL encoder helps you encode URLs, while decoder returns them to their original form. URL encoding is important to ensure that URLs can be sent and processed correctly on the web.'
-      }
+    name: { id: 'URL Encoder/Decoder', en: 'URL Encoder/Decoder' },
+    description: { id: 'Encode dan decode URL', en: 'Encode and decode URLs' },
+    icon: 'Link',
+    slug: 'url-encoder',
+    seoTitle: { id: 'URL Encoder/Decoder Online - Encode URL', en: 'URL Encoder/Decoder Online - Encode URL' },
+    seoDescription: { id: 'Encode dan decode URL dengan aman untuk penggunaan web.', en: 'Encode and decode URLs safely for web use.' },
+    article: {
+      id: `<h2>Apa itu URL Encoder?</h2>
+<p>URL Encoder adalah alat untuk mengubah karakter khusus dalam URL menjadi format yang aman. Penting untuk memastikan URL valid dan kompatibel.</p>`,
+      en: `<h2>What is URL Encoder?</h2>
+<p>URL Encoder is a tool to convert special characters in URLs to a safe format. Important to ensure URLs are valid and compatible.</p>`
     }
   },
   {
+    id: 'color-converter',
+    category: 'developer',
+    name: { id: 'Konverter Warna', en: 'Color Converter' },
+    description: { id: 'Konversi HEX ke RGB/HSL', en: 'Convert HEX to RGB/HSL' },
+    icon: 'Palette',
     slug: 'color-converter',
-    category: 'developer',
-    translations: {
-      id: {
-        name: 'Konverter Warna',
-        description: 'Konversi warna antara HEX, RGB, dan HSL',
-        metaTitle: 'Konverter Warna Online - HEX ke RGB/HSL',
-        metaDescription: 'Konverter warna online gratis untuk mengkonversi warna antara format HEX, RGB, dan HSL dengan preview.',
-        seoTitle: 'Konverter Warna Online',
-        seoDescription: 'Konversi warna antara format',
-        articleTitle: 'Memahami Format Warna Digital',
-        articleContent: 'Konverter warna membantu Anda mengkonversi warna antara berbagai format seperti HEX, RGB, dan HSL. HEX adalah format warna yang sering digunakan di web, RGB adalah model warna digital, dan HSL berdasarkan hue, saturation, dan lightness. Setiap format memiliki kegunaannya masing-masing dalam desain digital.'
-      },
-      en: {
-        name: 'Color Converter',
-        description: 'Convert colors between HEX, RGB, and HSL',
-        metaTitle: 'Color Converter Online - HEX to RGB/HSL',
-        metaDescription: 'Free online color converter to convert colors between HEX, RGB, and HSL formats with preview.',
-        seoTitle: 'Online Color Converter',
-        seoDescription: 'Convert colors between formats',
-        articleTitle: 'Understanding Digital Color Formats',
-        articleContent: 'Color converter helps you convert colors between various formats such as HEX, RGB, and HSL. HEX is a color format often used on the web, RGB is a digital color model, and HSL is based on hue, saturation, and lightness. Each format has its own uses in digital design.'
-      }
+    seoTitle: { id: 'Konverter Warna Online - HEX ke RGB/HSL', en: 'Color Converter Online - HEX to RGB/HSL' },
+    seoDescription: { id: 'Konversi warna antara format HEX, RGB, dan HSL dengan preview warna.', en: 'Convert colors between HEX, RGB, and HSL formats with color preview.' },
+    article: {
+      id: `<h2>Apa itu Konverter Warna?</h2>
+<p>Konverter warna adalah alat untuk mengubah format warna dari HEX ke RGB/HSL dan sebaliknya. Berguna untuk desainer dan pengembang web.</p>`,
+      en: `<h2>What is Color Converter?</h2>
+<p>Color converter is a tool to convert color formats from HEX to RGB/HSL and vice versa. Useful for designers and web developers.</p>`
     }
   },
   {
-    slug: 'hash-generator',
+    id: 'hash-generator',
     category: 'developer',
-    translations: {
-      id: {
-        name: 'Generator Hash',
-        description: 'Buat hash MD5, SHA-1, dan SHA-256',
-        metaTitle: 'Generator Hash Online - MD5/SHA-1/SHA-256',
-        metaDescription: 'Generator hash online gratis untuk membuat hash MD5, SHA-1, dan SHA-256 dari teks.',
-        seoTitle: 'Generator Hash Online',
-        seoDescription: 'Buat hash dari teks',
-        articleTitle: 'Apa itu Hashing dan Kegunaannya',
-        articleContent: 'Hash adalah fungsi yang mengubah input menjadi string karakter dengan panjang tetap. Hash generator membantu Anda membuat hash MD5, SHA-1, atau SHA-256 dari teks. Hashing digunakan untuk verifikasi integritas data, penyimpanan password, dan tanda tangan digital.'
-      },
-      en: {
-        name: 'Hash Generator',
-        description: 'Generate MD5, SHA-1, and SHA-256 hashes',
-        metaTitle: 'Hash Generator Online - MD5/SHA-1/SHA-256',
-        metaDescription: 'Free online hash generator to create MD5, SHA-1, and SHA-256 hashes from text.',
-        seoTitle: 'Online Hash Generator',
-        seoDescription: 'Generate hash from text',
-        articleTitle: 'What is Hashing and Its Uses',
-        articleContent: 'Hash is a function that converts input into a fixed-length string of characters. Hash generator helps you create MD5, SHA-1, or SHA-256 hashes from text. Hashing is used for data integrity verification, password storage, and digital signatures.'
-      }
+    name: { id: 'Generator Hash', en: 'Hash Generator' },
+    description: { id: 'Buat hash MD5/SHA-1/SHA-256', en: 'Generate MD5/SHA-1/SHA-256 hashes' },
+    icon: 'Lock',
+    slug: 'hash-generator',
+    seoTitle: { id: 'Generator Hash Online - MD5, SHA-1, SHA-256', en: 'Hash Generator Online - MD5, SHA-1, SHA-256' },
+    seoDescription: { id: 'Hasilkan hash MD5, SHA-1, dan SHA-256 dari teks atau file.', en: 'Generate MD5, SHA-1, and SHA-256 hashes from text or files.' },
+    article: {
+      id: `<h2>Apa itu Generator Hash?</h2>
+<p>Generator hash adalah alat untuk membuat hash kriptografi dari teks atau data. Berguna untuk verifikasi integritas data dan keamanan.</p>`,
+      en: `<h2>What is Hash Generator?</h2>
+<p>Hash generator is a tool to create cryptographic hashes from text or data. Useful for data integrity verification and security.</p>`
     }
   }
-]
+];
