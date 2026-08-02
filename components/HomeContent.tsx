@@ -48,13 +48,13 @@ export function HomeContent({ tools, dict, lang }: HomeContentProps) {
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setActiveCategory('all')}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               activeCategory === 'all'
                 ? 'bg-indigo-500 text-white'
-                : 'glass glass-hover'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
             {dict.nav.all}
@@ -64,7 +64,7 @@ export function HomeContent({ tools, dict, lang }: HomeContentProps) {
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               activeCategory === 'general'
                 ? 'bg-indigo-500 text-white'
-                : 'glass glass-hover'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
             {dict.nav.general}
@@ -74,22 +74,24 @@ export function HomeContent({ tools, dict, lang }: HomeContentProps) {
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               activeCategory === 'developer'
                 ? 'bg-indigo-500 text-white'
-                : 'glass glass-hover'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
             {dict.nav.developer}
           </button>
         </div>
 
-        <div className="relative">
+        <div className="relative w-full sm:w-64">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+            <Icons.Search className="w-4 h-4 text-gray-400" />
+          </div>
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder={dict.home.search}
-            className="input-field w-full sm:w-64 pl-10"
+            className="w-full px-4 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
           />
-          <Icons.Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
         </div>
       </div>
 
