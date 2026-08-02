@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { BaseTool } from './BaseTool';
-import { Key, Copy, RefreshCw, Shield, Check, Eye, EyeOff } from 'lucide-react';
+import { Key, Copy, RefreshCw, Shield, Check, Eye, EyeOff, Info } from 'lucide-react'; // <-- Tambahkan Info di import
 
 interface PasswordGeneratorProps {
   title: string;
