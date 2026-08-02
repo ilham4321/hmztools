@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BaseTool } from './BaseTool';
-import { Palette, Copy, Check } from 'lucide-react';
+import { Copy, Check } from 'lucide-react';
 
 interface ColorConverterProps {
   title: string;
@@ -65,10 +65,10 @@ export function ColorConverter({ title, description, article, dict }: ColorConve
 
   const handleHexChange = (value: string) => {
     setHex(value);
-    const rgb = hexToRgb(value);
-    if (rgb) {
-      setRgb(rgb);
-      setHsl(rgbToHsl(rgb.r, rgb.g, rgb.b));
+    const rgbResult = hexToRgb(value);
+    if (rgbResult) {
+      setRgb(rgbResult);
+      setHsl(rgbToHsl(rgbResult.r, rgbResult.g, rgbResult.b));
     }
   };
 
@@ -79,12 +79,16 @@ export function ColorConverter({ title, description, article, dict }: ColorConve
     setTimeout(() => setCopied(false), 2000);
   };
 
+  useEffect(() => {
+    handleHexChange('#6366f1');
+  }, []);
+
   return (
     <BaseTool title={title} description={description} article={article}>
       <div className="space-y-6">
         <div className="flex items-center gap-4">
           <div
-            className="w-16 h-16 rounded-xl border border-white/10"
+            className="w-16 h-16 rounded-xl border border-white/10 flex-shrink-0"
             style={{ backgroundColor: hex }}
           />
           <div className="flex-1">

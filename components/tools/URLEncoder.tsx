@@ -66,16 +66,17 @@ export function URLEncoder({ title, description, article, dict }: URLEncoderProp
           </button>
         </div>
 
-        <textarea
+        <input
+          type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={`Masukkan URL untuk di${mode === 'encode' ? 'encode' : 'decode'}...`}
-          className="input-field min-h-[100px] font-mono text-sm"
+          className="input-field font-mono text-sm"
         />
 
         {output && (
           <div className="relative">
-            <pre className="p-4 glass rounded-xl font-mono text-sm overflow-x-auto min-h-[100px]">
+            <pre className="p-4 glass rounded-xl font-mono text-sm overflow-x-auto min-h-[50px]">
               {output}
             </pre>
             <button

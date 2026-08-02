@@ -84,7 +84,7 @@ export function JSONFormatter({ title, description, article, dict }: JSONFormatt
 
         {output && (
           <div className="relative">
-            <pre className="p-4 glass rounded-xl font-mono text-sm overflow-x-auto">
+            <pre className="p-4 glass rounded-xl font-mono text-sm overflow-x-auto max-h-[300px] overflow-y-auto">
               {output}
             </pre>
             <button

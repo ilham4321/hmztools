@@ -56,7 +56,7 @@ export function HashGenerator({ title, description, article, dict }: HashGenerat
         {hashes.md5 && (
           <div className="space-y-3">
             <div className="p-4 glass rounded-xl">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300">MD5</h4>
                 <button
                   onClick={() => copyToClipboard(hashes.md5, 'md5')}
@@ -72,7 +72,7 @@ export function HashGenerator({ title, description, article, dict }: HashGenerat
               <code className="font-mono text-sm break-all">{hashes.md5}</code>
             </div>
             <div className="p-4 glass rounded-xl">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300">SHA-1</h4>
                 <button
                   onClick={() => copyToClipboard(hashes.sha1, 'sha1')}
@@ -88,7 +88,7 @@ export function HashGenerator({ title, description, article, dict }: HashGenerat
               <code className="font-mono text-sm break-all">{hashes.sha1}</code>
             </div>
             <div className="p-4 glass rounded-xl">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300">SHA-256</h4>
                 <button
                   onClick={() => copyToClipboard(hashes.sha256, 'sha256')}

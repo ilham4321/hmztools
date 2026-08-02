@@ -30,7 +30,7 @@ export function Base64Encoder({ title, description, article, dict }: Base64Encod
   };
 
   const copyToClipboard = () => {
-    if (output) {
+    if (output && !output.startsWith('Error')) {
       navigator.clipboard.writeText(output);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -75,19 +75,21 @@ export function Base64Encoder({ title, description, article, dict }: Base64Encod
 
         {output && (
           <div className="relative">
-            <pre className="p-4 glass rounded-xl font-mono text-sm overflow-x-auto min-h-[100px]">
+            <pre className="p-4 glass rounded-xl font-mono text-sm overflow-x-auto min-h-[50px]">
               {output}
             </pre>
-            <button
-              onClick={copyToClipboard}
-              className="absolute top-2 right-2 p-2 glass glass-hover rounded-lg"
-            >
-              {copied ? (
-                <Check className="w-4 h-4 text-green-500" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
-            </button>
+            {!output.startsWith('Error') && (
+              <button
+                onClick={copyToClipboard}
+                className="absolute top-2 right-2 p-2 glass glass-hover rounded-lg"
+              >
+                {copied ? (
+                  <Check className="w-4 h-4 text-green-500" />
+                ) : (
+                  <Copy className="w-4 h-4" />
+                )}
+              </button>
+            )}
           </div>
         )}
       </div>

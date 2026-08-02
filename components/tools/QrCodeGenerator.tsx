@@ -17,12 +17,27 @@ export function QRCodeGenerator({ title, description, article, dict }: QRCodeGen
   const [size, setSize] = useState(200);
 
   const downloadQR = () => {
-    const canvas = document.querySelector('canvas');
-    if (canvas) {
-      const link = document.createElement('a');
-      link.download = 'qrcode.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+    const svgElement = document.querySelector('svg');
+    if (svgElement) {
+      const serializer = new XMLSerializer();
+      const svgString = serializer.serializeToString(svgElement);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+      
+      img.onload = () => {
+        canvas.width = size;
+        canvas.height = size;
+        ctx?.drawImage(img, 0, 0, size, size);
+        const link = document.createElement('a');
+        link.download = 'qrcode.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
     }
   };
 
@@ -52,7 +67,7 @@ export function QRCodeGenerator({ title, description, article, dict }: QRCodeGen
               />
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 items-center">
               <div className="flex items-center gap-2">
                 <label className="text-sm text-gray-600 dark:text-gray-300">
                   Ukuran:
