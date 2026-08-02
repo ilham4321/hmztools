@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { BaseTool } from './BaseTool';
-import { Image, Download, Upload } from 'lucide-react';
+import { Image as ImageIcon, Download, Upload } from 'lucide-react';
 
 interface ImageCompressorProps {
   title: string;
@@ -17,12 +17,13 @@ export function ImageCompressor({ title, description, article, dict }: ImageComp
   const [originalSize, setOriginalSize] = useState(0);
   const [compressedSize, setCompressedSize] = useState(0);
   const [quality, setQuality] = useState(70);
+  const [fileName, setFileName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const compressImage = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
-      const img = new Image();
+      const img = document.createElement('img') as HTMLImageElement;
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -69,6 +70,7 @@ export function ImageCompressor({ title, description, article, dict }: ImageComp
     const file = e.target.files?.[0];
     if (file) {
       setOriginalSize(file.size);
+      setFileName(file.name);
       compressImage(file);
     }
   };
@@ -77,8 +79,22 @@ export function ImageCompressor({ title, description, article, dict }: ImageComp
     if (compressedImage) {
       const link = document.createElement('a');
       link.href = compressedImage;
-      link.download = 'compressed-image.jpg';
+      const nameParts = fileName.split('.');
+      const ext = nameParts.pop();
+      const name = nameParts.join('.');
+      link.download = `${name}-compressed.${ext || 'jpg'}`;
       link.click();
+    }
+  };
+
+  const resetAll = () => {
+    setOriginalImage(null);
+    setCompressedImage(null);
+    setOriginalSize(0);
+    setCompressedSize(0);
+    setFileName('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -91,7 +107,7 @@ export function ImageCompressor({ title, description, article, dict }: ImageComp
             className="btn-primary flex-1"
           >
             <Upload className="w-4 h-4 inline mr-2" />
-            {dict.common.upload}
+            {dict.common.upload || 'Upload Image'}
           </button>
           <input
             ref={fileInputRef}
@@ -100,21 +116,34 @@ export function ImageCompressor({ title, description, article, dict }: ImageComp
             onChange={handleFileUpload}
             className="hidden"
           />
+          {originalImage && (
+            <button onClick={resetAll} className="btn-secondary">
+              Reset
+            </button>
+          )}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Kualitas: {quality}%
-          </label>
+          <div className="flex justify-between">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Kualitas: {quality}%
+            </label>
+            <span className="text-sm text-gray-500">
+              {originalSize > 0 && `${(originalSize / 1024).toFixed(2)} KB`}
+            </span>
+          </div>
           <input
             type="range"
             min="10"
             max="100"
             value={quality}
             onChange={(e) => {
-              setQuality(parseInt(e.target.value));
+              const newQuality = parseInt(e.target.value);
+              setQuality(newQuality);
               if (fileInputRef.current?.files?.[0]) {
-                compressImage(fileInputRef.current.files[0]);
+                const file = fileInputRef.current.files[0];
+                setOriginalSize(file.size);
+                compressImage(file);
               }
             }}
             className="w-full"
@@ -125,22 +154,26 @@ export function ImageCompressor({ title, description, article, dict }: ImageComp
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Original</h4>
-              <img
-                src={originalImage}
-                alt="Original"
-                className="w-full rounded-xl border border-white/10"
-              />
+              <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10">
+                <img
+                  src={originalImage}
+                  alt="Original"
+                  className="w-full h-full object-contain"
+                />
+              </div>
               <p className="text-sm text-gray-500">
                 Size: {(originalSize / 1024).toFixed(2)} KB
               </p>
             </div>
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Compressed</h4>
-              <img
-                src={compressedImage}
-                alt="Compressed"
-                className="w-full rounded-xl border border-white/10"
-              />
+              <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10">
+                <img
+                  src={compressedImage}
+                  alt="Compressed"
+                  className="w-full h-full object-contain"
+                />
+              </div>
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-500">
                   Size: {(compressedSize / 1024).toFixed(2)} KB
@@ -150,6 +183,11 @@ export function ImageCompressor({ title, description, article, dict }: ImageComp
                   {dict.common.download}
                 </button>
               </div>
+              {originalSize > 0 && compressedSize > 0 && (
+                <p className="text-xs text-green-500">
+                  Terkompres: {((1 - compressedSize / originalSize) * 100).toFixed(0)}%
+                </p>
+              )}
             </div>
           </div>
         )}

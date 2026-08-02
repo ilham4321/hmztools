@@ -49,9 +49,9 @@ export function AgeCalculator({ title, description, article, dict }: AgeCalculat
       years,
       months,
       days,
-      hours: totalHours % 24,
-      minutes: totalMinutes % 60,
-      seconds: totalSeconds % 60,
+      hours: Math.floor((now.getTime() - birth.getTime()) / (1000 * 60 * 60)) % 24,
+      minutes: Math.floor((now.getTime() - birth.getTime()) / (1000 * 60)) % 60,
+      seconds: Math.floor((now.getTime() - birth.getTime()) / 1000) % 60,
     });
   };
 

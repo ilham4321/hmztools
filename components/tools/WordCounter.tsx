@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BaseTool } from './BaseTool';
-import { Type } from 'lucide-react';
 
 interface WordCounterProps {
   title: string;
@@ -21,7 +20,7 @@ export function WordCounter({ title, description, article, dict }: WordCounterPr
     paragraphs: 0,
   });
 
-  const countStats = () => {
+  useEffect(() => {
     const words = text.trim() ? text.trim().split(/\s+/).length : 0;
     const characters = text.length;
     const charactersNoSpace = text.replace(/\s/g, '').length;
@@ -29,17 +28,14 @@ export function WordCounter({ title, description, article, dict }: WordCounterPr
     const paragraphs = text ? text.split(/\n\s*\n/).filter(p => p.trim()).length : 0;
 
     setStats({ words, characters, charactersNoSpace, sentences, paragraphs });
-  };
+  }, [text]);
 
   return (
     <BaseTool title={title} description={description} article={article}>
       <div className="space-y-6">
         <textarea
           value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-            countStats();
-          }}
+          onChange={(e) => setText(e.target.value)}
           placeholder="Masukkan teks di sini..."
           className="input-field min-h-[200px] resize-y"
         />
