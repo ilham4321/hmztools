@@ -25,13 +25,36 @@ export default async function HomePage({ params }: { params: { lang: string } })
   const dict = await getDictionary(params.lang as Locale);
   const { toolsData } = await import('@/data/tools');
 
+  // JSON-LD Schema for Website
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'HmzTools',
+    description: dict.metadata.description,
+    url: `https://hmztools.web.id/${params.lang}`,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `https://hmztools.web.id/${params.lang}/?search={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
-    <ClientLayout params={params}>
-      <Header lang={params.lang as Locale} />
-      <main className="min-h-screen pt-16">
-        <HomeContent tools={toolsData} dict={dict} lang={params.lang as Locale} />
-      </main>
-      <Footer lang={params.lang as Locale} />
-    </ClientLayout>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ClientLayout params={params}>
+        <Header lang={params.lang as Locale} />
+        <main className="min-h-screen pt-16">
+          <HomeContent tools={toolsData} dict={dict} lang={params.lang as Locale} />
+        </main>
+        <Footer lang={params.lang as Locale} />
+      </ClientLayout>
+    </>
   );
 }

@@ -2,12 +2,20 @@ import { Providers } from '@/app/providers';
 import { getDictionary, type Locale } from '@/lib/i18n/dictionary';
 import { Inter } from 'next/font/google';
 import '@/styles/globals.css';
+import { Metadata } from 'next';
 
 const inter = Inter({ 
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
 });
+
+// Google Search Console Verification
+export const metadata: Metadata = {
+  verification: {
+    google: 'GANTI_DENGAN_KODE_VERIFIKASI_ANDa', // Ganti dengan kode dari Google Search Console
+  },
+};
 
 export async function generateMetadata({ params }: { params: { lang: string } }) {
   const dict = await getDictionary(params.lang as Locale);

@@ -69,21 +69,48 @@ export default async function ToolPage({ params }: { params: { lang: string; slu
     notFound();
   }
 
+  // JSON-LD Schema for WebApplication
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: toolData.name,
+    description: toolData.description,
+    url: `https://hmztools.web.id/${params.lang}/${tool.slug}`,
+    applicationCategory: 'Utility',
+    operatingSystem: 'All',
+    browserRequirements: 'Requires JavaScript',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    author: {
+      '@type': 'Person',
+      name: 'HamzzDev',
+    },
+  };
+
   return (
-    <ClientLayout params={params}>
-      <Header lang={params.lang as Locale} />
-      <main className="min-h-screen pt-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <ToolFactory
-            toolId={tool.id}
-            title={toolData.name}
-            description={toolData.description}
-            article={toolData.article}
-            dict={dict}
-          />
-        </div>
-      </main>
-      <Footer lang={params.lang as Locale} />
-    </ClientLayout>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ClientLayout params={params}>
+        <Header lang={params.lang as Locale} />
+        <main className="min-h-screen pt-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <ToolFactory
+              toolId={tool.id}
+              title={toolData.name}
+              description={toolData.description}
+              article={toolData.article}
+              dict={dict}
+            />
+          </div>
+        </main>
+        <Footer lang={params.lang as Locale} />
+      </ClientLayout>
+    </>
   );
 }
