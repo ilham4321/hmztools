@@ -51,6 +51,84 @@ export const toolsData: Tool[] = [
     }
   },
   {
+  id: 'code-editor',
+  category: 'developer',
+  name: { 
+    id: 'Code Editor Multi-Bahasa', 
+    en: 'Multi-Language Code Editor' 
+  },
+  description: { 
+    id: 'Edit HTML, CSS, JS, Python, Java, C++, PHP, Go, Rust, TypeScript', 
+    en: 'Edit HTML, CSS, JS, Python, Java, C++, PHP, Go, Rust, TypeScript' 
+  },
+  icon: 'Code',
+  slug: 'code-editor',
+  seoTitle: { 
+    id: 'Code Editor Online - Multi Bahasa Pemrograman', 
+    en: 'Online Code Editor - Multi Programming Languages' 
+  },
+  seoDescription: { 
+    id: 'Editor kode online dengan syntax highlighting untuk 10 bahasa pemrograman.', 
+    en: 'Online code editor with syntax highlighting for 10 programming languages.' 
+  },
+  article: {
+    id: `<h2>Apa itu Code Editor Multi-Bahasa?</h2>
+<p>Code Editor adalah alat untuk menulis dan mengedit kode dalam berbagai bahasa pemrograman dengan fitur syntax highlighting dan live preview.</p>
+<h3>Bahasa yang Didukung</h3>
+<ul>
+  <li><strong>HTML</strong> - HyperText Markup Language</li>
+  <li><strong>CSS</strong> - Cascading Style Sheets</li>
+  <li><strong>JavaScript</strong> - Bahasa pemrograman web</li>
+  <li><strong>TypeScript</strong> - JavaScript dengan tipe</li>
+  <li><strong>Python</strong> - Bahasa pemrograman serbaguna</li>
+  <li><strong>Java</strong> - Bahasa pemrograman enterprise</li>
+  <li><strong>C++</strong> - Bahasa pemrograman sistem</li>
+  <li><strong>PHP</strong> - Bahasa pemrograman web server</li>
+  <li><strong>Go</strong> - Bahasa pemrograman Google</li>
+  <li><strong>Rust</strong> - Bahasa pemrograman sistem yang aman</li>
+</ul>
+<h3>Fitur Code Editor</h3>
+<ul>
+  <li><strong>Syntax Highlighting:</strong> Warna kode sesuai bahasa</li>
+  <li><strong>Live Preview:</strong> Untuk HTML, CSS, dan JavaScript</li>
+  <li><strong>Multi-Language:</strong> 10 bahasa pemrograman</li>
+  <li><strong>Download:</strong> Download kode dengan ekstensi yang sesuai</li>
+  <li><strong>Upload:</strong> Upload file kode</li>
+  <li><strong>Line Numbers:</strong> Tampilkan nomor baris</li>
+  <li><strong>Word Wrap:</strong> Membungkus teks panjang</li>
+  <li><strong>Font Size:</strong> Atur ukuran font</li>
+  <li><strong>Fullscreen:</strong> Mode layar penuh</li>
+</ul>`,
+    en: `<h2>What is Multi-Language Code Editor?</h2>
+<p>Code Editor is a tool for writing and editing code in various programming languages with syntax highlighting and live preview features.</p>
+<h3>Supported Languages</h3>
+<ul>
+  <li><strong>HTML</strong> - HyperText Markup Language</li>
+  <li><strong>CSS</strong> - Cascading Style Sheets</li>
+  <li><strong>JavaScript</strong> - Web programming language</li>
+  <li><strong>TypeScript</strong> - JavaScript with types</li>
+  <li><strong>Python</strong> - Versatile programming language</li>
+  <li><strong>Java</strong> - Enterprise programming language</li>
+  <li><strong>C++</strong> - System programming language</li>
+  <li><strong>PHP</strong> - Server-side web language</li>
+  <li><strong>Go</strong> - Google's programming language</li>
+  <li><strong>Rust</strong> - Safe systems programming</li>
+</ul>
+<h3>Code Editor Features</h3>
+<ul>
+  <li><strong>Syntax Highlighting:</strong> Color coding per language</li>
+  <li><strong>Live Preview:</strong> For HTML, CSS, and JavaScript</li>
+  <li><strong>Multi-Language:</strong> 10 programming languages</li>
+  <li><strong>Download:</strong> Download code with proper extension</li>
+  <li><strong>Upload:</strong> Upload code files</li>
+  <li><strong>Line Numbers:</strong> Show line numbers</li>
+  <li><strong>Word Wrap:</strong> Wrap long lines</li>
+  <li><strong>Font Size:</strong> Adjust font size</li>
+  <li><strong>Fullscreen:</strong> Fullscreen mode</li>
+</ul>`
+  }
+  },
+  {
     id: 'discount-calculator',
     category: 'general',
     name: { id: 'Kalkulator Diskon', en: 'Discount Calculator' },
