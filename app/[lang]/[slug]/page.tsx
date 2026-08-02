@@ -22,6 +22,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
+// HANYA generateMetadata, TANPA metadata static
 export async function generateMetadata({ params }: { params: { lang: string; slug: string } }) {
   const dict = await getDictionary(params.lang as Locale);
   const tool = toolsData.find(t => t.slug === params.slug);

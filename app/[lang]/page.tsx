@@ -4,6 +4,7 @@ import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
 import { HomeContent } from '@/components/HomeContent';
 
+// HANYA generateMetadata, TANPA metadata static
 export async function generateMetadata({ params }: { params: { lang: string } }) {
   const dict = await getDictionary(params.lang as Locale);
   return {
