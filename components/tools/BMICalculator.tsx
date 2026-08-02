@@ -66,13 +66,15 @@ export function BMICalculator({ title, description, article, dict }: BMICalculat
               Tinggi Badan (cm)
             </label>
             <div className="relative">
-              <Ruler className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                <Ruler className="w-4 h-4 text-gray-400" />
+              </div>
               <input
                 type="number"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
                 placeholder="Contoh: 170"
-                className="input-field pl-10"
+                className="w-full px-4 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 min="50"
                 max="250"
               />
@@ -83,13 +85,15 @@ export function BMICalculator({ title, description, article, dict }: BMICalculat
               Berat Badan (kg)
             </label>
             <div className="relative">
-              <Weight className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                <Weight className="w-4 h-4 text-gray-400" />
+              </div>
               <input
                 type="number"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 placeholder="Contoh: 70"
-                className="input-field pl-10"
+                className="w-full px-4 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 min="10"
                 max="300"
               />
