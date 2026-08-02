@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import * as Icons from 'lucide-react';
 import { Tool } from '@/data/tools';
@@ -15,11 +15,21 @@ interface HomeContentProps {
 export function HomeContent({ tools, dict, lang }: HomeContentProps) {
   const [activeCategory, setActiveCategory] = useState<'all' | 'general' | 'developer'>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [showBookmarks, setShowBookmarks] = useState(false);
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem('hmztools_bookmarks') || '[]');
+    setBookmarks(saved);
+  }, []);
 
   const filteredTools = useMemo(() => {
     let filtered = tools;
     if (activeCategory !== 'all') {
       filtered = filtered.filter(tool => tool.category === activeCategory);
+    }
+    if (showBookmarks) {
+      filtered = filtered.filter(tool => bookmarks.includes(tool.name[lang]));
     }
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
@@ -29,7 +39,7 @@ export function HomeContent({ tools, dict, lang }: HomeContentProps) {
       );
     }
     return filtered;
-  }, [tools, activeCategory, searchTerm, lang]);
+  }, [tools, activeCategory, searchTerm, lang, bookmarks, showBookmarks]);
 
   const getIcon = (iconName: string) => {
     const Icon = (Icons as any)[iconName];
@@ -51,9 +61,9 @@ export function HomeContent({ tools, dict, lang }: HomeContentProps) {
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setActiveCategory('all')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               activeCategory === 'all'
-                ? 'bg-indigo-500 text-white'
+                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
@@ -61,9 +71,9 @@ export function HomeContent({ tools, dict, lang }: HomeContentProps) {
           </button>
           <button
             onClick={() => setActiveCategory('general')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               activeCategory === 'general'
-                ? 'bg-indigo-500 text-white'
+                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
@@ -71,13 +81,24 @@ export function HomeContent({ tools, dict, lang }: HomeContentProps) {
           </button>
           <button
             onClick={() => setActiveCategory('developer')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               activeCategory === 'developer'
-                ? 'bg-indigo-500 text-white'
+                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
             {dict.nav.developer}
+          </button>
+          <button
+            onClick={() => setShowBookmarks(!showBookmarks)}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+              showBookmarks
+                ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+            }`}
+          >
+            <Icons.Bookmark className="w-4 h-4 inline mr-1" />
+            Bookmark {bookmarks.length > 0 && `(${bookmarks.length})`}
           </button>
         </div>
 
@@ -90,36 +111,45 @@ export function HomeContent({ tools, dict, lang }: HomeContentProps) {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder={dict.home.search}
-            className="w-full px-4 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+            className="w-full px-4 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
       </div>
 
       {filteredTools.length === 0 ? (
         <div className="text-center py-12">
+          <Icons.Inbox className="w-12 h-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-500 dark:text-gray-400">{dict.home.noResults}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredTools.map((tool) => (
-            <Link
-              key={tool.id}
-              href={`/${lang}/${tool.slug}`}
-              className="card-glass group"
-            >
-              <div className="flex flex-col items-center text-center p-4">
-                <div className="p-3 rounded-xl bg-indigo-500/10 dark:bg-indigo-500/20 mb-4 group-hover:scale-110 transition-transform">
-                  {getIcon(tool.icon)}
+          {filteredTools.map((tool) => {
+            const isBookmarked = bookmarks.includes(tool.name[lang]);
+            return (
+              <Link
+                key={tool.id}
+                href={`/${lang}/${tool.slug}`}
+                className="card-glass group relative"
+              >
+                {isBookmarked && (
+                  <div className="absolute top-3 right-3">
+                    <Icons.BookmarkCheck className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                  </div>
+                )}
+                <div className="flex flex-col items-center text-center p-4">
+                  <div className="p-3 rounded-xl bg-indigo-500/10 dark:bg-indigo-500/20 mb-4 group-hover:scale-110 transition-transform">
+                    {getIcon(tool.icon)}
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-indigo-500 transition-colors">
+                    {tool.name[lang]}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {tool.description[lang]}
+                  </p>
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-indigo-500 transition-colors">
-                  {tool.name[lang]}
-                </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {tool.description[lang]}
-                </p>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>
