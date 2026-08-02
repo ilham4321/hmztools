@@ -11,6 +11,7 @@ interface DiscountCalculatorProps {
   dict: any;
 }
 
+// Tambahkan discountPercentage ke interface HistoryItem
 interface HistoryItem {
   id: string;
   originalPrice: number;
@@ -18,6 +19,7 @@ interface HistoryItem {
   discountType: 'percentage' | 'nominal';
   finalPrice: number;
   discountAmount: number;
+  discountPercentage: number; // <-- Tambahkan ini
   date: string;
 }
 
