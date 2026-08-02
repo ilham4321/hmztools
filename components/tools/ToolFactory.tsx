@@ -16,6 +16,7 @@ import { Base64Encoder } from './Base64Encoder';
 import { URLEncoder } from './URLEncoder';
 import { ColorConverter } from './ColorConverter';
 import { HashGenerator } from './HashGenerator';
+import { CodeEditor } from './CodeEditor';
 
 interface ToolFactoryProps {
   toolId: string;
@@ -26,6 +27,7 @@ interface ToolFactoryProps {
 }
 
 export function ToolFactory({ toolId, title, description, article, dict }: ToolFactoryProps) {
+  // Mapping semua tool dengan ID yang sama dengan slug di data/tools.ts
   const tools: { [key: string]: ReactNode } = {
     'age-calculator': <AgeCalculator title={title} description={description} article={article} dict={dict} />,
     'discount-calculator': <DiscountCalculator title={title} description={description} article={article} dict={dict} />,
@@ -42,7 +44,29 @@ export function ToolFactory({ toolId, title, description, article, dict }: ToolF
     'url-encoder': <URLEncoder title={title} description={description} article={article} dict={dict} />,
     'color-converter': <ColorConverter title={title} description={description} article={article} dict={dict} />,
     'hash-generator': <HashGenerator title={title} description={description} article={article} dict={dict} />,
+    'code-editor': <CodeEditor title={title} description={description} article={article} dict={dict} />,
   };
 
-  return tools[toolId] || <div>Tool not found</div>;
+  const toolComponent = tools[toolId];
+  
+  if (!toolComponent) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-8 text-center">
+        <div className="card-glass p-8">
+          <h2 className="text-2xl font-bold text-red-500 mb-4">Tool Not Found</h2>
+          <p className="text-gray-600 dark:text-gray-300">
+            Maaf, tool yang Anda cari tidak ditemukan. Silakan kembali ke halaman utama.
+          </p>
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="btn-primary mt-4"
+          >
+            Kembali ke Home
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return toolComponent;
 }
