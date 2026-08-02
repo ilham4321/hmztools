@@ -75,7 +75,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang={params.lang} suppressHydrationWarning>
-      <body className={`${inter.variable} antialiased bg-gray-50 dark:bg-gray-950 min-h-screen`}>
+      <body className={`${inter.variable} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

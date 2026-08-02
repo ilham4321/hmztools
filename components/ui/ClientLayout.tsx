@@ -9,7 +9,7 @@ interface ClientLayoutProps {
 
 export function ClientLayout({ children, params }: ClientLayoutProps) {
   return (
-    <main className="min-h-screen pt-16">
+    <main className="min-h-screen pt-16 bg-gray-50 dark:bg-gray-950">
       {children}
     </main>
   );

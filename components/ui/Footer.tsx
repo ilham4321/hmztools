@@ -19,7 +19,7 @@ export function Footer({ lang }: FooterProps) {
   if (!dict) return null;
 
   return (
-    <footer className="mt-20 glass border-t border-white/10 dark:border-gray-700/20">
+    <footer className="mt-20 glass border-t border-white/20 dark:border-gray-700/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-4">
@@ -76,7 +76,7 @@ export function Footer({ lang }: FooterProps) {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-white/10 dark:border-gray-700/20 text-center">
+        <div className="mt-8 pt-8 border-t border-white/20 dark:border-gray-700/30 text-center">
           <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center justify-center gap-1">
             {lang === 'id' ? 'Dibuat dengan' : 'Made with'}
             <Heart className="w-4 h-4 text-red-500 fill-red-500" />
