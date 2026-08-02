@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { BaseTool } from './BaseTool';
-import { Dice } from 'lucide-react';
+import { Dice1 } from 'lucide-react';
 
 interface RandomNumberGeneratorProps {
   title: string;
@@ -66,7 +66,7 @@ export function RandomNumberGenerator({ title, description, article, dict }: Ran
         </div>
 
         <button onClick={generateNumbers} className="btn-primary">
-          <Dice className="w-4 h-4 inline mr-2" />
+          <Dice1 className="w-4 h-4 inline mr-2" />
           {dict.common.generate}
         </button>
 

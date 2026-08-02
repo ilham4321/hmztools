@@ -52,7 +52,7 @@ export function PasswordGenerator({ title, description, article, dict }: Passwor
   return (
     <BaseTool title={title} description={description} article={article}>
       <div className="space-y-6">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center gap-4">
           <input
             type="text"
             value={password}
@@ -60,17 +60,19 @@ export function PasswordGenerator({ title, description, article, dict }: Passwor
             placeholder="Klik Generate untuk membuat password"
             className="input-field flex-1 font-mono"
           />
-          <button
-            onClick={copyToClipboard}
-            className="p-3 glass glass-hover rounded-xl"
-            disabled={!password}
-          >
-            <Copy className="w-5 h-5" />
-          </button>
-          <button onClick={generatePassword} className="btn-primary">
-            <RefreshCw className="w-4 h-4 inline mr-2" />
-            {dict.common.generate}
-          </button>
+          <div className="flex gap-2 w-full sm:w-auto">
+            <button
+              onClick={copyToClipboard}
+              className="p-3 glass glass-hover rounded-xl flex-1 sm:flex-none"
+              disabled={!password}
+            >
+              <Copy className="w-5 h-5" />
+            </button>
+            <button onClick={generatePassword} className="btn-primary flex-1 sm:flex-none">
+              <RefreshCw className="w-4 h-4 inline mr-2" />
+              {dict.common.generate}
+            </button>
+          </div>
         </div>
 
         {copied && (

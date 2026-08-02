@@ -18,6 +18,7 @@ export function BMICalculator({ title, description, article, dict }: BMICalculat
     bmi: number;
     category: string;
     color: string;
+    message: string;
   }>(null);
 
   const calculateBMI = () => {
@@ -28,25 +29,31 @@ export function BMICalculator({ title, description, article, dict }: BMICalculat
     const bmi = w / (h * h);
     let category: string;
     let color: string;
+    let message: string;
 
     if (bmi < 18.5) {
       category = 'Kurus';
       color = 'text-yellow-500';
+      message = 'Kekurangan berat badan';
     } else if (bmi < 25) {
       category = 'Normal';
       color = 'text-green-500';
+      message = 'Berat badan ideal';
     } else if (bmi < 30) {
       category = 'Gemuk';
       color = 'text-orange-500';
+      message = 'Kelebihan berat badan';
     } else {
       category = 'Obesitas';
       color = 'text-red-500';
+      message = 'Obesitas';
     }
 
     setResult({
       bmi: Math.round(bmi * 100) / 100,
       category,
       color,
+      message,
     });
   };
 
@@ -102,11 +109,8 @@ export function BMICalculator({ title, description, article, dict }: BMICalculat
             <div className={`text-2xl font-bold ${result.color}`}>
               {result.category}
             </div>
-            <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-              {result.bmi < 18.5 && 'Kekurangan berat badan'}
-              {result.bmi >= 18.5 && result.bmi < 25 && 'Berat badan ideal'}
-              {result.bmi >= 25 && result.bmi < 30 && 'Kelebihan berat badan'}
-              {result.bmi >= 30 && 'Obesitas'}
+            <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              {result.message}
             </div>
           </div>
         )}
