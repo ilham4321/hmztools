@@ -15,7 +15,6 @@ import {
   Minimize2,
   RefreshCw,
   Play,
-  Save,
   FileCode,
   FileText,
   FileJson,
@@ -197,18 +196,15 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // List of users
         List<Map<String, Object>> users = new ArrayList<>();
         users.add(Map.of("name", "Alice", "age", 25));
         users.add(Map.of("name", "Bob", "age", 30));
         users.add(Map.of("name", "Charlie", "age", 35));
 
-        // Filter users older than 28
         List<Map<String, Object>> olderUsers = users.stream()
             .filter(u -> (int) u.get("age") > 28)
             .collect(Collectors.toList());
 
-        // Get names
         List<String> names = users.stream()
             .map(u -> (String) u.get("name"))
             .collect(Collectors.toList());
@@ -217,7 +213,6 @@ public class Main {
         System.out.println("Older users: " + olderUsers);
         System.out.println("Names: " + names);
 
-        // Lambda example
         Runnable runnable = () -> {
             System.out.println("Running in lambda!");
         };
@@ -243,7 +238,6 @@ string greet(const string& name) {
     return "Hello, " + name + "! 🚀";
 }
 
-// User struct
 struct User {
     string name;
     int age;
@@ -254,19 +248,16 @@ struct User {
 };
 
 int main() {
-    // Vector of users
     vector<User> users = {
         {"Alice", 25},
         {"Bob", 30},
         {"Charlie", 35}
     };
 
-    // Filter users older than 28
     vector<User> olderUsers;
     copy_if(users.begin(), users.end(), back_inserter(olderUsers), 
         [](const User& u) { return u.age > 28; });
 
-    // Get names
     vector<string> names;
     transform(users.begin(), users.end(), back_inserter(names),
         [](const User& u) { return u.name; });
@@ -278,7 +269,6 @@ int main() {
         cout << user.getInfo() << endl;
     }
 
-    // Lambda example
     auto lambda = []() {
         cout << "Running in lambda!" << endl;
     };
@@ -294,13 +284,10 @@ int main() {
     icon: Terminal,
     color: '#777bb3',
     sample: `<?php
-// PHP Sample
-
 function greet($name) {
     return "Hello, $name! 🚀";
 }
 
-// User class
 class User {
     public $name;
     public $age;
@@ -315,34 +302,28 @@ class User {
     }
 }
 
-// Array of users
 $users = [
     ["name" => "Alice", "age" => 25],
     ["name" => "Bob", "age" => 30],
     ["name" => "Charlie", "age" => 35]
 ];
 
-// Filter users older than 28
 $olderUsers = array_filter($users, function($user) {
     return $user["age"] > 28;
 });
 
-// Get names
 $names = array_column($users, "name");
 
 echo greet("World") . "\n";
 echo "Older users: " . print_r($olderUsers, true) . "\n";
 echo "Names: " . implode(", ", $names) . "\n";
 
-// Object example
 $user = new User("John", 28);
 echo $user->getInfo() . "\n";
 
-// Arrow function (PHP 7.4+)
 $multiply = fn($x, $y) => $x * $y;
 echo "5 * 3 = " . $multiply(5, 3) . "\n";
-?>
-`
+?>`
   },
   {
     id: 'go',
@@ -358,12 +339,10 @@ import (
     "strings"
 )
 
-// Greet function
 func greet(name string) string {
     return fmt.Sprintf("Hello, %s! 🚀", name)
 }
 
-// User struct
 type User struct {
     Name string
     Age  int
@@ -374,14 +353,12 @@ func (u User) GetInfo() string {
 }
 
 func main() {
-    // Slice of users
     users := []User{
         {"Alice", 25},
         {"Bob", 30},
         {"Charlie", 35},
     }
 
-    // Filter users older than 28
     var olderUsers []User
     for _, user := range users {
         if user.Age > 28 {
@@ -389,7 +366,6 @@ func main() {
         }
     }
 
-    // Get names
     var names []string
     for _, user := range users {
         names = append(names, user.Name)
@@ -399,14 +375,12 @@ func main() {
     fmt.Printf("Older users count: %d\n", len(olderUsers))
     fmt.Printf("Names: %s\n", strings.Join(names, ", "))
 
-    // Go routine example
     ch := make(chan string)
     go func() {
         ch <- "Hello from goroutine!"
     }()
     fmt.Println(<-ch)
 
-    // Defer example
     defer fmt.Println("Deferred message")
     fmt.Println("Main message")
 }`
@@ -420,12 +394,10 @@ func main() {
     sample: `// Rust Sample
 use std::collections::HashMap;
 
-// Greet function
 fn greet(name: &str) -> String {
     format!("Hello, {}! 🚀", name)
 }
 
-// User struct
 #[derive(Debug, Clone)]
 struct User {
     name: String,
@@ -439,21 +411,18 @@ impl User {
 }
 
 fn main() {
-    // Vector of users
     let mut users = vec![
         User { name: String::from("Alice"), age: 25 },
         User { name: String::from("Bob"), age: 30 },
         User { name: String::from("Charlie"), age: 35 },
     ];
 
-    // Filter users older than 28
     let older_users: Vec<User> = users
         .iter()
         .filter(|u| u.age > 28)
         .cloned()
         .collect();
 
-    // Get names
     let names: Vec<String> = users
         .iter()
         .map(|u| u.name.clone())
@@ -463,7 +432,6 @@ fn main() {
     println!("Older users count: {}", older_users.len());
     println!("Names: {:?}", names);
 
-    // HashMap example
     let mut scores = HashMap::new();
     scores.insert(String::from("Alice"), 100);
     scores.insert(String::from("Bob"), 85);
@@ -472,11 +440,9 @@ fn main() {
         println!("{}: {}", name, score);
     }
 
-    // Closure example
     let multiply = |x: i32, y: i32| x * y;
     println!("5 * 3 = {}", multiply(5, 3));
 
-    // Match example
     let number = 7;
     match number {
         1 => println!("One"),
@@ -527,19 +493,16 @@ class UserService {
   }
 }
 
-// Generic function
 function wrapInArray<T>(value: T): T[] {
   return [value];
 }
 
-// Async/await
 async function fetchData(): Promise<{ data: any }> {
   const response = await fetch('https://api.example.com/data');
   const data = await response.json();
   return data;
 }
 
-// Usage
 const service = new UserService();
 service.addUser({ name: 'Alice', age: 25 });
 service.addUser({ name: 'Bob', age: 30 });
@@ -550,7 +513,6 @@ console.log('Users older than 28:', service.getUsersOlderThan(28));
 console.log('Names:', service.getNames());
 console.log('Wrap in array:', wrapInArray('Hello'));
 
-// Type guard
 function isString(value: any): value is string {
   return typeof value === 'string';
 }
@@ -565,9 +527,8 @@ if (isString(testValue)) {
 export function CodeEditor({ title, description, article, dict }: CodeEditorProps) {
   const [currentLanguage, setCurrentLanguage] = useState<Language>(languages[0]);
   const [code, setCode] = useState(languages[0].sample);
-  const [output, setOutput] = useState('');
   const [showPreview, setShowPreview] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isPreviewFullscreen, setIsPreviewFullscreen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [lineNumbers, setLineNumbers] = useState(true);
   const [wordWrap, setWordWrap] = useState(true);
@@ -579,11 +540,16 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
   // Update code when language changes
   useEffect(() => {
     setCode(currentLanguage.sample);
-    setOutput('');
     setError('');
   }, [currentLanguage]);
 
-  // Run code (only for HTML/CSS/JS)
+  // Cleanup scroll lock
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const runCode = () => {
     if (currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') {
       try {
@@ -633,7 +599,6 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
         document.getElementById('output').innerHTML = '<strong>Error:</strong><br>' + e.message;
       }
     }
-    // Auto run
     try {
       const result = (function() {
         ${code}
@@ -641,9 +606,7 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
       if (document.getElementById('output')) {
         document.getElementById('output').innerHTML = '<strong>Result:</strong><br>' + JSON.stringify(result, null, 2);
       }
-    } catch(e) {
-      // Silent fail for auto run
-    }
+    } catch(e) {}
   <\/script>
 </body>
 </html>`;
@@ -658,7 +621,6 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
         setError('Error: ' + (e as Error).message);
       }
     } else {
-      setOutput(code);
       setError('Preview hanya tersedia untuk HTML, CSS, dan JavaScript');
     }
   };
@@ -686,7 +648,6 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
       reader.onload = (event) => {
         const content = event.target?.result as string;
         setCode(content);
-        setOutput('');
         setError('');
       };
       reader.readAsText(file);
@@ -695,181 +656,56 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
 
   const clearAll = () => {
     setCode('');
-    setOutput('');
     setError('');
   };
 
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
-    // Lock scroll when fullscreen
-    if (!isFullscreen) {
+  const togglePreviewFullscreen = () => {
+    setIsPreviewFullscreen(!isPreviewFullscreen);
+    if (!isPreviewFullscreen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
   };
 
-  const getLineCount = () => {
-    return code.split('\n').length;
-  };
+  const getLineCount = () => code.split('\n').length;
+  const getCharacterCount = () => code.length;
 
-  const getCharacterCount = () => {
-    return code.length;
-  };
-
-  // If fullscreen, render without BaseTool wrapper
-  if (isFullscreen) {
+  // Render preview fullscreen overlay
+  if (isPreviewFullscreen) {
     return (
-      <div className="fixed inset-0 z-50 bg-gray-900 dark:bg-gray-950 overflow-hidden">
-        {/* Fullscreen Toolbar */}
-        <div className="flex flex-wrap items-center gap-2 p-3 bg-gray-800 dark:bg-gray-900 border-b border-gray-700">
-          <button
-            onClick={toggleFullscreen}
-            className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          
-          <span className="text-white font-medium text-sm ml-2">
-            {currentLanguage.name}
-          </span>
-          
-          <span 
-            className="px-2 py-0.5 rounded-full text-xs font-medium text-white"
-            style={{ backgroundColor: currentLanguage.color }}
-          >
-            .{currentLanguage.extension}
-          </span>
-
-          <div className="flex-1"></div>
-
-          {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') && (
-            <button onClick={runCode} className="px-3 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm transition-colors">
-              <Play className="w-4 h-4 inline mr-1" />
-              Run
-            </button>
-          )}
-
-          <button
-            onClick={() => setShowPreview(!showPreview)}
-            className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors"
-          >
-            {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          </button>
-
-          <button onClick={copyToClipboard} className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors">
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-          </button>
-
-          <button onClick={downloadCode} className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors">
-            <Download className="w-4 h-4" />
-          </button>
+      <div className="fixed inset-0 z-50 bg-gray-900 dark:bg-gray-950">
+        {/* Close button */}
+        <button
+          onClick={togglePreviewFullscreen}
+          className="absolute top-4 right-4 p-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-white z-10 transition-colors"
+          aria-label="Close fullscreen preview"
+        >
+          <X className="w-6 h-6" />
+        </button>
+        {/* Preview */}
+        <div className="w-full h-full bg-white dark:bg-gray-900">
+          <iframe
+            ref={iframeRef}
+            className="w-full h-full"
+            title="Live Preview Fullscreen"
+            sandbox="allow-scripts allow-modals allow-same-origin"
+          />
         </div>
-
-        {/* Editor & Preview */}
-        <div className={`flex h-[calc(100vh-60px)] ${showPreview ? 'flex-col lg:flex-row' : 'flex-col'}`}>
-          {/* Editor */}
-          <div className={`flex-1 ${showPreview ? 'lg:w-1/2' : 'w-full'} flex flex-col`}>
-            <div className="flex items-center justify-between px-4 py-1 bg-gray-800/50 border-b border-gray-700 text-xs text-gray-400">
-              <span>
-                {getLineCount()} lines • {getCharacterCount()} chars
-              </span>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setLineNumbers(!lineNumbers)}
-                  className={`px-2 py-0.5 rounded text-xs transition-colors ${
-                    lineNumbers ? 'bg-indigo-500/50 text-white' : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Lines
-                </button>
-                <button
-                  onClick={() => setWordWrap(!wordWrap)}
-                  className={`px-2 py-0.5 rounded text-xs transition-colors ${
-                    wordWrap ? 'bg-indigo-500/50 text-white' : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Wrap
-                </button>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => setFontSize(Math.max(10, fontSize - 2))}
-                    className="px-2 py-0.5 hover:bg-gray-700 rounded text-xs"
-                  >
-                    A-
-                  </button>
-                  <span className="text-xs">{fontSize}px</span>
-                   <button
-                    onClick={() => setFontSize(Math.min(24, fontSize + 2))}
-                    className="px-2 py-0.5 hover:bg-gray-700 rounded text-xs"
-                  >
-                    A+
-                  </button>
-                </div>
-              </div>
-            </div>
-            <textarea
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className={`flex-1 w-full p-4 bg-gray-950 text-gray-100 border-0 focus:outline-none font-mono resize-none ${
-                wordWrap ? 'whitespace-pre-wrap' : 'whitespace-pre'
-              }`}
-              style={{ fontSize: `${fontSize}px` }}
-              spellCheck={false}
-            />
-          </div>
-
-          {/* Preview */}
-          {showPreview && (
-            <div className={`flex-1 ${showPreview ? 'lg:w-1/2' : 'w-full'} border-t lg:border-t-0 lg:border-l border-gray-700 bg-gray-900`}>
-              <div className="flex items-center justify-between px-4 py-2 bg-gray-800/50 border-b border-gray-700 text-sm text-gray-300">
-                <span>Live Preview</span>
-                {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') && (
-                  <span className="text-xs text-green-400">🟢 Interactive</span>
-                )}
-              </div>
-              <div className="h-[calc(100%-40px)] bg-white dark:bg-gray-900">
-                {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') ? (
-                  <iframe
-                    ref={iframeRef}
-                    className="w-full h-full"
-                    title="Live Preview"
-                    sandbox="allow-scripts allow-modals allow-same-origin"
-                  />
-                ) : (
-                  <div className="p-4 h-full overflow-auto font-mono text-sm text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800">
-                    <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500" />
-                      <span>Kode siap untuk di-download atau di-copy</span>
-                    </div>
-                    <pre className="whitespace-pre-wrap break-all">
-                      {code.substring(0, 500)}
-                      {code.length > 500 && <span className="text-gray-400">... (truncated)</span>}
-                    </pre>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+        {/* Info */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-gray-400 bg-black/50 px-4 py-2 rounded-full">
+          ESC atau klik ✕ untuk keluar
         </div>
-
-        {/* Error Toast */}
-        {error && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-red-500/90 text-white rounded-lg text-sm">
-            {error}
-          </div>
-        )}
       </div>
     );
   }
 
-  // Normal render with BaseTool wrapper
+  // Normal render
   return (
     <BaseTool title={title} description={description} article={article}>
       <div className="space-y-4">
         {/* Toolbar */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* Language Selector */}
           <div className="relative">
             <select
               value={currentLanguage.id}
@@ -888,7 +724,6 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
 
-          {/* Language badge */}
           <span 
             className="px-3 py-1 rounded-full text-xs font-medium text-white"
             style={{ backgroundColor: currentLanguage.color }}
@@ -896,7 +731,6 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
             {currentLanguage.name} (.{currentLanguage.extension})
           </span>
 
-          {/* Actions */}
           {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') && (
             <button onClick={runCode} className="btn-primary">
               <Play className="w-4 h-4 inline mr-2" />
@@ -914,11 +748,6 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
               <Eye className="w-4 h-4 inline mr-2" />
             )}
             Preview
-          </button>
-
-          <button onClick={toggleFullscreen} className="btn-secondary">
-            <Maximize2 className="w-4 h-4 inline mr-2" />
-            Fullscreen
           </button>
 
           <button onClick={copyToClipboard} className="btn-secondary">
@@ -951,13 +780,10 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
             Clear
           </button>
 
-          {/* Settings */}
           <button
             onClick={() => setLineNumbers(!lineNumbers)}
             className={`px-2 py-1 rounded text-xs transition-all ${
-              lineNumbers 
-                ? 'bg-indigo-500 text-white' 
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              lineNumbers ? 'bg-indigo-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
             }`}
           >
             Lines
@@ -966,9 +792,7 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
           <button
             onClick={() => setWordWrap(!wordWrap)}
             className={`px-2 py-1 rounded text-xs transition-all ${
-              wordWrap 
-                ? 'bg-indigo-500 text-white' 
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              wordWrap ? 'bg-indigo-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
             }`}
           >
             Wrap
@@ -1036,9 +860,19 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
                     ? 'Live Preview' 
                     : 'Output Preview'}
                 </span>
-                {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') && (
-                  <span className="text-xs text-green-400">🟢 Interactive</span>
-                )}
+                <div className="flex items-center gap-2">
+                  {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') && (
+                    <span className="text-xs text-green-400">🟢 Interactive</span>
+                  )}
+                  <button
+                    onClick={togglePreviewFullscreen}
+                    className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
+                    title="Fullscreen Preview"
+                    disabled={!(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript')}
+                  >
+                    <Maximize2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
               <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700" style={{ height: '500px' }}>
                 {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') ? (
