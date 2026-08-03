@@ -149,6 +149,52 @@ export const toolsData: Tool[] = [
     }
   },
   {
+  id: 'pdf-to-images',
+  category: 'developer',
+  name: { 
+    id: 'PDF ke Gambar', 
+    en: 'PDF to Images' 
+  },
+  description: { 
+    id: 'Konversi PDF ke gambar per halaman', 
+    en: 'Convert PDF to images per page' 
+  },
+  icon: 'FileImage',
+  slug: 'pdf-to-images',
+  seoTitle: { 
+    id: 'PDF ke Gambar Online - Konversi PDF ke PNG/JPG', 
+    en: 'PDF to Images Online - Convert PDF to PNG/JPG' 
+  },
+  seoDescription: { 
+    id: 'Konversi PDF ke gambar (PNG/JPG) per halaman. Proses di browser, 100% aman.', 
+    en: 'Convert PDF to images (PNG/JPG) per page. Processed in browser, 100% secure.' 
+  },
+  article: {
+    id: `<h2>Apa itu PDF to Images?</h2>
+<p>PDF to Images adalah alat untuk mengkonversi setiap halaman PDF menjadi gambar (PNG atau JPG).</p>
+<h3>Cara Menggunakan</h3>
+<ol>
+  <li>Upload file PDF</li>
+  <li>Pilih kualitas gambar (SD/HD/4K)</li>
+  <li>Pilih format gambar (PNG/JPG)</li>
+  <li>Download ZIP berisi semua gambar</li>
+</ol>
+<h3>Keamanan</h3>
+<p>Semua proses dilakukan di browser. File PDF tidak diupload ke server manapun. 100% aman dan privat.</p>`,
+    en: `<h2>What is PDF to Images?</h2>
+<p>PDF to Images is a tool to convert every PDF page into an image (PNG or JPG).</p>
+<h3>How to Use</h3>
+<ol>
+  <li>Upload PDF file</li>
+  <li>Select image quality (SD/HD/4K)</li>
+  <li>Select image format (PNG/JPG)</li>
+  <li>Download ZIP containing all images</li>
+</ol>
+<h3>Security</h3>
+<p>All processes are done in the browser. PDF files are not uploaded to any server. 100% safe and private.</p>`
+    }
+  },
+  {
     id: 'bmi-calculator',
     category: 'general',
     name: { id: 'Kalkulator BMI', en: 'BMI Calculator' },

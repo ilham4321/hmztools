@@ -17,6 +17,7 @@ import { URLEncoder } from './URLEncoder';
 import { ColorConverter } from './ColorConverter';
 import { HashGenerator } from './HashGenerator';
 import { CodeEditor } from './CodeEditor';
+import { PDFToImages } from './PDFTools/PDFToImages';
 
 interface ToolFactoryProps {
   toolId: string;
@@ -33,6 +34,7 @@ export function ToolFactory({ toolId, title, description, article, dict }: ToolF
     'discount-calculator': <DiscountCalculator title={title} description={description} article={article} dict={dict} />,
     'bmi-calculator': <BMICalculator title={title} description={description} article={article} dict={dict} />,
     'days-between-dates': <DaysBetweenDates title={title} description={description} article={article} dict={dict} />,
+    'pdf-to-images': <PDFToImages title={title} description={description} article={article} dict={dict} />,
     'random-number': <RandomNumberGenerator title={title} description={description} article={article} dict={dict} />,
     'word-counter': <WordCounter title={title} description={description} article={article} dict={dict} />,
     'password-generator': <PasswordGenerator title={title} description={description} article={article} dict={dict} />,

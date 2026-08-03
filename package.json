@@ -15,7 +15,10 @@
     "next-themes": "^0.3.0",
     "crypto-js": "^4.2.0",
     "qrcode.react": "^3.1.0",
-    "lucide-react": "^0.394.0"
+    "lucide-react": "^0.394.0",
+    "pdfjs-dist": "^4.0.379",
+    "pdf-lib": "^1.17.1",
+    "jszip": "^3.10.1"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -26,6 +29,7 @@
     "postcss": "^8",
     "autoprefixer": "^10",
     "@types/crypto-js": "^4.2.2",
+    "@types/pdf-lib": "^1.8.14",
     "eslint": "^8",
     "eslint-config-next": "14.2.3"
   }
