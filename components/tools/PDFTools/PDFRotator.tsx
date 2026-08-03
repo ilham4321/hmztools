@@ -12,12 +12,10 @@ interface PDFRotatorProps {
   dict: any;
 }
 
-type RotationAngle = 0 | 90 | 180 | 270;
-
 export function PDFRotator({ title, description, article, dict }: PDFRotatorProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [rotation, setRotation] = useState<RotationAngle>(90);
+  const [rotation, setRotation] = useState<90 | 180 | 270>(90);
   const [file, setFile] = useState<File | null>(null);
 
   const processPDF = async (uploadedFile: File) => {
@@ -30,10 +28,13 @@ export function PDFRotator({ title, description, article, dict }: PDFRotatorProp
       const pdfDoc = await PDFDocument.load(arrayBuffer);
       const pages = pdfDoc.getPages();
 
+      // Konversi rotation ke number untuk pdf-lib
+      const rotValue = rotation as number;
+
       pages.forEach(page => {
         const { width, height } = page.getSize();
-        // Cast rotation ke tipe yang diterima pdf-lib
-        page.setRotation(rotation as 0 | 90 | 180 | 270);
+        // Gunakan setRotation dengan nilai number
+        (page as any).setRotation(rotValue);
         // Adjust page size for rotation
         if (rotation === 90 || rotation === 270) {
           page.setSize(height, width);
@@ -84,7 +85,7 @@ export function PDFRotator({ title, description, article, dict }: PDFRotatorProp
             {[90, 180, 270].map((deg) => (
               <button
                 key={deg}
-                onClick={() => setRotation(deg as RotationAngle)}
+                onClick={() => setRotation(deg as 90 | 180 | 270)}
                 className={`p-4 rounded-xl text-center transition-all ${
                   rotation === deg
                     ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
