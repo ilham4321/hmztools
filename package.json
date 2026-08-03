@@ -29,7 +29,6 @@
     "postcss": "^8",
     "autoprefixer": "^10",
     "@types/crypto-js": "^4.2.2",
-    "@types/pdf-lib": "^1.8.14",
     "eslint": "^8",
     "eslint-config-next": "14.2.3"
   }
