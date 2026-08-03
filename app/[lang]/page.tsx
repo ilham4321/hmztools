@@ -4,7 +4,6 @@ import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
 import { HomeContent } from '@/components/HomeContent';
 
-// HANYA generateMetadata, TANPA metadata static
 export async function generateMetadata({ params }: { params: { lang: string } }) {
   const dict = await getDictionary(params.lang as Locale);
   return {
@@ -26,8 +25,26 @@ export default async function HomePage({ params }: { params: { lang: string } })
   const dict = await getDictionary(params.lang as Locale);
   const { toolsData } = await import('@/data/tools');
 
-  // JSON-LD Schema for Website
-  const jsonLd = {
+  // ===== JSON-LD ORGANIZATION (untuk logo di Google) =====
+  const jsonLdOrganization = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'HmzTools',
+    url: 'https://hmztools.web.id',
+    logo: 'https://hmztools.web.id/android-chrome-512x512.png',
+    description: dict.metadata.description,
+    sameAs: [
+      'https://instagram.com/hamzzdev',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'support.hmztools@gmail.com',
+      contactType: 'customer support',
+    },
+  };
+
+  // ===== JSON-LD WEBSITE =====
+  const jsonLdWebsite = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'HmzTools',
@@ -45,9 +62,15 @@ export default async function HomePage({ params }: { params: { lang: string } })
 
   return (
     <>
+      {/* Organization Schema - Untuk logo di Google */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+      />
+      {/* Website Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }}
       />
       <ClientLayout params={params}>
         <Header lang={params.lang as Locale} />

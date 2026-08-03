@@ -9,7 +9,6 @@ const inter = Inter({
   display: 'swap',
 });
 
-// HANYA menggunakan generateMetadata, HAPUS metadata static
 export async function generateMetadata({ params }: { params: { lang: string } }) {
   const dict = await getDictionary(params.lang as Locale);
   return {
@@ -23,6 +22,22 @@ export async function generateMetadata({ params }: { params: { lang: string } })
     creator: 'HamzzDev',
     publisher: 'HmzTools',
     metadataBase: new URL('https://hmztools.web.id'),
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+        { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      ],
+      apple: [
+        { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      ],
+      other: [
+        {
+          rel: 'manifest',
+          url: '/site.webmanifest',
+        },
+      ],
+    },
     alternates: {
       canonical: `https://hmztools.web.id/${params.lang}`,
       languages: {
@@ -64,9 +79,8 @@ export async function generateMetadata({ params }: { params: { lang: string } })
         'max-snippet': -1,
       },
     },
-    // Google Search Console Verification - Tambahkan di sini
     verification: {
-      google: '<meta name="google-site-verification" content="B7byqoQe6leWSF4eT33XISLw0fVMQRc5svbzK6Sl2bs" />',
+      google: 'B7byqoQe6leWSF4eT33XISLw0fVMQRc5svbzK6Sl2bs',
     },
   };
 }
