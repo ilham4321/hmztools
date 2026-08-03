@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { PDFBase } from './PDFBase';
 import { RotateCw, RotateCcw, Download, Loader2, Check, RefreshCw, Layers } from 'lucide-react';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, Rotation } from 'pdf-lib';
 
 interface PDFRotatorProps {
   title: string;
@@ -15,7 +15,7 @@ interface PDFRotatorProps {
 export function PDFRotator({ title, description, article, dict }: PDFRotatorProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [rotation, setRotation] = useState<90 | 180 | 270>(90);
+  const [rotation, setRotation] = useState<Rotation>(90); // <-- Gunakan tipe Rotation
   const [file, setFile] = useState<File | null>(null);
 
   const processPDF = async (uploadedFile: File) => {
@@ -30,7 +30,7 @@ export function PDFRotator({ title, description, article, dict }: PDFRotatorProp
 
       pages.forEach(page => {
         const { width, height } = page.getSize();
-        page.setRotation(rotation);
+        page.setRotation(rotation); // <-- Sekarang menggunakan tipe Rotation
         // Adjust page size for rotation
         if (rotation === 90 || rotation === 270) {
           page.setSize(height, width);
@@ -81,7 +81,7 @@ export function PDFRotator({ title, description, article, dict }: PDFRotatorProp
             {[90, 180, 270].map((deg) => (
               <button
                 key={deg}
-                onClick={() => setRotation(deg as 90 | 180 | 270)}
+                onClick={() => setRotation(deg as Rotation)}
                 className={`p-4 rounded-xl text-center transition-all ${
                   rotation === deg
                     ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
