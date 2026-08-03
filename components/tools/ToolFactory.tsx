@@ -18,6 +18,10 @@ import { ColorConverter } from './ColorConverter';
 import { HashGenerator } from './HashGenerator';
 import { CodeEditor } from './CodeEditor';
 import { PDFToImages } from './PDFTools/PDFToImages';
+import { PDFToImages } from './PDFTools/PDFToImages';
+import { PDFTextExtractor } from './PDFTools/PDFTextExtractor';
+import { PDFInfoViewer } from './PDFTools/PDFInfoViewer';
+import { PDFRotator } from './PDFTools/PDFRotator';
 
 interface ToolFactoryProps {
   toolId: string;
@@ -35,6 +39,9 @@ export function ToolFactory({ toolId, title, description, article, dict }: ToolF
     'bmi-calculator': <BMICalculator title={title} description={description} article={article} dict={dict} />,
     'days-between-dates': <DaysBetweenDates title={title} description={description} article={article} dict={dict} />,
     'pdf-to-images': <PDFToImages title={title} description={description} article={article} dict={dict} />,
+    'pdf-text-extractor': <PDFTextExtractor title={title} description={description} article={article} dict={dict} />,
+    'pdf-info-viewer': <PDFInfoViewer title={title} description={description} article={article} dict={dict} />,
+    'pdf-rotator': <PDFRotator title={title} description={description} article={article} dict={dict} />,
     'random-number': <RandomNumberGenerator title={title} description={description} article={article} dict={dict} />,
     'word-counter': <WordCounter title={title} description={description} article={article} dict={dict} />,
     'password-generator': <PasswordGenerator title={title} description={description} article={article} dict={dict} />,

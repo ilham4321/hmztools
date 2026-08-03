@@ -195,6 +195,130 @@ export const toolsData: Tool[] = [
     }
   },
   {
+  id: 'pdf-text-extractor',
+  category: 'developer',
+  name: { 
+    id: 'PDF Text Extractor', 
+    en: 'PDF Text Extractor' 
+  },
+  description: { 
+    id: 'Ekstrak semua teks dari PDF', 
+    en: 'Extract all text from PDF' 
+  },
+  icon: 'FileText',
+  slug: 'pdf-text-extractor',
+  seoTitle: { 
+    id: 'PDF Text Extractor Online - Ekstrak Teks PDF', 
+    en: 'PDF Text Extractor Online - Extract PDF Text' 
+  },
+  seoDescription: { 
+    id: 'Ekstrak teks dari file PDF dengan mudah. Copy atau download sebagai .txt.', 
+    en: 'Extract text from PDF files easily. Copy or download as .txt.' 
+  },
+  article: {
+    id: `<h2>Apa itu PDF Text Extractor?</h2>
+<p>PDF Text Extractor adalah alat untuk mengekstrak semua teks dari file PDF.</p>
+<h3>Cara Menggunakan</h3>
+<ol>
+  <li>Upload file PDF</li>
+  <li>Tunggu proses ekstraksi</li>
+  <li>Copy atau download hasil teks</li>
+</ol>`,
+    en: `<h2>What is PDF Text Extractor?</h2>
+<p>PDF Text Extractor is a tool to extract all text from PDF files.</p>
+<h3>How to Use</h3>
+<ol>
+  <li>Upload PDF file</li>
+  <li>Wait for extraction process</li>
+  <li>Copy or download the extracted text</li>
+</ol>`
+    }
+  },
+  {
+  id: 'pdf-info-viewer',
+  category: 'developer',
+  name: { 
+    id: 'PDF Info Viewer', 
+    en: 'PDF Info Viewer' 
+  },
+  description: { 
+    id: 'Lihat metadata dan informasi PDF', 
+    en: 'View PDF metadata and information' 
+  },
+  icon: 'Info',
+  slug: 'pdf-info-viewer',
+  seoTitle: { 
+    id: 'PDF Info Viewer Online - Lihat Metadata PDF', 
+    en: 'PDF Info Viewer Online - View PDF Metadata' 
+  },
+  seoDescription: { 
+    id: 'Lihat metadata PDF seperti jumlah halaman, ukuran, author, judul, dan lainnya.', 
+    en: 'View PDF metadata like page count, size, author, title, and more.' 
+  },
+  article: {
+    id: `<h2>Apa itu PDF Info Viewer?</h2>
+<p>PDF Info Viewer adalah alat untuk melihat metadata dan informasi dari file PDF.</p>
+<h3>Informasi yang Ditampilkan</h3>
+<ul>
+  <li>Jumlah halaman</li>
+  <li>Ukuran file</li>
+  <li>Judul, Author, Creator</li>
+  <li>Tanggal dibuat/modified</li>
+  <li>Versi PDF</li>
+</ul>`,
+    en: `<h2>What is PDF Info Viewer?</h2>
+<p>PDF Info Viewer is a tool to view metadata and information from PDF files.</p>
+<h3>Information Displayed</h3>
+<ul>
+  <li>Page count</li>
+  <li>File size</li>
+  <li>Title, Author, Creator</li>
+  <li>Creation/modification date</li>
+  <li>PDF version</li>
+</ul>`
+   }
+  },
+  {
+  id: 'pdf-rotator',
+  category: 'developer',
+  name: { 
+    id: 'PDF Rotator', 
+    en: 'PDF Rotator' 
+  },
+  description: { 
+    id: 'Rotate halaman PDF (90°/180°/270°)', 
+    en: 'Rotate PDF pages (90°/180°/270°)' 
+  },
+  icon: 'RotateCw',
+  slug: 'pdf-rotator',
+  seoTitle: { 
+    id: 'PDF Rotator Online - Rotate Halaman PDF', 
+    en: 'PDF Rotator Online - Rotate PDF Pages' 
+  },
+  seoDescription: { 
+    id: 'Rotate halaman PDF dengan mudah. Pilih sudut 90°, 180°, atau 270°.', 
+    en: 'Easily rotate PDF pages. Choose 90°, 180°, or 270° angle.' 
+  },
+  article: {
+    id: `<h2>Apa itu PDF Rotator?</h2>
+<p>PDF Rotator adalah alat untuk merotasi halaman PDF dengan sudut 90°, 180°, atau 270°.</p>
+<h3>Cara Menggunakan</h3>
+<ol>
+  <li>Upload file PDF</li>
+  <li>Pilih sudut rotasi (90°/180°/270°)</li>
+  <li>Download PDF hasil rotate</li>
+</ol>`,
+    en: `<h2>What is PDF Rotator?</h2>
+<p>PDF Rotator is a tool to rotate PDF pages with 90°, 180°, or 270° angle.</p>
+<h3>How to Use</h3>
+<ol>
+  <li>Upload PDF file</li>
+  <li>Select rotation angle (90°/180°/270°)</li>
+  <li>Download rotated PDF</li>
+</ol>`
+   }
+   },
+  {
     id: 'bmi-calculator',
     category: 'general',
     name: { id: 'Kalkulator BMI', en: 'BMI Calculator' },
