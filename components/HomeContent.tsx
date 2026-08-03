@@ -5,6 +5,7 @@ import Link from 'next/link';
 import * as Icons from 'lucide-react';
 import { Tool } from '@/data/tools';
 import { type Locale } from '@/lib/i18n/dictionary';
+import { TopNotification } from '@/components/ui/TopNotification';
 
 interface HomeContentProps {
   tools: Tool[];
@@ -47,111 +48,141 @@ export function HomeContent({ tools, dict, lang }: HomeContentProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-6xl font-bold text-gradient-blue mb-4">
-          {dict.home.title}
-        </h1>
-        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          {dict.home.subtitle}
-        </p>
-      </div>
+    <>
+      {/* Development Notification - hanya untuk Code Editor */}
+      <TopNotification 
+        message="🚧 Code Editor Multi-Bahasa masih dalam tahap pengembangan. Beberapa fitur mungkin belum stabil. Kami sedang berusaha menyempurnakannya!"
+        type="warning"
+        duration={10000}
+      />
 
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setActiveCategory('all')}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-              activeCategory === 'all'
-                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-            }`}
-          >
-            {dict.nav.all}
-          </button>
-          <button
-            onClick={() => setActiveCategory('general')}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-              activeCategory === 'general'
-                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-            }`}
-          >
-            {dict.nav.general}
-          </button>
-          <button
-            onClick={() => setActiveCategory('developer')}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-              activeCategory === 'developer'
-                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-            }`}
-          >
-            {dict.nav.developer}
-          </button>
-          <button
-            onClick={() => setShowBookmarks(!showBookmarks)}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-              showBookmarks
-                ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-            }`}
-          >
-            <Icons.Bookmark className="w-4 h-4 inline mr-1" />
-            Bookmark {bookmarks.length > 0 && `(${bookmarks.length})`}
-          </button>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-bold text-gradient-blue mb-4">
+            {dict.home.title}
+          </h1>
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            {dict.home.subtitle}
+          </p>
         </div>
 
-        <div className="relative w-full sm:w-64">
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10">
-            <Icons.Search className="w-4 h-4 text-gray-400" />
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveCategory('all')}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                activeCategory === 'all'
+                  ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+              }`}
+            >
+              {dict.nav.all}
+            </button>
+            <button
+              onClick={() => setActiveCategory('general')}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                activeCategory === 'general'
+                  ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+              }`}
+            >
+              {dict.nav.general}
+            </button>
+            <button
+              onClick={() => setActiveCategory('developer')}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                activeCategory === 'developer'
+                  ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+              }`}
+            >
+              {dict.nav.developer}
+            </button>
+            <button
+              onClick={() => setShowBookmarks(!showBookmarks)}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                showBookmarks
+                  ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+              }`}
+            >
+              <Icons.Bookmark className="w-4 h-4 inline mr-1" />
+              Bookmark {bookmarks.length > 0 && `(${bookmarks.length})`}
+            </button>
           </div>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder={dict.home.search}
-            className="w-full px-4 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-          />
-        </div>
-      </div>
 
-      {filteredTools.length === 0 ? (
-        <div className="text-center py-12">
-          <Icons.Inbox className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">{dict.home.noResults}</p>
+          <div className="relative w-full sm:w-64">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+              <Icons.Search className="w-4 h-4 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={dict.home.search}
+              className="w-full px-4 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+            />
+          </div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredTools.map((tool) => {
-            const isBookmarked = bookmarks.includes(tool.name[lang]);
-            return (
-              <Link
-                key={tool.id}
-                href={`/${lang}/${tool.slug}`}
-                className="card-glass group relative"
-              >
-                {isBookmarked && (
-                  <div className="absolute top-3 right-3">
-                    <Icons.BookmarkCheck className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+
+        {filteredTools.length === 0 ? (
+          <div className="text-center py-12">
+            <Icons.Inbox className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-500 dark:text-gray-400">{dict.home.noResults}</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredTools.map((tool) => {
+              const isBookmarked = bookmarks.includes(tool.name[lang]);
+              const isDevTool = tool.id === 'code-editor';
+              return (
+                <Link
+                  key={tool.id}
+                  href={`/${lang}/${tool.slug}`}
+                  className={`card-glass group relative ${isDevTool ? 'border-yellow-500/30 hover:border-yellow-500/50' : ''}`}
+                >
+                  {isDevTool && (
+                    <div className="absolute top-3 right-3">
+                      <span className="px-2 py-0.5 text-[10px] font-medium bg-yellow-500/20 text-yellow-400 rounded-full border border-yellow-500/30">
+                        Beta
+                      </span>
+                    </div>
+                  )}
+                  {isBookmarked && (
+                    <div className="absolute top-3 left-3">
+                      <Icons.BookmarkCheck className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                    </div>
+                  )}
+                  <div className="flex flex-col items-center text-center p-4">
+                    <div className={`p-3 rounded-xl mb-4 group-hover:scale-110 transition-transform ${
+                      isDevTool 
+                        ? 'bg-yellow-500/10 dark:bg-yellow-500/20' 
+                        : 'bg-indigo-500/10 dark:bg-indigo-500/20'
+                    }`}>
+                      {getIcon(tool.icon)}
+                    </div>
+                    <h3 className={`font-semibold mb-1 group-hover:transition-colors ${
+                      isDevTool 
+                        ? 'text-yellow-400 group-hover:text-yellow-300' 
+                        : 'text-gray-900 dark:text-white group-hover:text-indigo-500'
+                    }`}>
+                      {tool.name[lang]}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {tool.description[lang]}
+                    </p>
+                    {isDevTool && (
+                      <span className="mt-2 text-[10px] text-yellow-500/70">
+                        ⚠️ Dalam Pengembangan
+                      </span>
+                    )}
                   </div>
-                )}
-                <div className="flex flex-col items-center text-center p-4">
-                  <div className="p-3 rounded-xl bg-indigo-500/10 dark:bg-indigo-500/20 mb-4 group-hover:scale-110 transition-transform">
-                    {getIcon(tool.icon)}
-                  </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-indigo-500 transition-colors">
-                    {tool.name[lang]}
-                  </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {tool.description[lang]}
-                  </p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
