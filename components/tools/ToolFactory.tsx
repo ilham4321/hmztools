@@ -18,7 +18,6 @@ import { ColorConverter } from './ColorConverter';
 import { HashGenerator } from './HashGenerator';
 import { CodeEditor } from './CodeEditor';
 import { PDFToImages } from './PDFTools/PDFToImages';
-import { PDFToImages } from './PDFTools/PDFToImages';
 import { PDFTextExtractor } from './PDFTools/PDFTextExtractor';
 import { PDFInfoViewer } from './PDFTools/PDFInfoViewer';
 import { PDFRotator } from './PDFTools/PDFRotator';
