@@ -42,12 +42,9 @@ export function PDFRotator({ title, description, article, dict }: PDFRotatorProp
       });
 
       const pdfBytes = await pdfDoc.save();
-      // Konversi Uint8Array ke ArrayBuffer dengan cara yang aman
-      const buffer = pdfBytes.buffer.slice(
-        pdfBytes.byteOffset,
-        pdfBytes.byteOffset + pdfBytes.byteLength
-      );
-      const blob = new Blob([buffer], { type: 'application/pdf' });
+      
+      // Cara lain untuk membuat Blob dari Uint8Array
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
