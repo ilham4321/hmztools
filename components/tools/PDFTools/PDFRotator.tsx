@@ -42,7 +42,8 @@ export function PDFRotator({ title, description, article, dict }: PDFRotatorProp
       });
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      // Konversi Uint8Array ke ArrayBuffer untuk Blob
+      const blob = new Blob([pdfBytes.buffer], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
