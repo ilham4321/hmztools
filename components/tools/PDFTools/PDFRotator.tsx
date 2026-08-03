@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { PDFBase } from './PDFBase';
-import { RotateCw, RotateCcw, Download, Loader2, Check, RefreshCw, Layers } from 'lucide-react';
-import { PDFDocument, Rotation } from 'pdf-lib';
+import { RotateCw, RotateCcw, Check, RefreshCw } from 'lucide-react';
+import { PDFDocument } from 'pdf-lib';
 
 interface PDFRotatorProps {
   title: string;
@@ -12,10 +12,12 @@ interface PDFRotatorProps {
   dict: any;
 }
 
+type RotationAngle = 0 | 90 | 180 | 270;
+
 export function PDFRotator({ title, description, article, dict }: PDFRotatorProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [rotation, setRotation] = useState<Rotation>(90); // <-- Gunakan tipe Rotation
+  const [rotation, setRotation] = useState<RotationAngle>(90);
   const [file, setFile] = useState<File | null>(null);
 
   const processPDF = async (uploadedFile: File) => {
@@ -30,7 +32,8 @@ export function PDFRotator({ title, description, article, dict }: PDFRotatorProp
 
       pages.forEach(page => {
         const { width, height } = page.getSize();
-        page.setRotation(rotation); // <-- Sekarang menggunakan tipe Rotation
+        // Cast rotation ke tipe yang diterima pdf-lib
+        page.setRotation(rotation as 0 | 90 | 180 | 270);
         // Adjust page size for rotation
         if (rotation === 90 || rotation === 270) {
           page.setSize(height, width);
@@ -81,7 +84,7 @@ export function PDFRotator({ title, description, article, dict }: PDFRotatorProp
             {[90, 180, 270].map((deg) => (
               <button
                 key={deg}
-                onClick={() => setRotation(deg as Rotation)}
+                onClick={() => setRotation(deg as RotationAngle)}
                 className={`p-4 rounded-xl text-center transition-all ${
                   rotation === deg
                     ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
@@ -99,9 +102,9 @@ export function PDFRotator({ title, description, article, dict }: PDFRotatorProp
           </div>
         </div>
 
-        {/* Re-upload button */}
+        {/* Complete */}
         {isComplete && (
-          <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800/30 flex items-center gap-3">
+          <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800/30 flex items-center gap-3 animate-slide-up">
             <Check className="w-5 h-5 text-green-500" />
             <div>
               <p className="font-medium text-green-700 dark:text-green-300">
