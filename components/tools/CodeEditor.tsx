@@ -21,7 +21,8 @@ import {
   FileJson,
   Terminal,
   ChevronDown,
-  CheckCircle2
+  CheckCircle2,
+  X
 } from 'lucide-react';
 
 interface CodeEditorProps {
@@ -657,7 +658,6 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
         setError('Error: ' + (e as Error).message);
       }
     } else {
-      // For other languages, just show the code
       setOutput(code);
       setError('Preview hanya tersedia untuk HTML, CSS, dan JavaScript');
     }
@@ -701,6 +701,12 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
 
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
+    // Lock scroll when fullscreen
+    if (!isFullscreen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
   };
 
   const getLineCount = () => {
@@ -711,9 +717,156 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
     return code.length;
   };
 
+  // If fullscreen, render without BaseTool wrapper
+  if (isFullscreen) {
+    return (
+      <div className="fixed inset-0 z-50 bg-gray-900 dark:bg-gray-950 overflow-hidden">
+        {/* Fullscreen Toolbar */}
+        <div className="flex flex-wrap items-center gap-2 p-3 bg-gray-800 dark:bg-gray-900 border-b border-gray-700">
+          <button
+            onClick={toggleFullscreen}
+            className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          
+          <span className="text-white font-medium text-sm ml-2">
+            {currentLanguage.name}
+          </span>
+          
+          <span 
+            className="px-2 py-0.5 rounded-full text-xs font-medium text-white"
+            style={{ backgroundColor: currentLanguage.color }}
+          >
+            .{currentLanguage.extension}
+          </span>
+
+          <div className="flex-1"></div>
+
+          {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') && (
+            <button onClick={runCode} className="px-3 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm transition-colors">
+              <Play className="w-4 h-4 inline mr-1" />
+              Run
+            </button>
+          )}
+
+          <button
+            onClick={() => setShowPreview(!showPreview)}
+            className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors"
+          >
+            {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          </button>
+
+          <button onClick={copyToClipboard} className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors">
+            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+          </button>
+
+          <button onClick={downloadCode} className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors">
+            <Download className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Editor & Preview */}
+        <div className={`flex h-[calc(100vh-60px)] ${showPreview ? 'flex-col lg:flex-row' : 'flex-col'}`}>
+          {/* Editor */}
+          <div className={`flex-1 ${showPreview ? 'lg:w-1/2' : 'w-full'} flex flex-col`}>
+            <div className="flex items-center justify-between px-4 py-1 bg-gray-800/50 border-b border-gray-700 text-xs text-gray-400">
+              <span>
+                {getLineCount()} lines • {getCharacterCount()} chars
+              </span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setLineNumbers(!lineNumbers)}
+                  className={`px-2 py-0.5 rounded text-xs transition-colors ${
+                    lineNumbers ? 'bg-indigo-500/50 text-white' : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Lines
+                </button>
+                <button
+                  onClick={() => setWordWrap(!wordWrap)}
+                  className={`px-2 py-0.5 rounded text-xs transition-colors ${
+                    wordWrap ? 'bg-indigo-500/50 text-white' : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Wrap
+                </button>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setFontSize(Math.max(10, fontSize - 2))}
+                    className="px-2 py-0.5 hover:bg-gray-700 rounded text-xs"
+                  >
+                    A-
+                  </button>
+                  <span className="text-xs">{fontSize}px</span>
+                   <button
+                    onClick={() => setFontSize(Math.min(24, fontSize + 2))}
+                    className="px-2 py-0.5 hover:bg-gray-700 rounded text-xs"
+                  >
+                    A+
+                  </button>
+                </div>
+              </div>
+            </div>
+            <textarea
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className={`flex-1 w-full p-4 bg-gray-950 text-gray-100 border-0 focus:outline-none font-mono resize-none ${
+                wordWrap ? 'whitespace-pre-wrap' : 'whitespace-pre'
+              }`}
+              style={{ fontSize: `${fontSize}px` }}
+              spellCheck={false}
+            />
+          </div>
+
+          {/* Preview */}
+          {showPreview && (
+            <div className={`flex-1 ${showPreview ? 'lg:w-1/2' : 'w-full'} border-t lg:border-t-0 lg:border-l border-gray-700 bg-gray-900`}>
+              <div className="flex items-center justify-between px-4 py-2 bg-gray-800/50 border-b border-gray-700 text-sm text-gray-300">
+                <span>Live Preview</span>
+                {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') && (
+                  <span className="text-xs text-green-400">🟢 Interactive</span>
+                )}
+              </div>
+              <div className="h-[calc(100%-40px)] bg-white dark:bg-gray-900">
+                {(currentLanguage.id === 'html' || currentLanguage.id === 'css' || currentLanguage.id === 'javascript') ? (
+                  <iframe
+                    ref={iframeRef}
+                    className="w-full h-full"
+                    title="Live Preview"
+                    sandbox="allow-scripts allow-modals allow-same-origin"
+                  />
+                ) : (
+                  <div className="p-4 h-full overflow-auto font-mono text-sm text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800">
+                    <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500" />
+                      <span>Kode siap untuk di-download atau di-copy</span>
+                    </div>
+                    <pre className="whitespace-pre-wrap break-all">
+                      {code.substring(0, 500)}
+                      {code.length > 500 && <span className="text-gray-400">... (truncated)</span>}
+                    </pre>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Error Toast */}
+        {error && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-red-500/90 text-white rounded-lg text-sm">
+            {error}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Normal render with BaseTool wrapper
   return (
     <BaseTool title={title} description={description} article={article}>
-      <div className={`space-y-4 ${isFullscreen ? 'fixed inset-0 z-50 bg-gray-50 dark:bg-gray-950 p-4 overflow-auto' : ''}`}>
+      <div className="space-y-4">
         {/* Toolbar */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Language Selector */}
@@ -764,11 +917,8 @@ export function CodeEditor({ title, description, article, dict }: CodeEditorProp
           </button>
 
           <button onClick={toggleFullscreen} className="btn-secondary">
-            {isFullscreen ? (
-              <Minimize2 className="w-4 h-4 inline mr-2" />
-            ) : (
-              <Maximize2 className="w-4 h-4 inline mr-2" />
-            )}
+            <Maximize2 className="w-4 h-4 inline mr-2" />
+            Fullscreen
           </button>
 
           <button onClick={copyToClipboard} className="btn-secondary">
