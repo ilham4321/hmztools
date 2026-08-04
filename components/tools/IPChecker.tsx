@@ -106,7 +106,6 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
       setError('');
 
       try {
-        // Gunakan endpoint yang benar sesuai dokumentasi
         const response = await fetch('https://ipwho.is/?fields=ip,country,country_code,region,city,latitude,longitude,timezone,isp,org,success,message');
         const data = await response.json();
 
@@ -251,23 +250,23 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
         {/* IP Address Card */}
         {ipInfo ? (
           <>
-            {/* Main IP Card */}
+            {/* Main IP Card - Tampilan lebih rapi */}
             <div className="p-6 glass rounded-2xl text-center relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
               <div className="relative">
-                <div className="flex items-center justify-center gap-4 mb-3">
-                  <div className="p-3 bg-indigo-500/20 rounded-full">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-3">
+                  <div className="p-3 bg-indigo-500/20 rounded-full flex-shrink-0">
                     <Wifi className="w-8 h-8 text-indigo-500" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm text-gray-500 dark:text-gray-400">IP Address</p>
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-3xl md:text-4xl font-bold text-gradient-blue">
+                    <div className="flex items-center justify-center sm:justify-start gap-2">
+                      <h2 className="text-2xl md:text-3xl font-bold text-gradient-blue break-all">
                         {ipInfo.ip}
                       </h2>
                       <button
                         onClick={() => copyToClipboard(ipInfo.ip)}
-                        className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                        className="p-2 hover:bg-white/10 rounded-lg transition-colors flex-shrink-0"
                       >
                         {copied ? (
                           <Check className="w-4 h-4 text-green-500" />
@@ -278,17 +277,24 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-wrap justify-center gap-3">
+                
+                {/* Badges - Lebih rapi dengan wrap */}
+                <div className="flex flex-wrap justify-center gap-2 mt-2">
                   <span className="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-xs font-medium">
                     {deviceInfo?.online ? '🟢 Online' : '🔴 Offline'}
                   </span>
-                  <span className="px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full text-xs font-medium">
-                    {ipInfo.country}
-                  </span>
-                  <span className="px-3 py-1 bg-purple-500/10 text-purple-500 rounded-full text-xs font-medium">
-                    {ipInfo.isp}
-                  </span>
+                  {ipInfo.country !== 'Tidak tersedia' && (
+                    <span className="px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full text-xs font-medium">
+                      📍 {ipInfo.country}
+                    </span>
+                  )}
+                  {ipInfo.isp !== 'Tidak tersedia' && (
+                    <span className="px-3 py-1 bg-purple-500/10 text-purple-500 rounded-full text-xs font-medium">
+                      🌐 {ipInfo.isp}
+                    </span>
+                  )}
                 </div>
+                
                 <button
                   onClick={refreshIP}
                   className="mt-4 text-sm text-indigo-500 hover:text-indigo-600 transition-colors flex items-center gap-1 mx-auto"
@@ -299,7 +305,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
               </div>
             </div>
 
-            {/* Location */}
+            {/* Location - Grid lebih responsif */}
             <div className="p-4 glass rounded-xl">
               <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
@@ -308,7 +314,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
                   <p className="text-xs text-gray-400">Negara</p>
-                  <p className="text-sm font-medium">{ipInfo.country}</p>
+                  <p className="text-sm font-medium truncate">{ipInfo.country}</p>
                 </div>
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
                   <p className="text-xs text-gray-400">Kode</p>
@@ -316,11 +322,11 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                 </div>
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
                   <p className="text-xs text-gray-400">Kota</p>
-                  <p className="text-sm font-medium">{ipInfo.city}</p>
+                  <p className="text-sm font-medium truncate">{ipInfo.city}</p>
                 </div>
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
                   <p className="text-xs text-gray-400">Region</p>
-                  <p className="text-sm font-medium">{ipInfo.region}</p>
+                  <p className="text-sm font-medium truncate">{ipInfo.region}</p>
                 </div>
               </div>
             </div>
