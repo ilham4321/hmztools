@@ -134,30 +134,35 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     }
   }, []);
 
-  // Get IP info from TWO APIs and combine
+  // Get IP info - PRIORITAS ipapi.co (sudah terbukti berhasil)
   useEffect(() => {
     const getIPInfo = async () => {
       setLoading(true);
       setError('');
 
       try {
-        // API 1: ipapi.co (untuk lokasi, flag, calling code)
+        // API 1: ipapi.co (PRIORITAS UTAMA - lokasi akurat, flag, calling code)
         const response1 = await fetch('https://ipapi.co/json/');
         const data1 = await response1.json();
 
-        // API 2: api.ipapi.com (untuk ISP, Organisasi, Keamanan)
-        const response2 = await fetch(
-          `https://api.ipapi.com/api/check?access_key=${API_KEY}&format=json`
-        );
-        const data2 = await response2.json();
+        console.log('ipapi.co data (PRIORITAS):', data1);
 
-        console.log('ipapi.co data:', data1);
-        console.log('ipapi.com data:', data2);
+        // API 2: api.ipapi.com (hanya untuk ISP, Organisasi, Keamanan - tambahan)
+        let data2 = {};
+        try {
+          const response2 = await fetch(
+            `https://api.ipapi.com/api/check?access_key=${API_KEY}&format=json`
+          );
+          data2 = await response2.json();
+          console.log('ipapi.com data (TAMBAHAN):', data2);
+        } catch (err) {
+          console.warn('Gagal fetch ipapi.com, lanjut pakai ipapi.co saja');
+        }
 
-        // Gabungkan data dari kedua API
+        // PRIORITAS: pakai data dari ipapi.co, tambahan dari ipapi.com kalau ada
         if (data1 && !data1.error) {
           setIpInfo({
-            // Dari ipapi.co (lokasi lebih akurat)
+            // SEMUA dari ipapi.co (sudah terbukti berhasil)
             ip: data1.ip || 'Tidak tersedia',
             country: data1.country_name || 'Tidak tersedia',
             country_code: data1.country_code || 'Tidak tersedia',
@@ -172,14 +177,15 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
             flag: data1.country_flag_emoji || '🏳️',
             currency: data1.currency_name || 'Tidak tersedia',
             is_eu: data1.in_eu || false,
-            // Dari api.ipapi.com (ISP, Org, Security)
-            isp: data2?.connection?.isp || data2?.isp || data1.org || 'Tidak tersedia',
-            org: data2?.connection?.org || data2?.org || data1.org || 'Tidak tersedia',
-            is_proxy: data2?.security?.is_proxy || data2?.is_proxy || false,
-            is_vpn: data2?.security?.is_vpn || data2?.is_vpn || false,
-            is_tor: data2?.security?.is_tor || data2?.is_tor || false,
-            is_hosting: data2?.security?.is_hosting || data2?.is_hosting || false,
-            connection_type: data2?.connection_type || 'Tidak tersedia',
+            // ISP dari ipapi.co (fallback), tapi lebih prioritas dari ipapi.com
+            isp: (data2 as any)?.connection?.isp || (data2 as any)?.isp || data1.org || 'Tidak tersedia',
+            org: (data2 as any)?.connection?.org || (data2 as any)?.org || data1.org || 'Tidak tersedia',
+            // Keamanan dari ipapi.com
+            is_proxy: (data2 as any)?.security?.is_proxy || (data2 as any)?.is_proxy || false,
+            is_vpn: (data2 as any)?.security?.is_vpn || (data2 as any)?.is_vpn || false,
+            is_tor: (data2 as any)?.security?.is_tor || (data2 as any)?.is_tor || false,
+            is_hosting: (data2 as any)?.security?.is_hosting || (data2 as any)?.is_hosting || false,
+            connection_type: (data2 as any)?.connection_type || 'Tidak tersedia',
             success: true,
           });
         } else {
@@ -205,10 +211,15 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
       const response1 = await fetch('https://ipapi.co/json/');
       const data1 = await response1.json();
 
-      const response2 = await fetch(
-        `https://api.ipapi.com/api/check?access_key=${API_KEY}&format=json`
-      );
-      const data2 = await response2.json();
+      let data2 = {};
+      try {
+        const response2 = await fetch(
+          `https://api.ipapi.com/api/check?access_key=${API_KEY}&format=json`
+        );
+        data2 = await response2.json();
+      } catch (err) {
+        console.warn('Gagal fetch ipapi.com, lanjut pakai ipapi.co saja');
+      }
 
       if (data1 && !data1.error) {
         setIpInfo({
@@ -226,13 +237,13 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
           flag: data1.country_flag_emoji || '🏳️',
           currency: data1.currency_name || 'Tidak tersedia',
           is_eu: data1.in_eu || false,
-          isp: data2?.connection?.isp || data2?.isp || data1.org || 'Tidak tersedia',
-          org: data2?.connection?.org || data2?.org || data1.org || 'Tidak tersedia',
-          is_proxy: data2?.security?.is_proxy || data2?.is_proxy || false,
-          is_vpn: data2?.security?.is_vpn || data2?.is_vpn || false,
-          is_tor: data2?.security?.is_tor || data2?.is_tor || false,
-          is_hosting: data2?.security?.is_hosting || data2?.is_hosting || false,
-          connection_type: data2?.connection_type || 'Tidak tersedia',
+          isp: (data2 as any)?.connection?.isp || (data2 as any)?.isp || data1.org || 'Tidak tersedia',
+          org: (data2 as any)?.connection?.org || (data2 as any)?.org || data1.org || 'Tidak tersedia',
+          is_proxy: (data2 as any)?.security?.is_proxy || (data2 as any)?.is_proxy || false,
+          is_vpn: (data2 as any)?.security?.is_vpn || (data2 as any)?.is_vpn || false,
+          is_tor: (data2 as any)?.security?.is_tor || (data2 as any)?.is_tor || false,
+          is_hosting: (data2 as any)?.security?.is_hosting || (data2 as any)?.is_hosting || false,
+          connection_type: (data2 as any)?.connection_type || 'Tidak tersedia',
           success: true,
         });
       } else {
