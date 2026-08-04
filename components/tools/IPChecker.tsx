@@ -404,7 +404,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                 <div className="h-64 w-full">
                   <MapContainer
                     center={[ipInfo.latitude, ipInfo.longitude]}
-                    zoom={13}
+                    zoom={15}
                     style={{ height: '100%', width: '100%' }}
                     zoomControl={false}
                   >
@@ -414,7 +414,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                     />
                     <Circle
                       center={[ipInfo.latitude, ipInfo.longitude]}
-                      radius={1000}
+                      radius={500}
                       pathOptions={{
                         color: '#6366f1',
                         fillColor: '#6366f1',
