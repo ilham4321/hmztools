@@ -24,8 +24,6 @@ import {
   ShieldCheck,
   ShieldAlert,
   ShieldQuestion,
-  BadgeCheck,
-  AlertTriangle,
   Info
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
@@ -39,6 +37,9 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
+
+// API Key
+const API_KEY = '4f25d484beeb3736334ce0094ae8f624';
 
 interface IPCheckerProps {
   title: string;
@@ -64,10 +65,12 @@ interface IPInfo {
   is_vpn?: boolean;
   is_tor?: boolean;
   is_hosting?: boolean;
-  is_eu?: boolean;
   postal?: string;
   calling_code?: string;
   flag?: string;
+  continent?: string;
+  currency?: string;
+  is_eu?: boolean;
 }
 
 interface DeviceInfo {
@@ -131,40 +134,44 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     }
   }, []);
 
-  // Get IP info from ipwho.is
+  // Get IP info from IPAPI
   useEffect(() => {
     const getIPInfo = async () => {
       setLoading(true);
       setError('');
 
       try {
-        const response = await fetch('https://ipwho.is/?fields=ip,country,country_code,region,city,latitude,longitude,timezone,isp,org,success,message,security,postal,calling_code,flag,is_eu');
+        const response = await fetch(
+          `https://api.apilayer.com/ipapi/check?access_key=${API_KEY}&security=1`
+        );
         const data = await response.json();
 
-        if (data && data.success) {
+        if (data && !data.error) {
           setIpInfo({
             ip: data.ip || 'Tidak tersedia',
-            country: data.country || 'Tidak tersedia',
+            country: data.country_name || 'Tidak tersedia',
             country_code: data.country_code || 'Tidak tersedia',
-            region: data.region || 'Tidak tersedia',
+            region: data.region_name || 'Tidak tersedia',
             city: data.city || 'Tidak tersedia',
             latitude: data.latitude || 0,
             longitude: data.longitude || 0,
-            timezone: data.timezone?.id || data.timezone || 'Tidak tersedia',
-            isp: data.isp || 'Tidak tersedia',
-            org: data.org || 'Tidak tersedia',
-            success: data.success,
-            is_proxy: data.security?.proxy || false,
-            is_vpn: data.security?.vpn || false,
-            is_tor: data.security?.tor || false,
-            is_hosting: data.security?.hosting || false,
-            is_eu: data.is_eu || false,
-            postal: data.postal || 'Tidak tersedia',
+            timezone: data.timezone?.name || 'Tidak tersedia',
+            isp: data.connection?.isp || 'Tidak tersedia',
+            org: data.connection?.org || 'Tidak tersedia',
+            success: true,
+            is_proxy: data.security?.is_proxy || false,
+            is_vpn: data.security?.is_vpn || false,
+            is_tor: data.security?.is_tor || false,
+            is_hosting: data.security?.is_hosting || false,
+            postal: data.zip || 'Tidak tersedia',
             calling_code: data.calling_code || 'Tidak tersedia',
-            flag: data.flag?.emoji || '🏳️',
+            flag: data.country_flag_emoji || '🏳️',
+            continent: data.continent_name || 'Tidak tersedia',
+            currency: data.currency?.name || 'Tidak tersedia',
+            is_eu: data.is_eu || false,
           });
         } else {
-          setError(data?.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
+          setError(data?.error?.info || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
         }
       } catch (err) {
         console.error('Error fetching IP info:', err);
@@ -183,33 +190,37 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     setIpInfo(null);
 
     try {
-      const response = await fetch('https://ipwho.is/?fields=ip,country,country_code,region,city,latitude,longitude,timezone,isp,org,success,message,security,postal,calling_code,flag,is_eu');
+      const response = await fetch(
+        `https://api.apilayer.com/ipapi/check?access_key=${API_KEY}&security=1`
+      );
       const data = await response.json();
 
-      if (data && data.success) {
+      if (data && !data.error) {
         setIpInfo({
           ip: data.ip || 'Tidak tersedia',
-          country: data.country || 'Tidak tersedia',
+          country: data.country_name || 'Tidak tersedia',
           country_code: data.country_code || 'Tidak tersedia',
-          region: data.region || 'Tidak tersedia',
+          region: data.region_name || 'Tidak tersedia',
           city: data.city || 'Tidak tersedia',
           latitude: data.latitude || 0,
           longitude: data.longitude || 0,
-          timezone: data.timezone?.id || data.timezone || 'Tidak tersedia',
-          isp: data.isp || 'Tidak tersedia',
-          org: data.org || 'Tidak tersedia',
-          success: data.success,
-          is_proxy: data.security?.proxy || false,
-          is_vpn: data.security?.vpn || false,
-          is_tor: data.security?.tor || false,
-          is_hosting: data.security?.hosting || false,
-          is_eu: data.is_eu || false,
-          postal: data.postal || 'Tidak tersedia',
+          timezone: data.timezone?.name || 'Tidak tersedia',
+          isp: data.connection?.isp || 'Tidak tersedia',
+          org: data.connection?.org || 'Tidak tersedia',
+          success: true,
+          is_proxy: data.security?.is_proxy || false,
+          is_vpn: data.security?.is_vpn || false,
+          is_tor: data.security?.is_tor || false,
+          is_hosting: data.security?.is_hosting || false,
+          postal: data.zip || 'Tidak tersedia',
           calling_code: data.calling_code || 'Tidak tersedia',
-          flag: data.flag?.emoji || '🏳️',
+          flag: data.country_flag_emoji || '🏳️',
+          continent: data.continent_name || 'Tidak tersedia',
+          currency: data.currency?.name || 'Tidak tersedia',
+          is_eu: data.is_eu || false,
         });
       } else {
-        setError(data?.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
+        setError(data?.error?.info || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
       }
     } catch (err) {
       console.error('Error refreshing IP info:', err);
@@ -234,12 +245,14 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
 📍 Negara: ${ipInfo.country} (${ipInfo.country_code})
 🏙️ Kota: ${ipInfo.city}
 🗺️ Region: ${ipInfo.region}
+🗺️ Benua: ${ipInfo.continent}
 🗺️ Koordinat: ${ipInfo.latitude}, ${ipInfo.longitude}
 ⏰ Timezone: ${ipInfo.timezone}
 🏢 ISP: ${ipInfo.isp}
 📡 Organization: ${ipInfo.org}
 📮 ZIP: ${ipInfo.postal}
 📞 Calling Code: +${ipInfo.calling_code}
+💰 Mata Uang: ${ipInfo.currency}
 
 🔒 Privasi & Keamanan
 ━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -391,7 +404,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
             </div>
 
             {/* Map */}
-            {showMap && ipInfo.latitude && ipInfo.longitude && (
+            {showMap && ipInfo.latitude && ipInfo.longitude && ipInfo.latitude !== 0 && ipInfo.longitude !== 0 && (
               <div className="glass rounded-xl overflow-hidden">
                 <div className="p-3 border-b border-white/10 flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -464,6 +477,10 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                     <span className="font-medium text-gray-900 dark:text-white">{ipInfo.region}</span>
                   </div>
                   <div className="flex justify-between text-sm">
+                    <span className="text-gray-500 dark:text-gray-400">Benua</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{ipInfo.continent}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
                     <span className="text-gray-500 dark:text-gray-400">ZIP</span>
                     <span className="font-medium text-gray-900 dark:text-white">{ipInfo.postal}</span>
                   </div>
@@ -498,8 +515,8 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                     <span className="font-medium text-gray-900 dark:text-white">+{ipInfo.calling_code}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Tipe IP</span>
-                    <span className="font-medium text-gray-900 dark:text-white">IPv4</span>
+                    <span className="text-gray-500 dark:text-gray-400">Mata Uang</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{ipInfo.currency}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-500 dark:text-gray-400">Koordinat</span>
@@ -538,12 +555,6 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                     <span className={`font-medium ${ipInfo.is_hosting ? 'text-yellow-500' : 'text-green-500'}`}>
                       {ipInfo.is_hosting ? '🔄 Hosting' : '✅ Personal'}
                     </span>
-                  </div>
-                  <div className="mt-2 pt-2 border-t border-white/10">
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      <Info className="w-3 h-3" />
-                      <span>Data keamanan dari ipwhois.io</span>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -634,8 +645,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
         {/* Footer */}
         <div className="p-3 bg-gray-100 dark:bg-gray-800/50 rounded-xl text-center text-xs text-gray-500 dark:text-gray-400">
           <p>
-            •Informasi lokasi bersifat perkiraan • 
-            {ipInfo?.is_proxy || ipInfo?.is_vpn || ipInfo?.is_tor ? ' ⚠️ IP ini terdeteksi menggunakan anonimizer' : ' ✅ IP Anda aman'}
+            {ipInfo?.is_proxy || ipInfo?.is_vpn || ipInfo?.is_tor ? '⚠️ IP ini terdeteksi menggunakan anonimizer' : '✅ IP Anda aman'}
           </p>
         </div>
       </div>
