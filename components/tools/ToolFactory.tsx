@@ -21,6 +21,7 @@ import { PDFToImages } from './PDFTools/PDFToImages';
 import { PDFTextExtractor } from './PDFTools/PDFTextExtractor';
 import { PDFInfoViewer } from './PDFTools/PDFInfoViewer';
 import { PDFRotator } from './PDFTools/PDFRotator';
+import { IPChecker } from './IPChecker';
 
 interface ToolFactoryProps {
   toolId: string;
@@ -45,6 +46,7 @@ export function ToolFactory({ toolId, title, description, article, dict }: ToolF
     'word-counter': <WordCounter title={title} description={description} article={article} dict={dict} />,
     'password-generator': <PasswordGenerator title={title} description={description} article={article} dict={dict} />,
     'image-compressor': <ImageCompressor title={title} description={description} article={article} dict={dict} />,
+    'ip-checker': <IPChecker title={title} description={description} article={article} dict={dict} />,
     'qr-code-generator': <QRCodeGenerator title={title} description={description} article={article} dict={dict} />,
     'uuid-generator': <UUIDGenerator title={title} description={description} article={article} dict={dict} />,
     'json-formatter': <JSONFormatter title={title} description={description} article={article} dict={dict} />,

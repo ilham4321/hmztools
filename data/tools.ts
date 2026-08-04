@@ -319,6 +319,54 @@ export const toolsData: Tool[] = [
    }
    },
   {
+  id: 'ip-checker',
+  category: 'general',
+  name: { 
+    id: 'IP Checker', 
+    en: 'IP Checker' 
+  },
+  description: { 
+    id: 'Cek informasi lengkap IP Anda', 
+    en: 'Check your complete IP information' 
+  },
+  icon: 'Wifi',
+  slug: 'ip-checker',
+  seoTitle: { 
+    id: 'IP Checker Online - Cek Alamat IP dan Informasi', 
+    en: 'IP Checker Online - Check IP Address and Information' 
+  },
+  seoDescription: { 
+    id: 'Cek alamat IP publik, lokasi, ISP, dan informasi perangkat Anda.', 
+    en: 'Check your public IP address, location, ISP, and device information.' 
+  },
+  article: {
+    id: `<h2>Apa itu IP Checker?</h2>
+<p>IP Checker adalah alat untuk melihat informasi lengkap tentang alamat IP Anda, termasuk lokasi, ISP, dan informasi perangkat.</p>
+<h3>Informasi yang Ditampilkan</h3>
+<ul>
+  <li><strong>IP Address:</strong> Alamat IP publik Anda</li>
+  <li><strong>Lokasi:</strong> Negara, kota, region, koordinat</li>
+  <li><strong>ISP:</strong> Penyedia layanan internet</li>
+  <li><strong>Timezone:</strong> Zona waktu berdasarkan lokasi</li>
+  <li><strong>Perangkat:</strong> OS, browser, resolusi layar</li>
+</ul>
+<h3>Cara Menggunakan</h3>
+<p>Cukup buka halaman ini, informasi IP dan perangkat Anda akan otomatis ditampilkan.</p>`,
+    en: `<h2>What is IP Checker?</h2>
+<p>IP Checker is a tool to view complete information about your IP address, including location, ISP, and device information.</p>
+<h3>Information Displayed</h3>
+<ul>
+  <li><strong>IP Address:</strong> Your public IP address</li>
+  <li><strong>Location:</strong> Country, city, region, coordinates</li>
+  <li><strong>ISP:</strong> Internet service provider</li>
+  <li><strong>Timezone:</strong> Timezone based on location</li>
+  <li><strong>Device:</strong> OS, browser, screen resolution</li>
+</ul>
+<h3>How to Use</h3>
+<p>Simply open this page, and your IP and device information will be displayed automatically.</p>`
+   }
+  },
+  {
     id: 'bmi-calculator',
     category: 'general',
     name: { id: 'Kalkulator BMI', en: 'BMI Calculator' },
