@@ -140,8 +140,6 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
         const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
 
-        console.log('ipapi.co Response:', data);
-
         if (data && !data.error) {
           setIpInfo({
             ip: data.ip || 'Tidak tersedia',
@@ -330,19 +328,19 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
             {/* Header: IP Address + Status */}
             <div className="p-6 glass rounded-2xl">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-indigo-500/20 rounded-full">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="p-3 bg-indigo-500/20 rounded-full flex-shrink-0">
                     <Wifi className="w-8 h-8 text-indigo-500" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm text-gray-500 dark:text-gray-400">IP Address</p>
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-2xl md:text-3xl font-bold text-gradient-blue">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h2 className="text-2xl md:text-3xl font-bold text-gradient-blue break-all">
                         {ipInfo.ip}
                       </h2>
                       <button
                         onClick={() => copyToClipboard(ipInfo.ip)}
-                        className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                        className="p-2 hover:bg-white/10 rounded-lg transition-colors flex-shrink-0"
                       >
                         {copied ? (
                           <Check className="w-4 h-4 text-green-500" />
@@ -353,7 +351,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2 flex-shrink-0">
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                     deviceInfo?.online 
                       ? 'bg-green-500/10 text-green-500' 
@@ -375,11 +373,11 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
             {/* Status Keamanan IP */}
             <div className={`p-4 rounded-xl border flex items-center gap-3 ${securityStatus.color}`}>
               <SecurityIcon className="w-6 h-6 flex-shrink-0" />
-              <div>
-                <p className="font-medium text-gray-900 dark:text-white">
+              <div className="min-w-0">
+                <p className="font-medium text-gray-900 dark:text-white break-words">
                   {securityStatus.label}
                 </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500 dark:text-gray-400 break-words">
                   {securityStatus.status === 'safe' 
                     ? 'IP Anda tidak terdeteksi menggunakan proxy, VPN, atau Tor. Koneksi aman.' 
                     : securityStatus.status === 'hosting'
@@ -393,18 +391,20 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
             {showMap && ipInfo.latitude && ipInfo.longitude && ipInfo.latitude !== 0 && ipInfo.longitude !== 0 && (
               <div className="glass rounded-xl overflow-hidden">
                 <div className="p-3 border-b border-white/10 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <MapPinned className="w-4 h-4 text-indigo-400" />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Lokasi IP</span>
+                  <div className="flex items-center gap-2 min-w-0">
+                    <MapPinned className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
+                      Lokasi IP
+                    </span>
                   </div>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-gray-500 truncate ml-2">
                     {ipInfo.city}, {ipInfo.country}
                   </span>
                 </div>
                 <div className="h-64 w-full">
                   <MapContainer
                     center={[ipInfo.latitude, ipInfo.longitude]}
-                    zoom={10}
+                    zoom={13}
                     style={{ height: '100%', width: '100%' }}
                     zoomControl={false}
                   >
@@ -414,7 +414,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                     />
                     <Circle
                       center={[ipInfo.latitude, ipInfo.longitude]}
-                      radius={5000}
+                      radius={1000}
                       pathOptions={{
                         color: '#6366f1',
                         fillColor: '#6366f1',
@@ -435,109 +435,109 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
               </div>
             )}
 
-            {/* Grid 3 Kolom: Lokasi, Jaringan, Privasi */}
+            {/* Grid 3 Kolom dengan styling lebih baik */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Lokasi */}
-              <div className="p-4 glass rounded-xl">
+              <div className="p-4 glass rounded-xl overflow-hidden">
                 <div className="flex items-center gap-2 mb-3">
-                  <MapPinned className="w-5 h-5 text-indigo-400" />
+                  <MapPinned className="w-5 h-5 text-indigo-400 flex-shrink-0" />
                   <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Lokasi</h4>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Negara</span>
-                    <span className="font-medium text-gray-900 dark:text-white">
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Negara</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-right break-words">
                       {ipInfo.flag} {ipInfo.country}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Kode</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Kode</span>
                     <span className="font-medium text-gray-900 dark:text-white">{ipInfo.country_code}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Kota</span>
-                    <span className="font-medium text-gray-900 dark:text-white">{ipInfo.city}</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Kota</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-right break-words">{ipInfo.city}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Region</span>
-                    <span className="font-medium text-gray-900 dark:text-white">{ipInfo.region}</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Region</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-right break-words">{ipInfo.region}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Benua</span>
-                    <span className="font-medium text-gray-900 dark:text-white">{ipInfo.continent}</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Benua</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-right break-words">{ipInfo.continent}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">ZIP</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">ZIP</span>
                     <span className="font-medium text-gray-900 dark:text-white">{ipInfo.postal}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">EU Member</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">EU Member</span>
                     <span className="font-medium text-gray-900 dark:text-white">{ipInfo.is_eu ? '✅ Ya' : '❌ Tidak'}</span>
                   </div>
                 </div>
               </div>
 
               {/* Jaringan */}
-              <div className="p-4 glass rounded-xl">
+              <div className="p-4 glass rounded-xl overflow-hidden">
                 <div className="flex items-center gap-2 mb-3">
-                  <Database className="w-5 h-5 text-green-400" />
+                  <Database className="w-5 h-5 text-green-400 flex-shrink-0" />
                   <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Jaringan</h4>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">ISP</span>
-                    <span className="font-medium text-gray-900 dark:text-white truncate max-w-[150px]">{ipInfo.isp}</span>
+                  <div className="flex flex-col sm:flex-row justify-between text-sm gap-1">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">ISP</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-right break-words">{ipInfo.isp}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Organisasi</span>
-                    <span className="font-medium text-gray-900 dark:text-white truncate max-w-[150px]">{ipInfo.org}</span>
+                  <div className="flex flex-col sm:flex-row justify-between text-sm gap-1">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Organisasi</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-right break-words">{ipInfo.org}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Timezone</span>
-                    <span className="font-medium text-gray-900 dark:text-white">{ipInfo.timezone}</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Timezone</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-right break-words">{ipInfo.timezone}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Calling Code</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Calling Code</span>
                     <span className="font-medium text-gray-900 dark:text-white">+{ipInfo.calling_code}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Mata Uang</span>
-                    <span className="font-medium text-gray-900 dark:text-white">{ipInfo.currency}</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Mata Uang</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-right break-words">{ipInfo.currency}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Koordinat</span>
-                    <span className="font-medium text-gray-900 dark:text-white">{ipInfo.latitude}, {ipInfo.longitude}</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Koordinat</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-right break-words">{ipInfo.latitude}, {ipInfo.longitude}</span>
                   </div>
                 </div>
               </div>
 
               {/* Privasi & Keamanan */}
-              <div className="p-4 glass rounded-xl">
+              <div className="p-4 glass rounded-xl overflow-hidden">
                 <div className="flex items-center gap-2 mb-3">
-                  <Shield className="w-5 h-5 text-purple-400" />
+                  <Shield className="w-5 h-5 text-purple-400 flex-shrink-0" />
                   <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Privasi & Keamanan</h4>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Proxy</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Proxy</span>
                     <span className={`font-medium ${ipInfo.is_proxy ? 'text-red-500' : 'text-green-500'}`}>
                       {ipInfo.is_proxy ? '⚠️ Terdeteksi' : '✅ Aman'}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">VPN</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">VPN</span>
                     <span className={`font-medium ${ipInfo.is_vpn ? 'text-red-500' : 'text-green-500'}`}>
                       {ipInfo.is_vpn ? '⚠️ Terdeteksi' : '✅ Aman'}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Tor</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Tor</span>
                     <span className={`font-medium ${ipInfo.is_tor ? 'text-red-500' : 'text-green-500'}`}>
                       {ipInfo.is_tor ? '⚠️ Terdeteksi' : '✅ Aman'}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 dark:text-gray-400">Hosting</span>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Hosting</span>
                     <span className={`font-medium ${ipInfo.is_hosting ? 'text-yellow-500' : 'text-green-500'}`}>
                       {ipInfo.is_hosting ? '🔄 Hosting' : '✅ Personal'}
                     </span>
@@ -550,25 +550,25 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
             {deviceInfo && (
               <div className="p-4 glass rounded-xl">
                 <div className="flex items-center gap-2 mb-3">
-                  <Monitor className="w-5 h-5 text-cyan-400" />
+                  <Monitor className="w-5 h-5 text-cyan-400 flex-shrink-0" />
                   <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Informasi Perangkat</h4>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
+                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center min-w-0">
                     <p className="text-xs text-gray-400">Perangkat</p>
                     <p className="text-sm font-medium truncate">{deviceInfo.device}</p>
                   </div>
-                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
+                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center min-w-0">
                     <p className="text-xs text-gray-400">OS</p>
-                    <p className="text-sm font-medium">{deviceInfo.os}</p>
+                    <p className="text-sm font-medium truncate">{deviceInfo.os}</p>
                   </div>
-                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
+                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center min-w-0">
                     <p className="text-xs text-gray-400">Browser</p>
-                    <p className="text-sm font-medium">{deviceInfo.browser}</p>
+                    <p className="text-sm font-medium truncate">{deviceInfo.browser}</p>
                   </div>
-                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
+                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center min-w-0">
                     <p className="text-xs text-gray-400">Resolusi</p>
-                    <p className="text-sm font-medium">{deviceInfo.screenResolution}</p>
+                    <p className="text-sm font-medium truncate">{deviceInfo.screenResolution}</p>
                   </div>
                 </div>
               </div>
@@ -614,11 +614,11 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
             <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800/30">
               <div className="flex items-start gap-3">
                 <Lock className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <h5 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                <div className="min-w-0">
+                  <h5 className="text-sm font-medium text-blue-700 dark:text-blue-300 break-words">
                     🔒 Privasi Terjaga
                   </h5>
-                  <p className="text-sm text-blue-600 dark:text-blue-400">
+                  <p className="text-sm text-blue-600 dark:text-blue-400 break-words">
                     Informasi IP dan perangkat Anda hanya diproses di browser. 
                     Data tidak disimpan, tidak dilacak, dan tidak dibagikan ke pihak ketiga.
                   </p>
@@ -629,7 +629,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
         ) : null}
 
         {/* Footer */}
-        <div className="p-3 bg-gray-100 dark:bg-gray-800/50 rounded-xl text-center text-xs text-gray-500 dark:text-gray-400">
+        <div className="p-3 bg-gray-100 dark:bg-gray-800/50 rounded-xl text-center text-xs text-gray-500 dark:text-gray-400 break-words">
           <p>
             {ipInfo?.is_proxy || ipInfo?.is_vpn || ipInfo?.is_tor ? '⚠️ IP ini terdeteksi menggunakan anonimizer' : '✅ IP Anda aman'}
           </p>
