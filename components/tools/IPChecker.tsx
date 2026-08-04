@@ -59,7 +59,7 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
 
   // Get device info
   useEffect(() => {
-    const getDeviceInfo = () => {
+    try {
       const userAgent = navigator.userAgent;
       const platform = navigator.platform;
       const language = navigator.language;
@@ -94,9 +94,9 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
         language,
         online,
       });
-    };
-
-    getDeviceInfo();
+    } catch (err) {
+      console.error('Error getting device info:', err);
+    }
   }, []);
 
   // Get IP info from ipwho.is
@@ -106,28 +106,29 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
       setError('');
 
       try {
-        // Gunakan API ipwho.is dengan HTTPS
-        const response = await fetch('https://ipwho.is/');
+        // Gunakan endpoint yang benar sesuai dokumentasi
+        const response = await fetch('https://ipwho.is/?fields=ip,country,country_code,region,city,latitude,longitude,timezone,isp,org,success,message');
         const data = await response.json();
 
-        if (data.success) {
+        if (data && data.success) {
           setIpInfo({
-            ip: data.ip,
-            country: data.country,
-            country_code: data.country_code,
-            region: data.region,
-            city: data.city,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            timezone: data.timezone,
-            isp: data.isp,
-            org: data.org,
+            ip: data.ip || 'Tidak tersedia',
+            country: data.country || 'Tidak tersedia',
+            country_code: data.country_code || 'Tidak tersedia',
+            region: data.region || 'Tidak tersedia',
+            city: data.city || 'Tidak tersedia',
+            latitude: data.latitude || 0,
+            longitude: data.longitude || 0,
+            timezone: data.timezone?.id || data.timezone || 'Tidak tersedia',
+            isp: data.isp || 'Tidak tersedia',
+            org: data.org || 'Tidak tersedia',
             success: data.success,
           });
         } else {
-          setError(data.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
+          setError(data?.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
         }
       } catch (err) {
+        console.error('Error fetching IP info:', err);
         setError('Gagal terhubung ke server. Periksa koneksi internet Anda.');
       } finally {
         setLoading(false);
@@ -143,27 +144,28 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     setIpInfo(null);
 
     try {
-      const response = await fetch('https://ipwho.is/');
+      const response = await fetch('https://ipwho.is/?fields=ip,country,country_code,region,city,latitude,longitude,timezone,isp,org,success,message');
       const data = await response.json();
 
-      if (data.success) {
+      if (data && data.success) {
         setIpInfo({
-          ip: data.ip,
-          country: data.country,
-          country_code: data.country_code,
-          region: data.region,
-          city: data.city,
-          latitude: data.latitude,
-          longitude: data.longitude,
-          timezone: data.timezone,
-          isp: data.isp,
-          org: data.org,
+          ip: data.ip || 'Tidak tersedia',
+          country: data.country || 'Tidak tersedia',
+          country_code: data.country_code || 'Tidak tersedia',
+          region: data.region || 'Tidak tersedia',
+          city: data.city || 'Tidak tersedia',
+          latitude: data.latitude || 0,
+          longitude: data.longitude || 0,
+          timezone: data.timezone?.id || data.timezone || 'Tidak tersedia',
+          isp: data.isp || 'Tidak tersedia',
+          org: data.org || 'Tidak tersedia',
           success: data.success,
         });
       } else {
-        setError(data.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
+        setError(data?.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
       }
     } catch (err) {
+      console.error('Error refreshing IP info:', err);
       setError('Gagal terhubung ke server. Periksa koneksi internet Anda.');
     } finally {
       setLoading(false);
@@ -217,6 +219,18 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
     </div>
   );
 
+  // Tampilkan loading
+  if (loading) {
+    return (
+      <BaseTool title={title} description={description} article={article}>
+        <div className="p-12 text-center">
+          <Loader2 className="w-12 h-12 mx-auto text-indigo-500 animate-spin" />
+          <p className="mt-4 text-gray-500 dark:text-gray-400">Mendapatkan informasi IP...</p>
+        </div>
+      </BaseTool>
+    );
+  }
+
   return (
     <BaseTool title={title} description={description} article={article}>
       <div className="space-y-6">
@@ -235,12 +249,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
         )}
 
         {/* IP Address Card */}
-        {loading ? (
-          <div className="p-12 text-center">
-            <Loader2 className="w-12 h-12 mx-auto text-indigo-500 animate-spin" />
-            <p className="mt-4 text-gray-500 dark:text-gray-400">Mendapatkan informasi IP...</p>
-          </div>
-        ) : ipInfo ? (
+        {ipInfo ? (
           <>
             {/* Main IP Card */}
             <div className="p-6 glass rounded-2xl text-center relative overflow-hidden">
