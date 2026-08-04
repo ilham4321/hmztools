@@ -665,3 +665,4 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}`;
       </div>
     </BaseTool>
   );
+}
