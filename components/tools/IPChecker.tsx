@@ -70,6 +70,8 @@ interface IPInfo {
   continent?: string;
   currency?: string;
   is_eu?: boolean;
+  connection_type?: string;
+  ip_routing_type?: string;
 }
 
 interface DeviceInfo {
@@ -133,7 +135,7 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     }
   }, []);
 
-  // Get IP info from ipapi.com
+  // Get IP info from api.ipapi.com
   useEffect(() => {
     const getIPInfo = async () => {
       setLoading(true);
@@ -145,7 +147,7 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
         );
         const data = await response.json();
 
-        console.log('ipapi.com Response:', data);
+        console.log('Full Response:', data);
 
         if (data && !data.error) {
           setIpInfo({
@@ -157,6 +159,7 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
             latitude: data.latitude || 0,
             longitude: data.longitude || 0,
             timezone: data.timezone?.name || data.timezone || 'Tidak tersedia',
+            // ISP dan Organization dari api.ipapi.com
             isp: data.connection?.isp || data.isp || 'Tidak tersedia',
             org: data.connection?.org || data.org || 'Tidak tersedia',
             success: true,
@@ -165,12 +168,13 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
             is_tor: data.security?.is_tor || data.is_tor || false,
             is_hosting: data.security?.is_hosting || data.is_hosting || false,
             postal: data.zip || 'Tidak tersedia',
-            // Ambil dari location object
             calling_code: data.location?.calling_code || 'Tidak tersedia',
             flag: data.location?.country_flag_emoji || '🏳️',
             continent: data.continent_name || 'Tidak tersedia',
             currency: data.currency?.name || data.currency_name || 'Tidak tersedia',
             is_eu: data.location?.is_eu || false,
+            connection_type: data.connection_type || 'Tidak tersedia',
+            ip_routing_type: data.ip_routing_type || 'Tidak tersedia',
           });
         } else {
           setError(data?.error?.info || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
@@ -220,6 +224,8 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
           continent: data.continent_name || 'Tidak tersedia',
           currency: data.currency?.name || data.currency_name || 'Tidak tersedia',
           is_eu: data.location?.is_eu || false,
+          connection_type: data.connection_type || 'Tidak tersedia',
+          ip_routing_type: data.ip_routing_type || 'Tidak tersedia',
         });
       } else {
         setError(data?.error?.info || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
@@ -255,6 +261,8 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
 📮 ZIP: ${ipInfo.postal}
 📞 Calling Code: +${ipInfo.calling_code}
 💰 Mata Uang: ${ipInfo.currency}
+📡 Connection Type: ${ipInfo.connection_type}
+🔀 Routing Type: ${ipInfo.ip_routing_type}
 
 🔒 Privasi & Keamanan
 ━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -497,7 +505,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
 
               {/* Jaringan */}
               <div className="p-4 glass rounded-xl overflow-hidden">
-                <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-3">
                   <Database className="w-5 h-5 text-green-400 flex-shrink-0" />
                   <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Jaringan</h4>
                 </div>
@@ -525,6 +533,10 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                   <div className="flex justify-between text-sm gap-2">
                     <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Koordinat</span>
                     <span className="font-medium text-gray-900 dark:text-white text-right break-words">{ipInfo.latitude}, {ipInfo.longitude}</span>
+                  </div>
+                  <div className="flex justify-between text-sm gap-2">
+                    <span className="text-gray-500 dark:text-gray-400 flex-shrink-0">Connection Type</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{ipInfo.connection_type}</span>
                   </div>
                 </div>
               </div>
