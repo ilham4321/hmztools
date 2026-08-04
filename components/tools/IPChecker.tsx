@@ -23,8 +23,7 @@ import {
   EyeOff,
   ShieldCheck,
   ShieldAlert,
-  ShieldQuestion,
-  Info
+  ShieldQuestion
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import L from 'leaflet';
@@ -37,9 +36,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
-
-// API Key
-const API_KEY = '4f25d484beeb3736334ce0094ae8f624';
 
 interface IPCheckerProps {
   title: string;
@@ -134,17 +130,17 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     }
   }, []);
 
-  // Get IP info from IPAPI
+  // Get IP info from ipapi.co
   useEffect(() => {
     const getIPInfo = async () => {
       setLoading(true);
       setError('');
 
       try {
-        const response = await fetch(
-          `https://api.apilayer.com/ipapi/check?access_key=${API_KEY}&security=1`
-        );
+        const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
+
+        console.log('ipapi.co Response:', data);
 
         if (data && !data.error) {
           setIpInfo({
@@ -155,23 +151,23 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
             city: data.city || 'Tidak tersedia',
             latitude: data.latitude || 0,
             longitude: data.longitude || 0,
-            timezone: data.timezone?.name || 'Tidak tersedia',
-            isp: data.connection?.isp || 'Tidak tersedia',
-            org: data.connection?.org || 'Tidak tersedia',
+            timezone: data.timezone || 'Tidak tersedia',
+            isp: data.org || 'Tidak tersedia',
+            org: data.org || 'Tidak tersedia',
             success: true,
-            is_proxy: data.security?.is_proxy || false,
-            is_vpn: data.security?.is_vpn || false,
-            is_tor: data.security?.is_tor || false,
-            is_hosting: data.security?.is_hosting || false,
-            postal: data.zip || 'Tidak tersedia',
+            is_proxy: false,
+            is_vpn: false,
+            is_tor: false,
+            is_hosting: false,
+            postal: data.postal || 'Tidak tersedia',
             calling_code: data.calling_code || 'Tidak tersedia',
             flag: data.country_flag_emoji || '🏳️',
             continent: data.continent_name || 'Tidak tersedia',
-            currency: data.currency?.name || 'Tidak tersedia',
-            is_eu: data.is_eu || false,
+            currency: data.currency_name || 'Tidak tersedia',
+            is_eu: data.in_eu || false,
           });
         } else {
-          setError(data?.error?.info || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
+          setError('Gagal mendapatkan informasi IP. Silakan coba lagi.');
         }
       } catch (err) {
         console.error('Error fetching IP info:', err);
@@ -190,9 +186,7 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     setIpInfo(null);
 
     try {
-      const response = await fetch(
-        `https://api.apilayer.com/ipapi/check?access_key=${API_KEY}&security=1`
-      );
+      const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
 
       if (data && !data.error) {
@@ -204,23 +198,23 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
           city: data.city || 'Tidak tersedia',
           latitude: data.latitude || 0,
           longitude: data.longitude || 0,
-          timezone: data.timezone?.name || 'Tidak tersedia',
-          isp: data.connection?.isp || 'Tidak tersedia',
-          org: data.connection?.org || 'Tidak tersedia',
+          timezone: data.timezone || 'Tidak tersedia',
+          isp: data.org || 'Tidak tersedia',
+          org: data.org || 'Tidak tersedia',
           success: true,
-          is_proxy: data.security?.is_proxy || false,
-          is_vpn: data.security?.is_vpn || false,
-          is_tor: data.security?.is_tor || false,
-          is_hosting: data.security?.is_hosting || false,
-          postal: data.zip || 'Tidak tersedia',
+          is_proxy: false,
+          is_vpn: false,
+          is_tor: false,
+          is_hosting: false,
+          postal: data.postal || 'Tidak tersedia',
           calling_code: data.calling_code || 'Tidak tersedia',
           flag: data.country_flag_emoji || '🏳️',
           continent: data.continent_name || 'Tidak tersedia',
-          currency: data.currency?.name || 'Tidak tersedia',
-          is_eu: data.is_eu || false,
+          currency: data.currency_name || 'Tidak tersedia',
+          is_eu: data.in_eu || false,
         });
       } else {
-        setError(data?.error?.info || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
+        setError('Gagal mendapatkan informasi IP. Silakan coba lagi.');
       }
     } catch (err) {
       console.error('Error refreshing IP info:', err);
@@ -253,14 +247,6 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
 📮 ZIP: ${ipInfo.postal}
 📞 Calling Code: +${ipInfo.calling_code}
 💰 Mata Uang: ${ipInfo.currency}
-
-🔒 Privasi & Keamanan
-━━━━━━━━━━━━━━━━━━━━━━━━━
-${ipInfo.is_proxy ? '⚠️ Proxy Terdeteksi' : '✅ Proxy Tidak Terdeteksi'}
-${ipInfo.is_vpn ? '⚠️ VPN Terdeteksi' : '✅ VPN Tidak Terdeteksi'}
-${ipInfo.is_tor ? '⚠️ Tor Terdeteksi' : '✅ Tor Tidak Terdeteksi'}
-${ipInfo.is_hosting ? '🔄 Hosting Terdeteksi' : '✅ Hosting Tidak Terdeteksi'}
-${ipInfo.is_eu ? '🇪🇺 EU Member' : '🌍 Non-EU'}
 
 💻 Informasi Perangkat
 ━━━━━━━━━━━━━━━━━━━━━━━━━
