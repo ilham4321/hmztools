@@ -10,11 +10,11 @@ import {
   Shield, 
   Server, 
   Smartphone,
-  Monitor,
   Copy,
   Check,
   RefreshCw,
-  AlertCircle
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 
 interface IPCheckerProps {
@@ -27,19 +27,15 @@ interface IPCheckerProps {
 interface IPInfo {
   ip: string;
   country: string;
-  countryCode: string;
+  country_code: string;
   region: string;
-  regionName: string;
   city: string;
-  zip: string;
-  lat: number;
-  lon: number;
+  latitude: number;
+  longitude: number;
   timezone: string;
   isp: string;
   org: string;
-  as: string;
-  query: string;
-  status: string;
+  success: boolean;
   message?: string;
 }
 
@@ -60,7 +56,6 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
-  const [detectLocation, setDetectLocation] = useState(true);
 
   // Get device info
   useEffect(() => {
@@ -70,7 +65,6 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
       const language = navigator.language;
       const online = navigator.onLine;
 
-      // Detect browser
       let browser = 'Unknown';
       if (userAgent.indexOf('Firefox') > -1) browser = 'Firefox';
       else if (userAgent.indexOf('Chrome') > -1) browser = 'Chrome';
@@ -78,7 +72,6 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
       else if (userAgent.indexOf('Edge') > -1) browser = 'Edge';
       else if (userAgent.indexOf('Opera') > -1) browser = 'Opera';
 
-      // Detect OS
       let os = 'Unknown';
       if (userAgent.indexOf('Windows') > -1) os = 'Windows';
       else if (userAgent.indexOf('Mac OS') > -1) os = 'macOS';
@@ -86,7 +79,6 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
       else if (userAgent.indexOf('Android') > -1) os = 'Android';
       else if (userAgent.indexOf('iPhone') > -1) os = 'iOS';
 
-      // Detect device type
       let device = 'Desktop';
       if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
         device = 'Mobile';
@@ -107,37 +99,33 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     getDeviceInfo();
   }, []);
 
-  // Get IP info
+  // Get IP info from ipwho.is
   useEffect(() => {
     const getIPInfo = async () => {
       setLoading(true);
       setError('');
 
       try {
-        // Gunakan API gratis untuk mendapatkan informasi IP
-        const response = await fetch('http://ip-api.com/json/');
+        // Gunakan API ipwho.is dengan HTTPS
+        const response = await fetch('https://ipwho.is/');
         const data = await response.json();
 
-        if (data.status === 'success') {
+        if (data.success) {
           setIpInfo({
-            ip: data.query,
+            ip: data.ip,
             country: data.country,
-            countryCode: data.countryCode,
+            country_code: data.country_code,
             region: data.region,
-            regionName: data.regionName,
             city: data.city,
-            zip: data.zip,
-            lat: data.lat,
-            lon: data.lon,
+            latitude: data.latitude,
+            longitude: data.longitude,
             timezone: data.timezone,
             isp: data.isp,
             org: data.org,
-            as: data.as,
-            query: data.query,
-            status: data.status,
+            success: data.success,
           });
         } else {
-          setError('Gagal mendapatkan informasi IP. Silakan coba lagi.');
+          setError(data.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
         }
       } catch (err) {
         setError('Gagal terhubung ke server. Periksa koneksi internet Anda.');
@@ -155,29 +143,25 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     setIpInfo(null);
 
     try {
-      const response = await fetch('https://ip-api.com/json/');
+      const response = await fetch('https://ipwho.is/');
       const data = await response.json();
 
-      if (data.status === 'success') {
+      if (data.success) {
         setIpInfo({
-          ip: data.query,
+          ip: data.ip,
           country: data.country,
-          countryCode: data.countryCode,
+          country_code: data.country_code,
           region: data.region,
-          regionName: data.regionName,
           city: data.city,
-          zip: data.zip,
-          lat: data.lat,
-          lon: data.lon,
+          latitude: data.latitude,
+          longitude: data.longitude,
           timezone: data.timezone,
           isp: data.isp,
           org: data.org,
-          as: data.as,
-          query: data.query,
-          status: data.status,
+          success: data.success,
         });
       } else {
-        setError('Gagal mendapatkan informasi IP. Silakan coba lagi.');
+        setError(data.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
       }
     } catch (err) {
       setError('Gagal terhubung ke server. Periksa koneksi internet Anda.');
@@ -198,15 +182,13 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
 📡 Informasi IP
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 🌐 IP Address: ${ipInfo.ip}
-📍 Negara: ${ipInfo.country} (${ipInfo.countryCode})
+📍 Negara: ${ipInfo.country} (${ipInfo.country_code})
 🏙️ Kota: ${ipInfo.city}
-🗺️ Region: ${ipInfo.regionName} (${ipInfo.region})
-📮 ZIP: ${ipInfo.zip}
-🗺️ Koordinat: ${ipInfo.lat}, ${ipInfo.lon}
+🗺️ Region: ${ipInfo.region}
+🗺️ Koordinat: ${ipInfo.latitude}, ${ipInfo.longitude}
 ⏰ Timezone: ${ipInfo.timezone}
 🏢 ISP: ${ipInfo.isp}
 📡 Organization: ${ipInfo.org}
-🔗 AS: ${ipInfo.as}
 
 💻 Informasi Perangkat
 ━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -241,11 +223,11 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
         {/* Error */}
         {error && (
           <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-500">
-            <AlertCircle className="w-5 h-5" />
-            <span className="text-sm">{error}</span>
+            <AlertCircle className="w-5 h-5 flex-shrink-0" />
+            <span className="text-sm flex-1">{error}</span>
             <button
               onClick={refreshIP}
-              className="ml-auto text-sm text-red-500 hover:text-red-600 transition-colors"
+              className="px-4 py-1.5 bg-red-500/20 hover:bg-red-500/30 rounded-lg text-sm transition-colors flex-shrink-0"
             >
               Coba Lagi
             </button>
@@ -254,8 +236,8 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
 
         {/* IP Address Card */}
         {loading ? (
-          <div className="p-8 text-center">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
+          <div className="p-12 text-center">
+            <Loader2 className="w-12 h-12 mx-auto text-indigo-500 animate-spin" />
             <p className="mt-4 text-gray-500 dark:text-gray-400">Mendapatkan informasi IP...</p>
           </div>
         ) : ipInfo ? (
@@ -308,7 +290,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
               </div>
             </div>
 
-            {/* Location Map */}
+            {/* Location */}
             <div className="p-4 glass rounded-xl">
               <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
@@ -320,16 +302,16 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
                   <p className="text-sm font-medium">{ipInfo.country}</p>
                 </div>
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
+                  <p className="text-xs text-gray-400">Kode</p>
+                  <p className="text-sm font-medium">{ipInfo.country_code}</p>
+                </div>
+                <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
                   <p className="text-xs text-gray-400">Kota</p>
                   <p className="text-sm font-medium">{ipInfo.city}</p>
                 </div>
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
                   <p className="text-xs text-gray-400">Region</p>
-                  <p className="text-sm font-medium">{ipInfo.regionName}</p>
-                </div>
-                <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
-                  <p className="text-xs text-gray-400">ZIP</p>
-                  <p className="text-sm font-medium">{ipInfo.zip || 'N/A'}</p>
+                  <p className="text-sm font-medium">{ipInfo.region}</p>
                 </div>
               </div>
             </div>
@@ -357,20 +339,8 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}
               <InfoItem 
                 icon={MapPin} 
                 label="Koordinat" 
-                value={`${ipInfo.lat}, ${ipInfo.lon}`} 
+                value={`${ipInfo.latitude}, ${ipInfo.longitude}`} 
                 color="text-red-400"
-              />
-              <InfoItem 
-                icon={Shield} 
-                label="AS" 
-                value={ipInfo.as} 
-                color="text-blue-400"
-              />
-              <InfoItem 
-                icon={Clock} 
-                label="Country Code" 
-                value={ipInfo.countryCode} 
-                color="text-orange-400"
               />
             </div>
 
