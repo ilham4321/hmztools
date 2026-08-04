@@ -140,6 +140,8 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
         const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
 
+        console.log('Full Response:', data); // Untuk debugging
+
         if (data && !data.error) {
           setIpInfo({
             ip: data.ip || 'Tidak tersedia',
@@ -158,11 +160,12 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
             is_tor: false,
             is_hosting: false,
             postal: data.postal || 'Tidak tersedia',
-            calling_code: data.calling_code || 'Tidak tersedia',
-            flag: data.country_flag_emoji || '🏳️',
+            // Ambil dari location object
+            calling_code: data.location?.calling_code || 'Tidak tersedia',
+            flag: data.location?.country_flag_emoji || '🏳️',
             continent: data.continent_name || 'Tidak tersedia',
             currency: data.currency_name || 'Tidak tersedia',
-            is_eu: data.in_eu || false,
+            is_eu: data.location?.is_eu || false,
           });
         } else {
           setError('Gagal mendapatkan informasi IP. Silakan coba lagi.');
@@ -205,11 +208,11 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
           is_tor: false,
           is_hosting: false,
           postal: data.postal || 'Tidak tersedia',
-          calling_code: data.calling_code || 'Tidak tersedia',
-          flag: data.country_flag_emoji || '🏳️',
+          calling_code: data.location?.calling_code || 'Tidak tersedia',
+          flag: data.location?.country_flag_emoji || '🏳️',
           continent: data.continent_name || 'Tidak tersedia',
           currency: data.currency_name || 'Tidak tersedia',
-          is_eu: data.in_eu || false,
+          is_eu: data.location?.is_eu || false,
         });
       } else {
         setError('Gagal mendapatkan informasi IP. Silakan coba lagi.');
