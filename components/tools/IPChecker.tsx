@@ -23,7 +23,8 @@ import {
   EyeOff,
   ShieldCheck,
   ShieldAlert,
-  ShieldQuestion
+  ShieldQuestion,
+  Navigation
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import L from 'leaflet';
@@ -69,6 +70,7 @@ interface IPInfo {
   currency?: string;
   is_eu?: boolean;
   connection_type?: string;
+  is_gps?: boolean;
 }
 
 interface DeviceInfo {
@@ -133,79 +135,65 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
     }
   }, []);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const getIPInfo = async () => {
-      setLoading(true);
-      setError('');
-      try {
-        const response = await fetch('https://ipwho.is/', { signal: controller.signal });
-        const data = await response.json();
-
-        if (data && data.success) {
-          setIpInfo({
-            ip: data.ip || 'Tidak tersedia',
-            country: data.country || 'Tidak tersedia',
-            country_code: data.country_code || 'Tidak tersedia',
-            region: data.region || 'Tidak tersedia',
-            city: data.city || 'Tidak tersedia',
-            latitude: data.latitude || 0,
-            longitude: data.longitude || 0,
-            timezone: data.timezone?.id || 'Tidak tersedia',
-            continent: data.continent || 'Tidak tersedia',
-            postal: data.postal || 'Tidak tersedia',
-            calling_code: data.calling_code || 'Tidak tersedia',
-            flag: data.flag?.emoji || '🏳️',
-            currency: data.currency?.name || 'Tidak tersedia',
-            is_eu: data.is_eu || false,
-            isp: data.connection?.isp || 'Tidak tersedia',
-            org: data.connection?.org || 'Tidak tersedia',
-            is_proxy: data.security?.proxy || false,
-            is_vpn: data.security?.vpn || false,
-            is_tor: data.security?.tor || false,
-            is_hosting: data.security?.hosting || false,
-            connection_type: data.type || 'Tidak tersedia',
-            success: true,
-          });
-        } else {
-          setError(data.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
-        }
-      } catch (err: any) {
-        if (err.name !== 'AbortError') {
-          setError('Gagal terhubung ke server. Periksa koneksi internet Anda.');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getIPInfo();
-    return () => controller.abort();
-  }, []);
-
-  const refreshIP = async () => {
+  const fetchIPData = async (lat?: number, lon?: number) => {
     setLoading(true);
     setError('');
-    setIpInfo(null);
+
     try {
       const response = await fetch('https://ipwho.is/');
       const data = await response.json();
 
       if (data && data.success) {
+        let finalLat = data.latitude;
+        let finalLon = data.longitude;
+        let isGpsActive = false;
+
+        if (lat !== undefined && lon !== undefined) {
+          finalLat = lat;
+          finalLon = lon;
+          isGpsActive = true;
+        }
+
+        const countryCode = data.country_code || 'US';
+        
+        let currencyName = 'Tidak tersedia';
+        let callingCode = data.calling_code || 'Tidak tersedia';
+
+        try {
+          const countryRes = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
+          const countryData = await countryRes.json();
+          if (countryData && countryData[0]) {
+            const currencies = countryData[0].currencies;
+            if (currencies) {
+              const currencyKey = Object.keys(currencies)[0];
+              if (currencyKey) {
+                currencyName = `${currencies[currencyKey].name} (${currencyKey})`;
+              }
+            }
+            const iddRoot = countryData[0].idd?.root || '';
+            const iddSuffixes = countryData[0].idd?.suffixes?.[0] || '';
+            if (iddRoot) {
+              callingCode = `${iddRoot}${iddSuffixes}`.replace('+', '');
+            }
+          }
+        } catch (err) {
+          console.error(err);
+        }
+
         setIpInfo({
           ip: data.ip || 'Tidak tersedia',
           country: data.country || 'Tidak tersedia',
-          country_code: data.country_code || 'Tidak tersedia',
+          country_code: countryCode,
           region: data.region || 'Tidak tersedia',
           city: data.city || 'Tidak tersedia',
-          latitude: data.latitude || 0,
-          longitude: data.longitude || 0,
+          latitude: finalLat,
+          longitude: finalLon,
           timezone: data.timezone?.id || 'Tidak tersedia',
           continent: data.continent || 'Tidak tersedia',
           postal: data.postal || 'Tidak tersedia',
-          calling_code: data.calling_code || 'Tidak tersedia',
+          calling_code: callingCode,
           flag: data.flag?.emoji || '🏳️',
-          currency: data.currency?.name || 'Tidak tersedia',
+          currency: currencyName,
           is_eu: data.is_eu || false,
           isp: data.connection?.isp || 'Tidak tersedia',
           org: data.connection?.org || 'Tidak tersedia',
@@ -215,14 +203,47 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
           is_hosting: data.security?.hosting || false,
           connection_type: data.type || 'Tidak tersedia',
           success: true,
+          is_gps: isGpsActive,
         });
       } else {
-        setError(data.message || 'Gagal mendapatkan informasi IP. Silakan coba lagi.');
+        setError(data.message || 'Gagal mendapatkan informasi IP.');
       }
     } catch (err) {
-      setError('Gagal terhubung ke server. Periksa koneksi internet Anda.');
+      setError('Gagal terhubung ke server.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          fetchIPData(position.coords.latitude, position.coords.longitude);
+        },
+        () => {
+          fetchIPData();
+        },
+        { timeout: 10000, enableHighAccuracy: true }
+      );
+    } else {
+      fetchIPData();
+    }
+  }, []);
+
+  const refreshIP = () => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          fetchIPData(position.coords.latitude, position.coords.longitude);
+        },
+        () => {
+          fetchIPData();
+        },
+        { timeout: 10000, enableHighAccuracy: true }
+      );
+    } else {
+      fetchIPData();
     }
   };
 
@@ -234,14 +255,14 @@ export function IPChecker({ title, description, article, dict }: IPCheckerProps)
 
   const copyAllInfo = () => {
     if (!ipInfo) return;
-    const infoText = `📡 Informasi IP
+    const infoText = `📡 Informasi Jaringan & Lokasi
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 🌐 IP Address: ${ipInfo.ip}
 📍 Negara: ${ipInfo.country} (${ipInfo.country_code})
 🏙️ Kota: ${ipInfo.city}
 🗺️ Region: ${ipInfo.region}
 🗺️ Benua: ${ipInfo.continent}
-🗺️ Koordinat: ${ipInfo.latitude}, ${ipInfo.longitude}
+🗺️ Koordinat: ${ipInfo.latitude}, ${ipInfo.longitude} ${ipInfo.is_gps ? '(Akurat via GPS)' : '(Estimasi IP)'}
 ⏰ Timezone: ${ipInfo.timezone}
 🏢 ISP: ${ipInfo.isp}
 📡 Organization: ${ipInfo.org}
@@ -310,7 +331,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}`;
       <BaseTool title={title} description={description} article={article}>
         <div className="p-12 text-center">
           <Loader2 className="w-12 h-12 mx-auto text-indigo-500 animate-spin" />
-          <p className="mt-4 text-gray-500 dark:text-gray-400">Mendapatkan informasi IP...</p>
+          <p className="mt-4 text-gray-500 dark:text-gray-400">Mendapatkan informasi IP & Lokasi Akurat...</p>
         </div>
       </BaseTool>
     );
@@ -360,6 +381,11 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}`;
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 flex-shrink-0">
+                  {ipInfo.is_gps && (
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-500 flex items-center gap-1">
+                      <Navigation className="w-3 h-3" /> GPS Akurat
+                    </span>
+                  )}
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                     deviceInfo?.online 
                       ? 'bg-green-500/10 text-green-500' 
@@ -400,7 +426,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}`;
                   <div className="flex items-center gap-2 min-w-0">
                     <MapPinned className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
-                      Lokasi IP
+                      Lokasi {ipInfo.is_gps ? 'GPS Perangkat' : 'IP (Estimasi)'}
                     </span>
                   </div>
                   <span className="text-xs text-gray-500 truncate ml-2">
@@ -410,7 +436,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}`;
                 <div className="h-64 w-full">
                   <MapContainer
                     center={[ipInfo.latitude, ipInfo.longitude]}
-                    zoom={13}
+                    zoom={15}
                     style={{ height: '100%', width: '100%' }}
                     zoomControl={false}
                   >
@@ -420,7 +446,7 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}`;
                     />
                     <Circle
                       center={[ipInfo.latitude, ipInfo.longitude]}
-                      radius={1000}
+                      radius={ipInfo.is_gps ? 100 : 1000}
                       pathOptions={{
                         color: '#6366f1',
                         fillColor: '#6366f1',
@@ -639,4 +665,3 @@ ${deviceInfo?.online ? '✅ Online' : '❌ Offline'}`;
       </div>
     </BaseTool>
   );
-}
