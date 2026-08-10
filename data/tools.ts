@@ -403,6 +403,70 @@ export const toolsData: Tool[] = [
     }
   },
   {
+  id: 'password-strength',
+  category: 'general',
+  name: { id: 'Password Strength Checker', en: 'Password Strength Checker' },
+  description: { id: 'Cek kekuatan password Anda', en: 'Check your password strength' },
+  icon: 'Shield',
+  slug: 'password-strength',
+  seoTitle: { id: 'Password Strength Checker Online - Cek Kekuatan Password', en: 'Password Strength Checker Online - Check Password Strength' },
+  seoDescription: { id: 'Cek kekuatan password Anda dengan analisis lengkap dan saran keamanan.', en: 'Check your password strength with complete analysis and security suggestions.' },
+  article: {
+    id: `<h2>Apa itu Password Strength Checker?</h2>
+<p>Password Strength Checker adalah alat untuk menganalisis kekuatan password Anda.</p>`,
+    en: `<h2>What is Password Strength Checker?</h2>
+<p>Password Strength Checker is a tool to analyze your password strength.</p>`
+    }
+  },
+  {
+  id: 'text-diff',
+  category: 'general',
+  name: { id: 'Text Diff Checker', en: 'Text Diff Checker' },
+  description: { id: 'Bandingkan dua teks', en: 'Compare two texts' },
+  icon: 'GitCompare',
+  slug: 'text-diff',
+  seoTitle: { id: 'Text Diff Checker Online - Bandingkan Teks', en: 'Text Diff Checker Online - Compare Texts' },
+  seoDescription: { id: 'Bandingkan dua teks dan lihat perbedaannya secara visual.', en: 'Compare two texts and see the differences visually.' },
+  article: {
+    id: `<h2>Apa itu Text Diff Checker?</h2>
+<p>Text Diff Checker adalah alat untuk membandingkan dua teks dan melihat perbedaannya.</p>`,
+    en: `<h2>What is Text Diff Checker?</h2>
+<p>Text Diff Checker is a tool to compare two texts and see the differences.</p>`
+    }
+   },
+   {
+  id: 'url-shortener',
+  category: 'general',
+  name: { id: 'URL Shortener', en: 'URL Shortener' },
+  description: { id: 'Perpendek URL panjang', en: 'Shorten long URLs' },
+  icon: 'Link',
+  slug: 'url-shortener',
+  seoTitle: { id: 'URL Shortener Online - Perpendek Link', en: 'URL Shortener Online - Shorten Links' },
+  seoDescription: { id: 'Perpendek URL panjang menjadi pendek dan mudah dibagikan.', en: 'Shorten long URLs into short and shareable links.' },
+  article: {
+    id: `<h2>Apa itu URL Shortener?</h2>
+<p>URL Shortener adalah alat untuk mempersingkat URL panjang.</p>`,
+    en: `<h2>What is URL Shortener?</h2>
+<p>URL Shortener is a tool to shorten long URLs.</p>`
+    }
+   },
+   {
+  id: 'code-snippet',
+  category: 'developer',
+  name: { id: 'Code Snippet Manager', en: 'Code Snippet Manager' },
+  description: { id: 'Kelola snippet kode favorit', en: 'Manage your favorite code snippets' },
+  icon: 'Code',
+  slug: 'code-snippet',
+  seoTitle: { id: 'Code Snippet Manager Online - Kelola Kode', en: 'Code Snippet Manager Online - Manage Code' },
+  seoDescription: { id: 'Simpan dan kelola snippet kode favorit Anda dengan mudah.', en: 'Save and manage your favorite code snippets easily.' },
+  article: {
+    id: `<h2>Apa itu Code Snippet Manager?</h2>
+<p>Code Snippet Manager adalah alat untuk menyimpan dan mengelola snippet kode.</p>`,
+    en: `<h2>What is Code Snippet Manager?</h2>
+<p>Code Snippet Manager is a tool to save and manage code snippets.</p>`
+   }
+   },
+  {
     id: 'random-number',
     category: 'general',
     name: { id: 'Generator Angka Acak', en: 'Random Number Generator' },

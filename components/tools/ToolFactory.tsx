@@ -22,6 +22,10 @@ import { PDFTextExtractor } from './PDFTools/PDFTextExtractor';
 import { PDFInfoViewer } from './PDFTools/PDFInfoViewer';
 import { PDFRotator } from './PDFTools/PDFRotator';
 import { IPChecker } from './IPChecker';
+import { PasswordStrengthChecker } from './PasswordStrengthChecker';
+import { TextDiffChecker } from './TextDiffChecker';
+import { URLShortener } from './URLShortener';
+import { CodeSnippetManager } from './CodeSnippetManager';
 
 interface ToolFactoryProps {
   toolId: string;
@@ -46,6 +50,10 @@ export function ToolFactory({ toolId, title, description, article, dict }: ToolF
     'word-counter': <WordCounter title={title} description={description} article={article} dict={dict} />,
     'password-generator': <PasswordGenerator title={title} description={description} article={article} dict={dict} />,
     'image-compressor': <ImageCompressor title={title} description={description} article={article} dict={dict} />,
+    'password-strength': <PasswordStrengthChecker title={title} description={description} article={article} dict={dict} />,
+    'text-diff': <TextDiffChecker title={title} description={description} article={article} dict={dict} />,
+   'url-shortener': <URLShortener title={title} description={description} article={article} dict={dict} />,
+   'code-snippet': <CodeSnippetManager title={title} description={description} article={article} dict={dict} />,
     'ip-checker': <IPChecker title={title} description={description} article={article} dict={dict} />,
     'qr-code-generator': <QRCodeGenerator title={title} description={description} article={article} dict={dict} />,
     'uuid-generator': <UUIDGenerator title={title} description={description} article={article} dict={dict} />,
